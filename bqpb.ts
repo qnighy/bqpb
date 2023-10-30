@@ -192,11 +192,11 @@ function inferScalarType(field: IntegralWireField): string {
   // Infer signed integers
   if (0xE0000000n <= value && value < 0x100000000n) {
     if (wireType === 0) return "int32";
-    if (wireType === 5) return "fixed32";
+    if (wireType === 5) return "sfixed32";
   }
   if (0xE000000000000000n <= value && value < 0x10000000000000000n) {
     if (wireType === 0) return "int64";
-    if (wireType === 1) return "fixed64";
+    if (wireType === 1) return "sfixed64";
   }
 
   // Fall back to unsigned integers
@@ -207,7 +207,7 @@ function inferScalarType(field: IntegralWireField): string {
   // Not inferred:
   // - bool
   // - enum
-  // - signed-succinct variants (sint32, sint64, sfixed32, sfixed64)
+  // - signed-succinct variants (sint32, sint64)
 }
 
 export function parseBytes(input: Uint8Array): object {
