@@ -211,7 +211,63 @@ function inferScalarType(field: IntegralWireField): string {
 }
 
 export function parseBytes(input: Uint8Array): object {
-  throw new Error("TODO");
+  return interpretWire(parseWire(input));
+}
+
+function interpretWire(fields: WireField[]): object {
+  const unknowns: Record<string, unknown[]> = {};
+  for (const field of fields) {
+    let repr: unknown;
+    if (field.w === 2) {
+      // repr = `unknown:bytes:${encodeBase64(field.v)}`;
+      throw new Error("TODO");
+    } else if (field.w === 3) {
+      repr = interpretWire(field.v);
+    } else {
+      const scalarType = inferScalarType(field);
+      switch (scalarType) {
+        case "double":
+          repr = `unknown:double:${printNumber(reinterpretDouble(field.v))}`;
+          break;
+        case "float":
+          repr = `unknown:float:${printNumber(reinterpretFloat(field.v))}`;
+          break;
+        case "int32":
+        case "sfixed32":
+          repr = `unknown:${scalarType}:${
+            (field.v & 0xFFFFFFFFn) - ((field.v >> 31n) & 1n) * 0x100000000n
+          }`;
+          break;
+        case "int64":
+        case "sfixed64":
+          repr = `unknown:${scalarType}:${
+            (field.v & 0xFFFFFFFFFFFFFFFFn) -
+            ((field.v >> 63n) & 1n) * 0x10000000000000000n
+          }`;
+          break;
+        default:
+          repr = `unknown:uint64:${field.v}`;
+          break;
+      }
+    }
+    (unknowns[`#${field.f}`] ??= []).push(repr);
+  }
+  for (const key of Object.keys(unknowns)) {
+    if (unknowns[key].length === 1) {
+      (unknowns as Record<string, unknown>)[key] = unknowns[key][0];
+    }
+  }
+  return unknowns;
+}
+
+function reinterpretDouble(value: bigint): number {
+  return new Float64Array(BigUint64Array.of(value).buffer)[0];
+}
+function reinterpretFloat(value: bigint): number {
+  return new Float32Array(Uint32Array.of(Number(value)).buffer)[0];
+}
+function printNumber(value: number): string {
+  return value === 0 && 1 / value < 0 ? "-0" : `${value}`;
 }
 
 export function parse(input: string): object {

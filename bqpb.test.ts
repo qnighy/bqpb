@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/mod.ts";
-import { decodeBase64, parseWire } from "./bqpb.ts";
+import { decodeBase64, parseBytes, parseWire } from "./bqpb.ts";
 
 Deno.test("decodeBase64", async (t) => {
   const table: [string, number[]][] = [
@@ -122,5 +122,228 @@ Deno.test("parseWire", async (t) => {
         ],
       },
     ]);
+  });
+});
+
+Deno.test("parseBytes", async (t) => {
+  await t.step("when no schema is provided", async (t) => {
+    await t.step("parses empty bytes", () => {
+      const actual = parseBytes(Uint8Array.from([]));
+      assertEquals(actual, {});
+    });
+    await t.step("parses varint", () => {
+      const actual = parseBytes(Uint8Array.from([8, 55]));
+      assertEquals(actual, {
+        "#1": "unknown:uint64:55",
+      });
+    });
+    await t.step("parses multiple values", () => {
+      const actual = parseBytes(Uint8Array.from([8, 55, 8, 60]));
+      assertEquals(actual, {
+        "#1": ["unknown:uint64:55", "unknown:uint64:60"],
+      });
+    });
+    await t.step("infers int32", () => {
+      const actual = parseBytes(Uint8Array.from([8, 255, 255, 255, 255, 15]));
+      assertEquals(actual, {
+        "#1": "unknown:int32:-1",
+      });
+    });
+    await t.step("infers int64", () => {
+      const actual = parseBytes(
+        Uint8Array.from([8, 255, 255, 255, 255, 255, 255, 255, 255, 255, 1]),
+      );
+      assertEquals(actual, {
+        "#1": "unknown:int64:-1",
+      });
+    });
+    await t.step("infers double", () => {
+      const actual = parseBytes(Uint8Array.from([
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        128,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        240,
+        63,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        240,
+        191,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        248,
+        63,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        248,
+        191,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        240,
+        127,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        240,
+        255,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        248,
+        127,
+      ]));
+      assertEquals(actual, {
+        "#1": [
+          "unknown:double:0",
+          "unknown:double:-0",
+          "unknown:double:1",
+          "unknown:double:-1",
+          "unknown:double:1.5",
+          "unknown:double:-1.5",
+          "unknown:double:Infinity",
+          "unknown:double:-Infinity",
+          "unknown:double:NaN",
+        ],
+      });
+    });
+    await t.step("infers float", () => {
+      const actual = parseBytes(Uint8Array.from([
+        13,
+        0,
+        0,
+        0,
+        0,
+        13,
+        0,
+        0,
+        0,
+        128,
+        13,
+        0,
+        0,
+        128,
+        63,
+        13,
+        0,
+        0,
+        128,
+        191,
+        13,
+        0,
+        0,
+        192,
+        63,
+        13,
+        0,
+        0,
+        192,
+        191,
+        13,
+        0,
+        0,
+        128,
+        127,
+        13,
+        0,
+        0,
+        128,
+        255,
+        13,
+        0,
+        0,
+        192,
+        127,
+      ]));
+      assertEquals(actual, {
+        "#1": [
+          "unknown:float:0",
+          "unknown:float:-0",
+          "unknown:float:1",
+          "unknown:float:-1",
+          "unknown:float:1.5",
+          "unknown:float:-1.5",
+          "unknown:float:Infinity",
+          "unknown:float:-Infinity",
+          "unknown:float:NaN",
+        ],
+      });
+    });
+    await t.step("infers sfixed64", () => {
+      const actual = parseBytes(Uint8Array.from([
+        9,
+        246,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+      ]));
+      assertEquals(actual, {
+        "#1": "unknown:sfixed64:-10",
+      });
+    });
+    await t.step("infers sfixed32", () => {
+      const actual = parseBytes(Uint8Array.from([
+        13,
+        246,
+        255,
+        255,
+        255,
+      ]));
+      assertEquals(actual, {
+        "#1": "unknown:sfixed32:-10",
+      });
+    });
   });
 });
