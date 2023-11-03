@@ -45,20 +45,26 @@ const minifyResult = await minify(babelResult.code, {
   },
 });
 
-await Deno.writeTextFile("bqpb.sql", `\
+await Deno.writeTextFile(
+  "bqpb.sql",
+  `\
 CREATE TEMP FUNCTION parseProtobuf(input BYTES)
 RETURNS JSON
 LANGUAGE js
 AS r"""
 ${minifyResult.code}
 """;
-`);
+`,
+);
 
 type FunctionalizeOptions = {
   exportName: string;
   args: string[];
 };
-function functionalizePlugin(babel: Babel, options: FunctionalizeOptions): PluginObj {
+function functionalizePlugin(
+  babel: Babel,
+  options: FunctionalizeOptions,
+): PluginObj {
   const { exportName, args } = options;
   return {
     name: "functionalize",
@@ -74,24 +80,35 @@ function functionalizePlugin(babel: Babel, options: FunctionalizeOptions): Plugi
               stmt.replaceWith(stmt.node.declaration);
             } else {
               for (const specifier of stmt.node.specifiers) {
-                if (specifier.type === "ExportSpecifier" && getExportName(specifier.exported) === exportName) {
+                if (
+                  specifier.type === "ExportSpecifier" &&
+                  getExportName(specifier.exported) === exportName
+                ) {
                   localName = specifier.local.name;
                 }
               }
               stmt.remove();
             }
           } else if (stmt.isExportDefaultDeclaration()) {
-            const defaultLocalName = stmt.scope.generateUidIdentifier("default");
+            const defaultLocalName = stmt.scope.generateUidIdentifier(
+              "default",
+            );
             if (exportName === "default") {
               localName = defaultLocalName.name;
             }
-            if (stmt.node.declaration.type === "ClassDeclaration" || stmt.node.declaration.type === "FunctionDeclaration") {
+            if (
+              stmt.node.declaration.type === "ClassDeclaration" ||
+              stmt.node.declaration.type === "FunctionDeclaration"
+            ) {
               stmt.node.declaration.id = defaultLocalName;
               stmt.replaceWith(stmt.node.declaration);
             } else if (babel.types.isExpression(stmt.node.declaration)) {
               stmt.replaceWith(
                 babel.types.variableDeclaration("const", [
-                  babel.types.variableDeclarator(defaultLocalName, stmt.node.declaration),
+                  babel.types.variableDeclarator(
+                    defaultLocalName,
+                    stmt.node.declaration,
+                  ),
                 ]),
               );
             } else {
@@ -99,17 +116,23 @@ function functionalizePlugin(babel: Babel, options: FunctionalizeOptions): Plugi
             }
           }
         }
-        path.unshiftContainer("directives", babel.types.directive(babel.types.directiveLiteral("use strict")));
+        path.unshiftContainer(
+          "directives",
+          babel.types.directive(babel.types.directiveLiteral("use strict")),
+        );
         path.node.sourceType = "script";
         if (!localName) {
           throw new Error(`Could not find export ${exportName}`);
         }
-        path.pushContainer("body", babel.types.returnStatement(
-          babel.types.callExpression(
-            babel.types.identifier(localName),
-            args.map((arg) => babel.types.identifier(arg)),
-          )
-        ));
+        path.pushContainer(
+          "body",
+          babel.types.returnStatement(
+            babel.types.callExpression(
+              babel.types.identifier(localName),
+              args.map((arg) => babel.types.identifier(arg)),
+            ),
+          ),
+        );
       },
     } satisfies Visitor,
   };
@@ -131,7 +154,9 @@ function lvalNames(lval: babel.types.LVal | babel.types.Expression): string[] {
     case "Identifier":
       return [lval.name];
     case "ObjectPattern":
-      return lval.properties.flatMap((prop) => prop.type === "RestElement" ? [] : lvalNames(prop.value));
+      return lval.properties.flatMap((prop) =>
+        prop.type === "RestElement" ? [] : lvalNames(prop.value)
+      );
     case "ArrayPattern":
       return lval.elements.flatMap((elem) => elem ? lvalNames(elem) : []);
     case "RestElement":
@@ -142,6 +167,8 @@ function lvalNames(lval: babel.types.LVal | babel.types.Expression): string[] {
       return [];
   }
 }
-function getExportName(node: babel.types.Identifier | babel.types.StringLiteral): string {
+function getExportName(
+  node: babel.types.Identifier | babel.types.StringLiteral,
+): string {
   return node.type === "StringLiteral" ? node.value : node.name;
 }
