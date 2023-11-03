@@ -210,54 +210,69 @@ function inferScalarType(field: IntegralWireField): string {
   // - signed-succinct variants (sint32, sint64)
 }
 
-export function parseBytes(input: Uint8Array): object {
+export type JSONValue =
+  | null
+  | boolean
+  | number
+  | string
+  | JSONValue[]
+  | { [key: string]: JSONValue };
+
+export function parseBytes(input: Uint8Array): JSONValue {
   return interpretWire(parseWire(input));
 }
 
-function interpretWire(fields: WireField[]): object {
-  const unknowns: Record<string, unknown[]> = {};
+function interpretWire(fields: WireField[]): JSONValue {
+  const fieldsById: Record<string, WireField[]> = {};
   for (const field of fields) {
-    let repr: unknown;
-    if (field.w === 2) {
-      // repr = `unknown:bytes:${encodeBase64(field.v)}`;
-      throw new Error("TODO");
-    } else if (field.w === 3) {
-      repr = interpretWire(field.v);
-    } else {
-      const scalarType = inferScalarType(field);
-      switch (scalarType) {
-        case "double":
-          repr = `unknown:double:${printNumber(reinterpretDouble(field.v))}`;
-          break;
-        case "float":
-          repr = `unknown:float:${printNumber(reinterpretFloat(field.v))}`;
-          break;
-        case "int32":
-        case "sfixed32":
-          repr = `unknown:${scalarType}:${
-            (field.v & 0xFFFFFFFFn) - ((field.v >> 31n) & 1n) * 0x100000000n
-          }`;
-          break;
-        case "int64":
-        case "sfixed64":
-          repr = `unknown:${scalarType}:${
-            (field.v & 0xFFFFFFFFFFFFFFFFn) -
-            ((field.v >> 63n) & 1n) * 0x10000000000000000n
-          }`;
-          break;
-        default:
-          repr = `unknown:uint64:${field.v}`;
-          break;
+    (fieldsById[field.f as unknown as string] ??= []).push(field);
+  }
+
+  const result: Record<string, JSONValue> = {};
+  // TODO: process known fields
+
+  // Unknown fields
+  for (const wireValues of Object.values(fieldsById)) {
+    const f = wireValues[0].f;
+    const repr = wireValues.map((field) => {
+      let repr: JSONValue;
+      if (field.w === 2) {
+        // repr = `unknown:bytes:${encodeBase64(field.v)}`;
+        throw new Error("TODO");
+      } else if (field.w === 3) {
+        repr = interpretWire(field.v);
+      } else {
+        const scalarType = inferScalarType(field);
+        switch (scalarType) {
+          case "double":
+            repr = `unknown:double:${printNumber(reinterpretDouble(field.v))}`;
+            break;
+          case "float":
+            repr = `unknown:float:${printNumber(reinterpretFloat(field.v))}`;
+            break;
+          case "int32":
+          case "sfixed32":
+            repr = `unknown:${scalarType}:${
+              (field.v & 0xFFFFFFFFn) - ((field.v >> 31n) & 1n) * 0x100000000n
+            }`;
+            break;
+          case "int64":
+          case "sfixed64":
+            repr = `unknown:${scalarType}:${
+              (field.v & 0xFFFFFFFFFFFFFFFFn) -
+              ((field.v >> 63n) & 1n) * 0x10000000000000000n
+            }`;
+            break;
+          default:
+            repr = `unknown:uint64:${field.v}`;
+            break;
+        }
       }
-    }
-    (unknowns[`#${field.f}`] ??= []).push(repr);
+      return repr;
+    });
+    result[`#${f}`] = repr.length === 1 ? repr[0] : repr;
   }
-  for (const key of Object.keys(unknowns)) {
-    if (unknowns[key].length === 1) {
-      (unknowns as Record<string, unknown>)[key] = unknowns[key][0];
-    }
-  }
-  return unknowns;
+  return result;
 }
 
 function reinterpretDouble(value: bigint): number {
@@ -270,6 +285,6 @@ function printNumber(value: number): string {
   return value === 0 && 1 / value < 0 ? "-0" : `${value}`;
 }
 
-export function parse(input: string): object {
+export function parse(input: string): JSONValue {
   return parseBytes(decodeBase64(input));
 }
