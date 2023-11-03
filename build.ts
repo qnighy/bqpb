@@ -15,7 +15,10 @@ const babelResult = await babel.transformAsync(origSource, {
   highlightCode: false,
   plugins: [
     babelPluginTypeScript,
-    [functionalizePlugin, { exportName: "parse", args: ["input", "messageType", "typedefs"] }],
+    [functionalizePlugin, {
+      exportName: "parse",
+      args: ["input", "messageType", "typedefs"],
+    }],
   ],
 });
 

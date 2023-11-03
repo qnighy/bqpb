@@ -218,18 +218,76 @@ export type JSONValue =
   | JSONValue[]
   | { [key: string]: JSONValue };
 
-export function parseBytes(input: Uint8Array): JSONValue {
-  return interpretWire(parseWire(input));
+export type Typedefs = Record<string, MessageDef>;
+export type MessageDef = Record<string, FieldDef>;
+export type FieldDef = {
+  type: string;
+  id: number;
+  label?: "optional" | "repeated";
+  oneofGroup?: string;
+};
+
+export function parseBytes(
+  input: Uint8Array,
+  messageType: string,
+  typedefs: Typedefs,
+): JSONValue {
+  return interpretWire(parseWire(input), messageType, typedefs);
 }
 
-function interpretWire(fields: WireField[]): JSONValue {
+function interpretWire(
+  fields: WireField[],
+  messageType: string,
+  typedefs: Typedefs,
+): JSONValue {
   const fieldsById: Record<string, WireField[]> = {};
   for (const field of fields) {
     (fieldsById[field.f as unknown as string] ??= []).push(field);
   }
 
   const result: Record<string, JSONValue> = {};
-  // TODO: process known fields
+
+  const msgDesc = typedefs[messageType];
+  if (msgDesc) {
+    for (const [fieldName, fieldDesc] of Object.entries(msgDesc)) {
+      const values = fieldsById[fieldDesc.id as unknown as string] ?? [];
+      delete fieldsById[fieldDesc.id as unknown as string];
+
+      const typeDesc = getType(fieldDesc.type);
+
+      let interpretedValue: JSONValue;
+      // let isZero: boolean;
+      if (fieldDesc.label === "repeated") {
+        // TODO: packed
+
+        interpretedValue = values.map((value) =>
+          interpretOne(value, typeDesc, fieldDesc.type, typedefs)
+        );
+        // isZero = interpretedValue.length === 0;
+      } else if (fieldDesc.label === "optional" || fieldDesc.oneofGroup) {
+        interpretedValue = values.length > 0
+          ? interpretOne(
+            values[values.length - 1],
+            typeDesc,
+            fieldDesc.type,
+            typedefs,
+          )
+          : null;
+        // isZero = interpretedValue != null;
+      } else {
+        interpretedValue = values.length > 0
+          ? interpretOne(
+            values[values.length - 1],
+            typeDesc,
+            fieldDesc.type,
+            typedefs,
+          )
+          : ZERO_VALUES[typeDesc];
+        // isZero = interpretedValue === ZERO_VALUES[typeDesc];
+      }
+      result[fieldName] = interpretedValue;
+    }
+  }
 
   // Unknown fields
   for (const wireValues of Object.values(fieldsById)) {
@@ -240,7 +298,7 @@ function interpretWire(fields: WireField[]): JSONValue {
         // repr = `unknown:bytes:${encodeBase64(field.v)}`;
         throw new Error("TODO");
       } else if (field.w === 3) {
-        repr = interpretWire(field.v);
+        repr = interpretWire(field.v, messageType, typedefs);
       } else {
         const scalarType = inferScalarType(field);
         switch (scalarType) {
@@ -275,6 +333,147 @@ function interpretWire(fields: WireField[]): JSONValue {
   return result;
 }
 
+// |    |   0      |   1      |   2      |   3      |   4      |   5      |   6      |   7      |
+// |----|----------|----------|----------|----------|----------|----------|----------|----------|
+// |  0 | enum     | bool     |          |          |          |          |          |          |
+// |  8 | uint32   | int32    |          | sint32   | uint64   | int64    |          | sint64   |
+// | 16 | fixed32  | sfixed32 |          | float    | fixed64  | sfixed64 |          | double   |
+// | 24 | message  | map      | bytes    | string   | group    |          |          |          |
+
+// VARINT
+const TYPE_ENUM = 0;
+const TYPE_BOOL = 1;
+const TYPE_UINT32 = 8;
+const TYPE_INT32 = 9;
+const TYPE_SINT32 = 11;
+const TYPE_UINT64 = 12;
+const TYPE_INT64 = 13;
+const TYPE_SINT64 = 15;
+// I32
+const TYPE_FIXED32 = 16;
+const TYPE_SFIXED32 = 17;
+const TYPE_FLOAT = 19;
+// I64
+const TYPE_FIXED64 = 20;
+const TYPE_SFIXED64 = 21;
+const TYPE_DOUBLE = 23;
+// LEN
+const TYPE_MESSAGE = 24;
+const TYPE_MAP = 25;
+const TYPE_BYTES = 26;
+const TYPE_STRING = 27;
+// SGROUP
+const TYPE_GROUP = 28;
+
+const THRESHOLD_VARINT = 16;
+const THRESHOLD_I32 = 20;
+const THRESHOLD_I64 = 24;
+const THRESHOLD_LEN = 28;
+
+function isZigZagType(typeDesc: number): boolean {
+  return (typeDesc & 3) === 3;
+}
+
+function isSigned(typeDesc: number): boolean {
+  return (typeDesc & 1) === 1;
+}
+
+function is64BitType(typeDesc: number): boolean {
+  return (typeDesc & 4) === 4;
+}
+
+const ZERO_VALUES: Record<number, JSONValue> = {
+  [TYPE_BOOL]: false,
+  [TYPE_UINT32]: 0,
+  [TYPE_INT32]: 0,
+  [TYPE_SINT32]: 0,
+  [TYPE_UINT64]: "0",
+  [TYPE_INT64]: "0",
+  [TYPE_SINT64]: "0",
+  [TYPE_FIXED32]: 0,
+  [TYPE_SFIXED32]: 0,
+  [TYPE_FLOAT]: 0,
+  [TYPE_FIXED64]: "0",
+  [TYPE_SFIXED64]: "0",
+  [TYPE_DOUBLE]: 0,
+  [TYPE_BYTES]: "",
+  [TYPE_STRING]: "",
+};
+
+const typeMap: Record<string, number> = {
+  bool: TYPE_BOOL,
+  uint32: TYPE_UINT32,
+  int32: TYPE_INT32,
+  sint32: TYPE_SINT32,
+  uint64: TYPE_UINT64,
+  int64: TYPE_INT64,
+  sint64: TYPE_SINT64,
+  fixed32: TYPE_FIXED32,
+  sfixed32: TYPE_SFIXED32,
+  float: TYPE_FLOAT,
+  fixed64: TYPE_FIXED64,
+  sfixed64: TYPE_SFIXED64,
+  double: TYPE_DOUBLE,
+  bytes: TYPE_BYTES,
+  string: TYPE_STRING,
+};
+function getType(typeName: string): number {
+  if (typeName in typeMap) return typeMap[typeName];
+  throw new Error("TODO: enum, message, map, or group");
+}
+function interpretOne(
+  fieldData: WireField,
+  typeDesc: number,
+  typeName: string,
+  typedefs: JSONValue,
+): JSONValue {
+  if (typeDesc < THRESHOLD_I64) {
+    const expectedWireType = typeDesc < THRESHOLD_VARINT
+      ? 0
+      : typeDesc < THRESHOLD_I32
+      ? 5
+      : 1;
+    if (fieldData.w !== expectedWireType) {
+      throw new Error(
+        `Expected wire type ${expectedWireType}, got ${fieldData.w}`,
+      );
+    }
+    if (typeDesc === TYPE_BOOL) {
+      return !!fieldData.v;
+    } else if (typeDesc === TYPE_ENUM) {
+      throw new Error("TODO: enum");
+    } else if (typeDesc === TYPE_FLOAT) {
+      return stringifySpecialFloat(reinterpretFloat(fieldData.v));
+    } else if (typeDesc === TYPE_DOUBLE) {
+      return stringifySpecialFloat(reinterpretDouble(fieldData.v));
+    }
+    const value = isZigZagType(typeDesc)
+      ? (fieldData.v >> 1n) ^ -(fieldData.v & 1n)
+      : isSigned(typeDesc)
+      ? is64BitType(typeDesc)
+        ? (fieldData.v & 0xFFFFFFFFFFFFFFFFn) -
+          (((fieldData.v >> 63n) & 1n) << 64n)
+        : (fieldData.v & 0xFFFFFFFFn) - (((fieldData.v >> 31n) & 1n) << 32n)
+      : fieldData.v;
+    if (is64BitType(typeDesc)) {
+      return String(value);
+    } else {
+      return Number(value);
+    }
+  } else if (typeDesc < THRESHOLD_LEN) {
+    throw new Error("TODO: wire type 2");
+  } else {
+    throw new Error("TODO: wire type 3");
+  }
+}
+
+function stringifySpecialFloat(
+  value: number,
+): number | "NaN" | "Infinity" | "-Infinity" {
+  return 1 / value === 0 || value != value
+    ? (`${value}` as "NaN" | "Infinity" | "-Infinity")
+    : value;
+}
 function reinterpretDouble(value: bigint): number {
   return new Float64Array(BigUint64Array.of(value).buffer)[0];
 }
@@ -285,6 +484,10 @@ function printNumber(value: number): string {
   return value === 0 && 1 / value < 0 ? "-0" : `${value}`;
 }
 
-export function parse(input: string, messageType: string, typedefs: JSONValue): JSONValue {
-  return parseBytes(decodeBase64(input));
+export function parse(
+  input: string,
+  messageType: string,
+  typedefs: JSONValue,
+): JSONValue {
+  return parseBytes(decodeBase64(input), messageType, typedefs as Typedefs);
 }
