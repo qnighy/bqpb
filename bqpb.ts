@@ -285,6 +285,6 @@ function printNumber(value: number): string {
   return value === 0 && 1 / value < 0 ? "-0" : `${value}`;
 }
 
-export function parse(input: string): JSONValue {
+export function parse(input: string, messageType: string, typedefs: JSONValue): JSONValue {
   return parseBytes(decodeBase64(input));
 }

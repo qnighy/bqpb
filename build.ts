@@ -15,7 +15,7 @@ const babelResult = await babel.transformAsync(origSource, {
   highlightCode: false,
   plugins: [
     babelPluginTypeScript,
-    [functionalizePlugin, { exportName: "parse", args: ["input"] }],
+    [functionalizePlugin, { exportName: "parse", args: ["input", "messageType", "typedefs"] }],
   ],
 });
 
@@ -48,8 +48,8 @@ const minifyResult = await minify(babelResult.code, {
 await Deno.writeTextFile(
   "bqpb.sql",
   `\
-CREATE TEMP FUNCTION parseProtobuf(input BYTES)
-RETURNS JSON
+CREATE TEMP FUNCTION parseProtobuf(input BYTES, messageType STRING, typedefs JSON)
+RETURNS JSON DETERMINISTIC
 LANGUAGE js
 AS r"""
 ${minifyResult.code}
