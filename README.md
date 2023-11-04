@@ -32,7 +32,7 @@ p:0})}function u(n){const{w:t,v:e}=n;if(1===t){const n=0x7FFFFFFFFFFFFFFFn&e
 if(0===t)return"int64";if(1===t)return"sfixed64"}
 return 1===t?"fixed64":5===t?"fixed32":"uint64"}function f(n,t,e){
 return F(i(n),t,e)}function F(n,t,e){const r={}
-;for(const t of n)(r[t.f]??=[]).push(t);const o={},i=e[t]
+;for(const t of n)(r[t.f]??=[]).push(t);const o={},i=e[`message ${t}`]
 ;if(i)for(const[n,t]of Object.entries(i)){const i=r[t.id]??[];delete r[t.id]
 ;const u=S(t.type);let f
 ;f="repeated"===t.label?i.map((n=>q(n,u,t.type,e))):"optional"===t.label||t.oneofGroup?i.length>0?q(i[i.length-1],u,t.type,e):null:i.length>0?q(i[i.length-1],u,t.type,e):C[u],
@@ -45,12 +45,12 @@ r=`unknown:${t}:${(0xFFFFFFFFn&n.v)-0x100000000n*(n.v>>31n&1n)}`;break
 r=`unknown:${t}:${(0xFFFFFFFFFFFFFFFFn&n.v)-0x10000000000000000n*(n.v>>63n&1n)}`
 ;break;default:r=`unknown:uint64:${n.v}`}}return r}))
 ;o[`#${r}`]=1===i.length?i[0]:i}return o}
-const c=0,s=1,l=8,a=9,w=11,x=12,p=13,b=15,d=16,v=17,h=19,g=20,y=21,E=23,O=24,$=25,k=26,m=27,A=28,T=16,U=20,D=24,B=28
+const c=0,s=1,a=8,l=9,w=11,x=12,p=13,b=15,d=16,v=17,h=19,g=20,y=21,E=23,O=24,$=25,m=26,k=27,A=28,T=16,U=20,D=24,B=28
 ;function I(n){return 3==(3&n)}function N(n){return 1==(1&n)}function j(n){
 return 4==(4&n)}const C={[s]:!1,8:0,9:0,[w]:0,[x]:"0",[p]:"0",[b]:"0",[d]:0,
-[v]:0,[h]:0,[g]:"0",[y]:"0",[E]:0,[k]:"",[m]:""},G={bool:s,uint32:8,int32:9,
+[v]:0,[h]:0,[g]:"0",[y]:"0",[E]:0,[m]:"",[k]:""},G={bool:s,uint32:8,int32:9,
 sint32:w,uint64:x,int64:p,sint64:b,fixed32:d,sfixed32:v,float:h,fixed64:g,
-sfixed64:y,double:E,bytes:k,string:m};function S(n){if(n in G)return G[n]
+sfixed64:y,double:E,bytes:m,string:k};function S(n){if(n in G)return G[n]
 ;throw new Error("TODO: enum, message, map, or group")}function q(n,t){if(D>t){
 const e=T>t?0:U>t?5:1
 ;if(n.w!==e)throw new Error(`Expected wire type ${e}, got ${n.w}`)
@@ -67,7 +67,7 @@ return L(input,messageType,typedefs);
 """;
 
 SELECT parseProtobuf(b'\x08\x01', 'Main', JSON"""{
-  "Main": {
+  "message Main": {
     "field1": { "type": "uint32", "id": 1 }
   }
 }""")

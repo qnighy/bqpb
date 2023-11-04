@@ -218,7 +218,9 @@ export type JSONValue =
   | JSONValue[]
   | { [key: string]: JSONValue };
 
-export type Typedefs = Record<string, MessageDef>;
+export type Typedefs = {
+  [key: `message ${string}`]: MessageDef;
+};
 export type MessageDef = Record<string, FieldDef>;
 export type FieldDef = {
   type: string;
@@ -247,7 +249,7 @@ function interpretWire(
 
   const result: Record<string, JSONValue> = {};
 
-  const msgDesc = typedefs[messageType];
+  const msgDesc = typedefs[`message ${messageType}`];
   if (msgDesc) {
     for (const [fieldName, fieldDesc] of Object.entries(msgDesc)) {
       const values = fieldsById[fieldDesc.id as unknown as string] ?? [];

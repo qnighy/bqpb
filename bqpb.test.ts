@@ -378,7 +378,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 type: "uint32",
                 id: 1,
@@ -392,7 +392,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("uses zero value", () => {
         const actual = parseBytes(Uint8Array.from([]), "Main", {
-          Main: {
+          "message Main": {
             myField: {
               type: "uint32",
               id: 1,
@@ -413,7 +413,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 type: "uint32",
                 id: 1,
@@ -435,7 +435,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "optional",
                 type: "uint32",
@@ -450,7 +450,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("returns null on missing field", () => {
         const actual = parseBytes(Uint8Array.from([]), "Main", {
-          Main: {
+          "message Main": {
             myField: {
               label: "optional",
               type: "uint32",
@@ -472,7 +472,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "optional",
                 type: "uint32",
@@ -495,7 +495,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "uint32",
@@ -510,7 +510,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("returns empty array on missing field", () => {
         const actual = parseBytes(Uint8Array.from([]), "Main", {
-          Main: {
+          "message Main": {
             myField: {
               label: "repeated",
               type: "uint32",
@@ -532,7 +532,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "uint32",
@@ -558,7 +558,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "bool",
@@ -589,7 +589,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "uint32",
@@ -620,7 +620,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "int32",
@@ -649,7 +649,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "sint32",
@@ -685,7 +685,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "uint64",
@@ -721,7 +721,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "int64",
@@ -750,7 +750,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "sint64",
@@ -791,7 +791,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "fixed32",
@@ -830,7 +830,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "sfixed32",
@@ -899,7 +899,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "float",
@@ -967,7 +967,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "fixed64",
@@ -1022,7 +1022,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "sfixed64",
@@ -1131,7 +1131,7 @@ Deno.test("parseBytes", async (t) => {
           ]),
           "Main",
           {
-            Main: {
+            "message Main": {
               myField: {
                 label: "repeated",
                 type: "double",
