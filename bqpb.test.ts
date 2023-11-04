@@ -406,6 +406,16 @@ Deno.test("parseBytes", async (t) => {
         "#1": "unknown:sfixed32:-10",
       });
     });
+    await t.step("parses length-delimited", () => {
+      const actual = parseBytes(
+        Uint8Array.from([10, 3, 10, 11, 12]),
+        "Main",
+        {},
+      );
+      assertEquals(actual, {
+        "#1": "unknown:bytes:CgsM",
+      });
+    });
   });
   await t.step("when schema is provided", async (t) => {
     await t.step("when the field is regular (non-optional)", async (t) => {

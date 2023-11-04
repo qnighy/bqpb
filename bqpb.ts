@@ -321,8 +321,7 @@ function interpretWire(
     const repr = wireValues.map((field) => {
       let repr: JSONValue;
       if (field.w === 2) {
-        // repr = `unknown:bytes:${encodeBase64(field.v)}`;
-        throw new Error("TODO");
+        repr = `unknown:bytes:${encodeBase64(field.v)}`;
       } else if (field.w === 3) {
         repr = interpretWire(field.v, messageType, typedefs);
       } else {
