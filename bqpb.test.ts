@@ -1205,5 +1205,66 @@ Deno.test("parseBytes", async (t) => {
         });
       });
     });
+
+    await t.step("parsing of LEN datatypes", async (t) => {
+      await t.step("parses bytes", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            10,
+            0,
+            10,
+            6,
+            0,
+            1,
+            2,
+            128,
+            129,
+            130,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                label: "repeated",
+                type: "bytes",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: ["", "AAECgIGC"],
+        });
+      });
+      await t.step("parses string", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            10,
+            0,
+            10,
+            6,
+            97,
+            98,
+            99,
+            227,
+            129,
+            130,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                label: "repeated",
+                type: "string",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: ["", "abcあ"],
+        });
+      });
+    });
   });
 });

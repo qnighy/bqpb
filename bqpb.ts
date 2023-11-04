@@ -67,6 +67,17 @@ export function encodeBase64(arr: Uint8Array): string {
   return String.fromCharCode(...cps);
 }
 
+export function decodeUTF8(bytes: Uint8Array): string {
+  try {
+    // Caveat: this function silently substitutes stray surrogates with U+FFFD.
+    return decodeURIComponent(
+      Array.from(bytes).map((b) => `%${b.toString(16)}`).join(""),
+    );
+  } catch (_e) {
+    throw new Error("Invalid UTF-8 sequence");
+  }
+}
+
 type WireState = {
   /** buffer */
   readonly b: Uint8Array;
@@ -486,7 +497,18 @@ function interpretOne(
       return Number(value);
     }
   } else if (typeDesc < THRESHOLD_LEN) {
-    throw new Error("TODO: wire type 2");
+    if (fieldData.w !== 2) {
+      throw new Error(
+        `Expected wire type 2, got ${fieldData.w}`,
+      );
+    }
+    if (typeDesc === TYPE_BYTES) {
+      return encodeBase64(fieldData.v);
+    } else if (typeDesc === TYPE_STRING) {
+      return decodeUTF8(fieldData.v);
+    } else {
+      throw new Error("TODO: map, msg");
+    }
   } else {
     throw new Error("TODO: wire type 3");
   }
