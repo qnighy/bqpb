@@ -22,17 +22,17 @@ export function decodeBase64(b64: string): Uint8Array {
     //
     // i = 1:
     //                   | 6  7  8  9 10 11| [i = 1]
-    // | 0  1  2  3  4  5  6  7| [j = 0, >> 4]
+    // | 0  1  2  3  4  5  6  7| [j - 1 = 0, >> 4]
     //                         | 8  9 10 11 12 13 14 15| [j = 1, << 4]
     //
     // i = 2:
     //             |12 13 14 15 16 17| [i = 2]
-    // | 8  9 10 11 12 13 14 15| [j = 2, >> 2]
-    //                         |16 17 18 19 20 21 22 23| [j = 3, << 6]
+    // | 8  9 10 11 12 13 14 15| [j - 1 = 1, >> 2]
+    //                         |16 17 18 19 20 21 22 23| [j = 2, << 6]
     //
     // i = 3:
     //       |18 19 20 21 22 23| [i = 3]
-    // |16 17 18 19 20 21 22 23| [j = 3, >> 0]
+    // |16 17 18 19 20 21 22 23| [j - 1 = 2, >> 0]
     //
     // OOB read will be undefined and OOB write will be ignored.
     // bits overflowed beyond MSB are truncated as if (x & 255) was applied.
@@ -41,6 +41,30 @@ export function decodeBase64(b64: string): Uint8Array {
     arr[j] |= val2;
   }
   return arr;
+}
+
+export function encodeBase64(arr: Uint8Array): string {
+  const cps = new Array((((arr.length + 2) / 3) | 0) * 4);
+  const bLength = ((arr.length * 4 + 2) / 3) | 0;
+  for (let i = 0; i < bLength; i++) {
+    const j = (i * 0.75 + 0.75) | 0;
+    // We automatically get 0 for ToInt32(undefined)
+    const val = (((arr[j - 1] << 8) | arr[j]) >> (2 + i % 4 * 2)) & 63;
+    // |  char |     code |   value | offset |
+    // |-------|----------|---------|--------|
+    // | A - Z | 65 -  90 |  0 - 25 |     65 |
+    // | a - z | 97 - 122 | 26 - 51 |     71 |
+    // | 0 - 9 | 48 -  57 | 52 - 61 |     -4 |
+    // |     + |       43 |      62 |    -19 |
+    // |     / |       47 |      63 |    -16 |
+    cps[i] = val +
+      (val < 26 ? 65 : val < 52 ? 71 : val < 62 ? -4 : val < 63 ? -19 : -16);
+  }
+
+  for (let i = bLength; i < cps.length; i++) {
+    cps[i] = 61; // "="
+  }
+  return String.fromCharCode(...cps);
 }
 
 type WireState = {
