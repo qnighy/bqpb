@@ -44,12 +44,12 @@ func TestSerialization(t *testing.T) {
 			datatype: &examplepb.OptionalUint32{},
 			want:     `{"myField":1}`,
 		},
-		// {
-		// 	name:     "Parse optional field with null",
-		// 	data:     []byte(""),
-		// 	datatype: &examplepb.OptionalUint32{},
-		// 	want:     `{"myField":null}`,
-		// },
+		{
+			name:     "Parse optional field with null",
+			data:     []byte(""),
+			datatype: &examplepb.OptionalUint32{},
+			want:     `{}`,
+		},
 		{
 			name:     "Pick the last one on duplicate in optional field",
 			data:     []byte("\x08\x01\x08\x02"),
@@ -217,6 +217,18 @@ func TestSerialization(t *testing.T) {
 			data:     []byte("\x0a\x02\x08\x2a"),
 			datatype: &examplepb.RepeatedSubmessage{},
 			want:     `{"myField":[{"submessageField":[42]}]}`,
+		},
+		{
+			name:     "required submessage with default value",
+			data:     []byte(""),
+			datatype: &examplepb.RequiredSubmessage{},
+			want:     `{"myField":null}`,
+		},
+		{
+			name:     "optional submessage with default value",
+			data:     []byte(""),
+			datatype: &examplepb.OptionalSubmessage{},
+			want:     `{}`,
 		},
 	}
 	for _, tc := range testcases {

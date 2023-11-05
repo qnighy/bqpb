@@ -71,6 +71,22 @@ message RepeatedString {
     repeated string my_field = 1;
 }
 
+message RequiredSubmessage {
+    Sub my_field = 1;
+
+    message Sub {
+        repeated uint32 submessage_field = 1;
+    }
+}
+
+message OptionalSubmessage {
+    optional Sub my_field = 1;
+
+    message Sub {
+        repeated uint32 submessage_field = 1;
+    }
+}
+
 message RepeatedSubmessage {
     repeated Sub my_field = 1;
 

@@ -322,6 +322,12 @@ function interpretWire(
           : ZERO_VALUES[typeDesc];
         // isZero = interpretedValue === ZERO_VALUES[typeDesc];
       }
+      if (
+        fieldDesc.label === "optional" && !fieldDesc.oneofGroup &&
+        interpretedValue === null
+      ) {
+        continue;
+      }
       result[fieldName] = interpretedValue;
     }
   }
@@ -432,6 +438,7 @@ const ZERO_VALUES: Record<number, JSONValue> = {
   [TYPE_FIXED64]: "0",
   [TYPE_SFIXED64]: "0",
   [TYPE_DOUBLE]: 0,
+  [TYPE_MESSAGE]: null,
   [TYPE_BYTES]: "",
   [TYPE_STRING]: "",
 };

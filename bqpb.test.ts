@@ -349,7 +349,7 @@ Deno.test("parseBytes", async (t) => {
           myField: 1,
         });
       });
-      await t.step("returns null on missing field", () => {
+      await t.step("returns empty on missing field", () => {
         const actual = parseBytes(b``, "Main", {
           "message Main": {
             myField: {
@@ -359,9 +359,7 @@ Deno.test("parseBytes", async (t) => {
             },
           },
         });
-        assertEquals(actual, {
-          myField: null,
-        });
+        assertEquals(actual, {});
       });
       await t.step("picks the last one on duplicate", () => {
         const actual = parseBytes(
@@ -803,6 +801,53 @@ Deno.test("parseBytes", async (t) => {
             submessageField: [42],
           }],
         });
+      });
+      await t.step("parses required submessage with default value", () => {
+        const actual = parseBytes(
+          b``,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "Sub",
+                id: 1,
+              },
+            },
+            "message Sub": {
+              submessageField: {
+                label: "repeated",
+                type: "uint32",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: null,
+        });
+      });
+      await t.step("parses optional submessage with default value", () => {
+        const actual = parseBytes(
+          b``,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                label: "optional",
+                type: "Sub",
+                id: 1,
+              },
+            },
+            "message Sub": {
+              submessageField: {
+                label: "repeated",
+                type: "uint32",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {});
       });
     });
   });
