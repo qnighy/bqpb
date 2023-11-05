@@ -1187,6 +1187,43 @@ Deno.test("parseBytes", async (t) => {
           },
         });
       });
+      // {
+      // 	name: "group",
+      // 	data: []byte(
+      // 		"" +
+      // 			"\x0b\x08\x2a\x0c",
+      // 	),
+      // 	datatype: &example2pb.RepeatedGroup{},
+      // 	want:     `{"myField":[{"submessageField":[42]}]}`,
+      // },
+      await t.step("parses group", () => {
+        const actual = parseBytes(
+          b`\x0b\x08\x2a\x0c`,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                repeated: true,
+                type: "Sub",
+                id: 1,
+                messageEncoding: "delimited",
+              },
+            },
+            "message Sub": {
+              submessageField: {
+                repeated: true,
+                type: "uint32",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: [{
+            submessageField: [42],
+          }],
+        });
+      });
     });
   });
 });

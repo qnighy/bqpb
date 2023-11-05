@@ -1,0 +1,10 @@
+syntax = "proto2";
+package example2;
+
+option go_package = "./example2pb";
+
+message RepeatedGroup {
+    repeated group My_field = 1 {
+        repeated uint32 submessage_field = 1;
+    }
+}

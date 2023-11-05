@@ -268,6 +268,7 @@ export type FieldDef = {
   id: number;
   repeated?: boolean;
   fieldPresence?: "explicit" | "implicit";
+  messageEncoding?: "length_prefixed" | "delimited";
   oneofGroup?: string;
 };
 export type EnumDef = {
@@ -300,7 +301,11 @@ function interpretWire(
       const values = fieldsById[fieldDesc.id] ?? [];
       delete fieldsById[fieldDesc.id];
 
-      const typeDesc = getType(fieldDesc.type, typedefs);
+      const typeDesc = getType(
+        fieldDesc.type,
+        typedefs,
+        fieldDesc.messageEncoding,
+      );
       const { fieldPresence = "explicit" } = fieldDesc;
 
       let interpretedValue: JSONValue;
@@ -529,12 +534,18 @@ const typeMap: Record<string, number> = {
   bytes: TYPE_BYTES,
   string: TYPE_STRING,
 };
-function getType(typeName: string, typedefs: Typedefs): number {
+function getType(
+  typeName: string,
+  typedefs: Typedefs,
+  messageEncoding?: "length_prefixed" | "delimited",
+): number {
   if (typeName in typeMap) return typeMap[typeName];
   if (typeName.startsWith("map<")) return TYPE_MAP;
-  if (`message ${typeName}` in typedefs) return TYPE_MESSAGE;
+  if (`message ${typeName}` in typedefs) {
+    return messageEncoding === "delimited" ? TYPE_GROUP : TYPE_MESSAGE;
+  }
   if (`enum ${typeName}` in typedefs) return TYPE_ENUM;
-  throw new Error("TODO: group");
+  throw new Error(`Unknown type ${typeName}`);
 }
 function interpretOne(
   fieldData: WireField,
@@ -624,7 +635,12 @@ function interpretOne(
       return parseBytes(fieldData.v, typeName, typedefs);
     }
   } else {
-    throw new Error("TODO: wire type 3");
+    if (fieldData.w !== 3) {
+      throw new Error(
+        `Expected wire type 3, got ${fieldData.w}`,
+      );
+    }
+    return interpretWire(fieldData.v, typeName, typedefs);
   }
 }
 

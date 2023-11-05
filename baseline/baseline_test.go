@@ -10,6 +10,7 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
+	"github.com/qnighy/bqpb/baseline/example2pb"
 	"github.com/qnighy/bqpb/baseline/examplepb"
 )
 
@@ -357,6 +358,15 @@ func TestSerialization(t *testing.T) {
 			),
 			datatype: &examplepb.MapStringUint32{},
 			want:     `{"myField":{"あ":100,"い":101}}`,
+		},
+		{
+			name: "group",
+			data: []byte(
+				"" +
+					"\x0b\x08\x2a\x0c",
+			),
+			datatype: &example2pb.RepeatedGroup{},
+			want:     `{"myField":[{"submessageField":[42]}]}`,
 		},
 	}
 	for _, tc := range testcases {
