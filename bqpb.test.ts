@@ -434,6 +434,77 @@ Deno.test("parseBytes", async (t) => {
     });
 
     await t.step("parsing of VARINT datatypes", async (t) => {
+      await t.step("parses enum", () => {
+        const actual = parseBytes(
+          b`\x08\x00\x08\x01\x08\x02\x08\x03`,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                label: "repeated",
+                type: "MyEnum",
+                id: 1,
+              },
+            },
+            "enum MyEnum": {
+              MY_ENUM_UNSPECIFIED: 0,
+              MY_ENUM_VALUE_1: 1,
+              MY_ENUM_VALUE_2: 2,
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: [
+            "MY_ENUM_UNSPECIFIED",
+            "MY_ENUM_VALUE_1",
+            "MY_ENUM_VALUE_2",
+            3,
+          ],
+        });
+      });
+      await t.step("parses required enum with default value", () => {
+        const actual = parseBytes(
+          b``,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "MyEnum",
+                id: 1,
+              },
+            },
+            "enum MyEnum": {
+              MY_ENUM_UNSPECIFIED: 0,
+              MY_ENUM_VALUE_1: 1,
+              MY_ENUM_VALUE_2: 2,
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: "MY_ENUM_UNSPECIFIED",
+        });
+      });
+      await t.step("parses optional enum with default value", () => {
+        const actual = parseBytes(
+          b``,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                label: "optional",
+                type: "MyEnum",
+                id: 1,
+              },
+            },
+            "enum MyEnum": {
+              MY_ENUM_UNSPECIFIED: 0,
+              MY_ENUM_VALUE_1: 1,
+              MY_ENUM_VALUE_2: 2,
+            },
+          },
+        );
+        assertEquals(actual, {});
+      });
       await t.step("parses bool", () => {
         const actual = parseBytes(
           b`\x08\x00\x08\x01`,

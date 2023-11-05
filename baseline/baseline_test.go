@@ -75,6 +75,24 @@ func TestSerialization(t *testing.T) {
 			want:     `{"myField":[1,2]}`,
 		},
 		{
+			name:     "enum",
+			data:     []byte("\x08\x00\x08\x01\x08\x02\x08\x03"),
+			datatype: &examplepb.RepeatedEnum{},
+			want:     `{"myField":["MY_ENUM_UNSPECIFIED","MY_ENUM_VALUE_1","MY_ENUM_VALUE_2",3]}`,
+		},
+		{
+			name:     "required enum with default value",
+			data:     []byte(""),
+			datatype: &examplepb.RequiredEnum{},
+			want:     `{"myField":"MY_ENUM_UNSPECIFIED"}`,
+		},
+		{
+			name:     "optional enum with default value",
+			data:     []byte(""),
+			datatype: &examplepb.OptionalEnum{},
+			want:     `{}`,
+		},
+		{
 			name:     "bool",
 			data:     []byte("\x08\x00\x08\x01"),
 			datatype: &examplepb.RepeatedBool{},

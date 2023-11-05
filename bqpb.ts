@@ -255,6 +255,7 @@ export type JSONValue =
 
 export type Typedefs = {
   [key: `message ${string}`]: MessageDef;
+  [key: `enum ${string}`]: EnumDef;
 };
 export type MessageDef = Record<string, FieldDef>;
 export type FieldDef = {
@@ -262,6 +263,9 @@ export type FieldDef = {
   id: number;
   label?: "optional" | "repeated";
   oneofGroup?: string;
+};
+export type EnumDef = {
+  [key: string]: number;
 };
 
 export function parseBytes(
@@ -319,12 +323,15 @@ function interpretWire(
             fieldDesc.type,
             typedefs,
           )
-          : ZERO_VALUES[typeDesc];
+          : getZeroValue(typeDesc, fieldDesc.type, typedefs);
         // isZero = interpretedValue === ZERO_VALUES[typeDesc];
       }
       if (
         fieldDesc.label === "optional" && !fieldDesc.oneofGroup &&
-        interpretedValue === null
+        (interpretedValue === null ||
+          typeDesc === TYPE_ENUM &&
+            interpretedValue ===
+              getZeroValue(typeDesc, fieldDesc.type, typedefs))
       ) {
         continue;
       }
@@ -424,6 +431,19 @@ function is64BitType(typeDesc: number): boolean {
   return (typeDesc & 4) === 4;
 }
 
+function getZeroValue(
+  typeDesc: number,
+  typeName: string,
+  typedefs: Typedefs,
+): JSONValue {
+  if (typeDesc === TYPE_ENUM) {
+    // Presence is guaranteed through getType
+    const enumDesc = typedefs[`enum ${typeName}`]!;
+    return Object.entries(enumDesc)[0][0] ?? 0;
+  }
+  return ZERO_VALUES[typeDesc];
+}
+
 const ZERO_VALUES: Record<number, JSONValue> = {
   [TYPE_BOOL]: false,
   [TYPE_UINT32]: 0,
@@ -463,7 +483,8 @@ const typeMap: Record<string, number> = {
 function getType(typeName: string, typedefs: Typedefs): number {
   if (typeName in typeMap) return typeMap[typeName];
   if (`message ${typeName}` in typedefs) return TYPE_MESSAGE;
-  throw new Error("TODO: enum, map, or group");
+  if (`enum ${typeName}` in typedefs) return TYPE_ENUM;
+  throw new Error("TODO: map or group");
 }
 function interpretOne(
   fieldData: WireField,
@@ -485,7 +506,13 @@ function interpretOne(
     if (typeDesc === TYPE_BOOL) {
       return !!fieldData.v;
     } else if (typeDesc === TYPE_ENUM) {
-      throw new Error("TODO: enum");
+      // Presence is guaranteed through getType
+      const enumDesc = typedefs[`enum ${typeName}`]!;
+      for (const [enumName, enumId] of Object.entries(enumDesc)) {
+        if (enumId === Number(fieldData.v)) return enumName;
+      }
+      // Fallback
+      return Number(fieldData.v);
     } else if (typeDesc === TYPE_FLOAT) {
       return stringifySpecialFloat(reinterpretFloat(fieldData.v));
     } else if (typeDesc === TYPE_DOUBLE) {

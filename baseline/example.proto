@@ -3,6 +3,36 @@ package example;
 
 option go_package = "./examplepb";
 
+message RequiredEnum {
+    MyEnum my_field = 1;
+
+    enum MyEnum {
+        MY_ENUM_UNSPECIFIED = 0;
+        MY_ENUM_VALUE_1 = 1;
+        MY_ENUM_VALUE_2 = 2;
+    }
+}
+
+message OptionalEnum {
+    optional MyEnum my_field = 1;
+
+    enum MyEnum {
+        MY_ENUM_UNSPECIFIED = 0;
+        MY_ENUM_VALUE_1 = 1;
+        MY_ENUM_VALUE_2 = 2;
+    }
+}
+
+message RepeatedEnum {
+    repeated MyEnum my_field = 1;
+
+    enum MyEnum {
+        MY_ENUM_UNSPECIFIED = 0;
+        MY_ENUM_VALUE_1 = 1;
+        MY_ENUM_VALUE_2 = 2;
+    }
+}
+
 message RepeatedBool {
     repeated bool my_field = 1;
 }
