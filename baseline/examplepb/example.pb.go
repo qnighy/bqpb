@@ -20,52 +20,52 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type RequiredEnum_MyEnum int32
+type ImplicitEnum_MyEnum int32
 
 const (
-	RequiredEnum_MY_ENUM_UNSPECIFIED RequiredEnum_MyEnum = 0
-	RequiredEnum_MY_ENUM_VALUE_1     RequiredEnum_MyEnum = 1
-	RequiredEnum_MY_ENUM_VALUE_2     RequiredEnum_MyEnum = 2
+	ImplicitEnum_MY_ENUM_UNSPECIFIED ImplicitEnum_MyEnum = 0
+	ImplicitEnum_MY_ENUM_VALUE_1     ImplicitEnum_MyEnum = 1
+	ImplicitEnum_MY_ENUM_VALUE_2     ImplicitEnum_MyEnum = 2
 )
 
-// Enum value maps for RequiredEnum_MyEnum.
+// Enum value maps for ImplicitEnum_MyEnum.
 var (
-	RequiredEnum_MyEnum_name = map[int32]string{
+	ImplicitEnum_MyEnum_name = map[int32]string{
 		0: "MY_ENUM_UNSPECIFIED",
 		1: "MY_ENUM_VALUE_1",
 		2: "MY_ENUM_VALUE_2",
 	}
-	RequiredEnum_MyEnum_value = map[string]int32{
+	ImplicitEnum_MyEnum_value = map[string]int32{
 		"MY_ENUM_UNSPECIFIED": 0,
 		"MY_ENUM_VALUE_1":     1,
 		"MY_ENUM_VALUE_2":     2,
 	}
 )
 
-func (x RequiredEnum_MyEnum) Enum() *RequiredEnum_MyEnum {
-	p := new(RequiredEnum_MyEnum)
+func (x ImplicitEnum_MyEnum) Enum() *ImplicitEnum_MyEnum {
+	p := new(ImplicitEnum_MyEnum)
 	*p = x
 	return p
 }
 
-func (x RequiredEnum_MyEnum) String() string {
+func (x ImplicitEnum_MyEnum) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (RequiredEnum_MyEnum) Descriptor() protoreflect.EnumDescriptor {
+func (ImplicitEnum_MyEnum) Descriptor() protoreflect.EnumDescriptor {
 	return file_example_proto_enumTypes[0].Descriptor()
 }
 
-func (RequiredEnum_MyEnum) Type() protoreflect.EnumType {
+func (ImplicitEnum_MyEnum) Type() protoreflect.EnumType {
 	return &file_example_proto_enumTypes[0]
 }
 
-func (x RequiredEnum_MyEnum) Number() protoreflect.EnumNumber {
+func (x ImplicitEnum_MyEnum) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use RequiredEnum_MyEnum.Descriptor instead.
-func (RequiredEnum_MyEnum) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use ImplicitEnum_MyEnum.Descriptor instead.
+func (ImplicitEnum_MyEnum) EnumDescriptor() ([]byte, []int) {
 	return file_example_proto_rawDescGZIP(), []int{0, 0}
 }
 
@@ -167,16 +167,16 @@ func (RepeatedEnum_MyEnum) EnumDescriptor() ([]byte, []int) {
 	return file_example_proto_rawDescGZIP(), []int{2, 0}
 }
 
-type RequiredEnum struct {
+type ImplicitEnum struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MyField RequiredEnum_MyEnum `protobuf:"varint,1,opt,name=my_field,json=myField,proto3,enum=example.RequiredEnum_MyEnum" json:"my_field,omitempty"`
+	MyField ImplicitEnum_MyEnum `protobuf:"varint,1,opt,name=my_field,json=myField,proto3,enum=example.ImplicitEnum_MyEnum" json:"my_field,omitempty"`
 }
 
-func (x *RequiredEnum) Reset() {
-	*x = RequiredEnum{}
+func (x *ImplicitEnum) Reset() {
+	*x = ImplicitEnum{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_example_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -184,13 +184,13 @@ func (x *RequiredEnum) Reset() {
 	}
 }
 
-func (x *RequiredEnum) String() string {
+func (x *ImplicitEnum) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RequiredEnum) ProtoMessage() {}
+func (*ImplicitEnum) ProtoMessage() {}
 
-func (x *RequiredEnum) ProtoReflect() protoreflect.Message {
+func (x *ImplicitEnum) ProtoReflect() protoreflect.Message {
 	mi := &file_example_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -202,16 +202,16 @@ func (x *RequiredEnum) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequiredEnum.ProtoReflect.Descriptor instead.
-func (*RequiredEnum) Descriptor() ([]byte, []int) {
+// Deprecated: Use ImplicitEnum.ProtoReflect.Descriptor instead.
+func (*ImplicitEnum) Descriptor() ([]byte, []int) {
 	return file_example_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *RequiredEnum) GetMyField() RequiredEnum_MyEnum {
+func (x *ImplicitEnum) GetMyField() ImplicitEnum_MyEnum {
 	if x != nil {
 		return x.MyField
 	}
-	return RequiredEnum_MY_ENUM_UNSPECIFIED
+	return ImplicitEnum_MY_ENUM_UNSPECIFIED
 }
 
 type OptionalEnum struct {
@@ -355,7 +355,7 @@ func (x *RepeatedBool) GetMyField() []bool {
 	return nil
 }
 
-type RequiredUint32 struct {
+type ImplicitUint32 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -363,8 +363,8 @@ type RequiredUint32 struct {
 	MyField uint32 `protobuf:"varint,1,opt,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
 }
 
-func (x *RequiredUint32) Reset() {
-	*x = RequiredUint32{}
+func (x *ImplicitUint32) Reset() {
+	*x = ImplicitUint32{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_example_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -372,13 +372,13 @@ func (x *RequiredUint32) Reset() {
 	}
 }
 
-func (x *RequiredUint32) String() string {
+func (x *ImplicitUint32) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RequiredUint32) ProtoMessage() {}
+func (*ImplicitUint32) ProtoMessage() {}
 
-func (x *RequiredUint32) ProtoReflect() protoreflect.Message {
+func (x *ImplicitUint32) ProtoReflect() protoreflect.Message {
 	mi := &file_example_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -390,12 +390,12 @@ func (x *RequiredUint32) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequiredUint32.ProtoReflect.Descriptor instead.
-func (*RequiredUint32) Descriptor() ([]byte, []int) {
+// Deprecated: Use ImplicitUint32.ProtoReflect.Descriptor instead.
+func (*ImplicitUint32) Descriptor() ([]byte, []int) {
 	return file_example_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *RequiredUint32) GetMyField() uint32 {
+func (x *ImplicitUint32) GetMyField() uint32 {
 	if x != nil {
 		return x.MyField
 	}
@@ -1107,16 +1107,16 @@ func (x *RepeatedString) GetMyField() []string {
 	return nil
 }
 
-type RequiredSubmessage struct {
+type ImplicitSubmessage struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MyField *RequiredSubmessage_Sub `protobuf:"bytes,1,opt,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+	MyField *ImplicitSubmessage_Sub `protobuf:"bytes,1,opt,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
 }
 
-func (x *RequiredSubmessage) Reset() {
-	*x = RequiredSubmessage{}
+func (x *ImplicitSubmessage) Reset() {
+	*x = ImplicitSubmessage{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_example_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1124,13 +1124,13 @@ func (x *RequiredSubmessage) Reset() {
 	}
 }
 
-func (x *RequiredSubmessage) String() string {
+func (x *ImplicitSubmessage) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RequiredSubmessage) ProtoMessage() {}
+func (*ImplicitSubmessage) ProtoMessage() {}
 
-func (x *RequiredSubmessage) ProtoReflect() protoreflect.Message {
+func (x *ImplicitSubmessage) ProtoReflect() protoreflect.Message {
 	mi := &file_example_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1142,12 +1142,12 @@ func (x *RequiredSubmessage) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequiredSubmessage.ProtoReflect.Descriptor instead.
-func (*RequiredSubmessage) Descriptor() ([]byte, []int) {
+// Deprecated: Use ImplicitSubmessage.ProtoReflect.Descriptor instead.
+func (*ImplicitSubmessage) Descriptor() ([]byte, []int) {
 	return file_example_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *RequiredSubmessage) GetMyField() *RequiredSubmessage_Sub {
+func (x *ImplicitSubmessage) GetMyField() *ImplicitSubmessage_Sub {
 	if x != nil {
 		return x.MyField
 	}
@@ -1248,7 +1248,7 @@ func (x *RepeatedSubmessage) GetMyField() []*RepeatedSubmessage_Sub {
 	return nil
 }
 
-type RequiredSubmessage_Sub struct {
+type ImplicitSubmessage_Sub struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1256,8 +1256,8 @@ type RequiredSubmessage_Sub struct {
 	SubmessageField []uint32 `protobuf:"varint,1,rep,packed,name=submessage_field,json=submessageField,proto3" json:"submessage_field,omitempty"`
 }
 
-func (x *RequiredSubmessage_Sub) Reset() {
-	*x = RequiredSubmessage_Sub{}
+func (x *ImplicitSubmessage_Sub) Reset() {
+	*x = ImplicitSubmessage_Sub{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_example_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1265,13 +1265,13 @@ func (x *RequiredSubmessage_Sub) Reset() {
 	}
 }
 
-func (x *RequiredSubmessage_Sub) String() string {
+func (x *ImplicitSubmessage_Sub) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RequiredSubmessage_Sub) ProtoMessage() {}
+func (*ImplicitSubmessage_Sub) ProtoMessage() {}
 
-func (x *RequiredSubmessage_Sub) ProtoReflect() protoreflect.Message {
+func (x *ImplicitSubmessage_Sub) ProtoReflect() protoreflect.Message {
 	mi := &file_example_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1283,12 +1283,12 @@ func (x *RequiredSubmessage_Sub) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequiredSubmessage_Sub.ProtoReflect.Descriptor instead.
-func (*RequiredSubmessage_Sub) Descriptor() ([]byte, []int) {
+// Deprecated: Use ImplicitSubmessage_Sub.ProtoReflect.Descriptor instead.
+func (*ImplicitSubmessage_Sub) Descriptor() ([]byte, []int) {
 	return file_example_proto_rawDescGZIP(), []int{20, 0}
 }
 
-func (x *RequiredSubmessage_Sub) GetSubmessageField() []uint32 {
+func (x *ImplicitSubmessage_Sub) GetSubmessageField() []uint32 {
 	if x != nil {
 		return x.SubmessageField
 	}
@@ -1393,10 +1393,10 @@ var File_example_proto protoreflect.FileDescriptor
 
 var file_example_proto_rawDesc = []byte{
 	0x0a, 0x0d, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
-	0x07, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x22, 0x94, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x71,
-	0x75, 0x69, 0x72, 0x65, 0x64, 0x45, 0x6e, 0x75, 0x6d, 0x12, 0x37, 0x0a, 0x08, 0x6d, 0x79, 0x5f,
+	0x07, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x22, 0x94, 0x01, 0x0a, 0x0c, 0x49, 0x6d, 0x70,
+	0x6c, 0x69, 0x63, 0x69, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x12, 0x37, 0x0a, 0x08, 0x6d, 0x79, 0x5f,
 	0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1c, 0x2e, 0x65, 0x78,
-	0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x64, 0x45, 0x6e,
+	0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x49, 0x6d, 0x70, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x45, 0x6e,
 	0x75, 0x6d, 0x2e, 0x4d, 0x79, 0x45, 0x6e, 0x75, 0x6d, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65,
 	0x6c, 0x64, 0x22, 0x4b, 0x0a, 0x06, 0x4d, 0x79, 0x45, 0x6e, 0x75, 0x6d, 0x12, 0x17, 0x0a, 0x13,
 	0x4d, 0x59, 0x5f, 0x45, 0x4e, 0x55, 0x4d, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46,
@@ -1425,8 +1425,8 @@ var file_example_proto_rawDesc = []byte{
 	0x5f, 0x45, 0x4e, 0x55, 0x4d, 0x5f, 0x56, 0x41, 0x4c, 0x55, 0x45, 0x5f, 0x32, 0x10, 0x02, 0x22,
 	0x29, 0x0a, 0x0c, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x42, 0x6f, 0x6f, 0x6c, 0x12,
 	0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x08, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65,
-	0x71, 0x75, 0x69, 0x72, 0x65, 0x64, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x19, 0x0a, 0x08,
+	0x08, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x49, 0x6d,
+	0x70, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x19, 0x0a, 0x08,
 	0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x07,
 	0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x3d, 0x0a, 0x0e, 0x4f, 0x70, 0x74, 0x69, 0x6f,
 	0x6e, 0x61, 0x6c, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x1e, 0x0a, 0x08, 0x6d, 0x79, 0x5f,
@@ -1472,10 +1472,10 @@ var file_example_proto_rawDesc = []byte{
 	0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x53, 0x74, 0x72,
 	0x69, 0x6e, 0x67, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18,
 	0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x82,
-	0x01, 0x0a, 0x12, 0x52, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x64, 0x53, 0x75, 0x62, 0x6d, 0x65,
+	0x01, 0x0a, 0x12, 0x49, 0x6d, 0x70, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x53, 0x75, 0x62, 0x6d, 0x65,
 	0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x3a, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c,
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c,
-	0x65, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x64, 0x53, 0x75, 0x62, 0x6d, 0x65, 0x73,
+	0x65, 0x2e, 0x49, 0x6d, 0x70, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x53, 0x75, 0x62, 0x6d, 0x65, 0x73,
 	0x73, 0x61, 0x67, 0x65, 0x2e, 0x53, 0x75, 0x62, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c,
 	0x64, 0x1a, 0x30, 0x0a, 0x03, 0x53, 0x75, 0x62, 0x12, 0x29, 0x0a, 0x10, 0x73, 0x75, 0x62, 0x6d,
 	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03,
@@ -1517,14 +1517,14 @@ func file_example_proto_rawDescGZIP() []byte {
 var file_example_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_example_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_example_proto_goTypes = []interface{}{
-	(RequiredEnum_MyEnum)(0),       // 0: example.RequiredEnum.MyEnum
+	(ImplicitEnum_MyEnum)(0),       // 0: example.ImplicitEnum.MyEnum
 	(OptionalEnum_MyEnum)(0),       // 1: example.OptionalEnum.MyEnum
 	(RepeatedEnum_MyEnum)(0),       // 2: example.RepeatedEnum.MyEnum
-	(*RequiredEnum)(nil),           // 3: example.RequiredEnum
+	(*ImplicitEnum)(nil),           // 3: example.ImplicitEnum
 	(*OptionalEnum)(nil),           // 4: example.OptionalEnum
 	(*RepeatedEnum)(nil),           // 5: example.RepeatedEnum
 	(*RepeatedBool)(nil),           // 6: example.RepeatedBool
-	(*RequiredUint32)(nil),         // 7: example.RequiredUint32
+	(*ImplicitUint32)(nil),         // 7: example.ImplicitUint32
 	(*OptionalUint32)(nil),         // 8: example.OptionalUint32
 	(*RepeatedUint32)(nil),         // 9: example.RepeatedUint32
 	(*RepeatedInt32)(nil),          // 10: example.RepeatedInt32
@@ -1540,18 +1540,18 @@ var file_example_proto_goTypes = []interface{}{
 	(*RepeatedDouble)(nil),         // 20: example.RepeatedDouble
 	(*RepeatedBytes)(nil),          // 21: example.RepeatedBytes
 	(*RepeatedString)(nil),         // 22: example.RepeatedString
-	(*RequiredSubmessage)(nil),     // 23: example.RequiredSubmessage
+	(*ImplicitSubmessage)(nil),     // 23: example.ImplicitSubmessage
 	(*OptionalSubmessage)(nil),     // 24: example.OptionalSubmessage
 	(*RepeatedSubmessage)(nil),     // 25: example.RepeatedSubmessage
-	(*RequiredSubmessage_Sub)(nil), // 26: example.RequiredSubmessage.Sub
+	(*ImplicitSubmessage_Sub)(nil), // 26: example.ImplicitSubmessage.Sub
 	(*OptionalSubmessage_Sub)(nil), // 27: example.OptionalSubmessage.Sub
 	(*RepeatedSubmessage_Sub)(nil), // 28: example.RepeatedSubmessage.Sub
 }
 var file_example_proto_depIdxs = []int32{
-	0,  // 0: example.RequiredEnum.my_field:type_name -> example.RequiredEnum.MyEnum
+	0,  // 0: example.ImplicitEnum.my_field:type_name -> example.ImplicitEnum.MyEnum
 	1,  // 1: example.OptionalEnum.my_field:type_name -> example.OptionalEnum.MyEnum
 	2,  // 2: example.RepeatedEnum.my_field:type_name -> example.RepeatedEnum.MyEnum
-	26, // 3: example.RequiredSubmessage.my_field:type_name -> example.RequiredSubmessage.Sub
+	26, // 3: example.ImplicitSubmessage.my_field:type_name -> example.ImplicitSubmessage.Sub
 	27, // 4: example.OptionalSubmessage.my_field:type_name -> example.OptionalSubmessage.Sub
 	28, // 5: example.RepeatedSubmessage.my_field:type_name -> example.RepeatedSubmessage.Sub
 	6,  // [6:6] is the sub-list for method output_type
@@ -1568,7 +1568,7 @@ func file_example_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_example_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RequiredEnum); i {
+			switch v := v.(*ImplicitEnum); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1616,7 +1616,7 @@ func file_example_proto_init() {
 			}
 		}
 		file_example_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RequiredUint32); i {
+			switch v := v.(*ImplicitUint32); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1808,7 +1808,7 @@ func file_example_proto_init() {
 			}
 		}
 		file_example_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RequiredSubmessage); i {
+			switch v := v.(*ImplicitSubmessage); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1844,7 +1844,7 @@ func file_example_proto_init() {
 			}
 		}
 		file_example_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RequiredSubmessage_Sub); i {
+			switch v := v.(*ImplicitSubmessage_Sub); i {
 			case 0:
 				return &v.state
 			case 1:

@@ -465,29 +465,32 @@ Deno.test("parseBytes", async (t) => {
           ],
         });
       });
-      await t.step("parses required enum with default value", () => {
-        const actual = parseBytes(
-          b``,
-          "Main",
-          {
-            "message Main": {
-              myField: {
-                type: "MyEnum",
-                id: 1,
-                fieldPresence: "implicit",
+      await t.step(
+        "parses enum with implicit presence with default value",
+        () => {
+          const actual = parseBytes(
+            b``,
+            "Main",
+            {
+              "message Main": {
+                myField: {
+                  type: "MyEnum",
+                  id: 1,
+                  fieldPresence: "implicit",
+                },
+              },
+              "enum MyEnum": {
+                MY_ENUM_UNSPECIFIED: 0,
+                MY_ENUM_VALUE_1: 1,
+                MY_ENUM_VALUE_2: 2,
               },
             },
-            "enum MyEnum": {
-              MY_ENUM_UNSPECIFIED: 0,
-              MY_ENUM_VALUE_1: 1,
-              MY_ENUM_VALUE_2: 2,
-            },
-          },
-        );
-        assertEquals(actual, {
-          myField: "MY_ENUM_UNSPECIFIED",
-        });
-      });
+          );
+          assertEquals(actual, {
+            myField: "MY_ENUM_UNSPECIFIED",
+          });
+        },
+      );
       await t.step("parses optional enum with default value", () => {
         const actual = parseBytes(
           b``,
@@ -943,31 +946,34 @@ Deno.test("parseBytes", async (t) => {
           }],
         });
       });
-      await t.step("parses required submessage with default value", () => {
-        const actual = parseBytes(
-          b``,
-          "Main",
-          {
-            "message Main": {
-              myField: {
-                type: "Sub",
-                id: 1,
-                fieldPresence: "implicit",
+      await t.step(
+        "parses submessage with implicit presence with default value",
+        () => {
+          const actual = parseBytes(
+            b``,
+            "Main",
+            {
+              "message Main": {
+                myField: {
+                  type: "Sub",
+                  id: 1,
+                  fieldPresence: "implicit",
+                },
+              },
+              "message Sub": {
+                submessageField: {
+                  repeated: true,
+                  type: "uint32",
+                  id: 1,
+                },
               },
             },
-            "message Sub": {
-              submessageField: {
-                repeated: true,
-                type: "uint32",
-                id: 1,
-              },
-            },
-          },
-        );
-        assertEquals(actual, {
-          myField: null,
-        });
-      });
+          );
+          assertEquals(actual, {
+            myField: null,
+          });
+        },
+      );
       await t.step("parses optional submessage with default value", () => {
         const actual = parseBytes(
           b``,

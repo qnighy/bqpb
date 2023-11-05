@@ -3,7 +3,7 @@ package example;
 
 option go_package = "./examplepb";
 
-message RequiredEnum {
+message ImplicitEnum {
     MyEnum my_field = 1;
 
     enum MyEnum {
@@ -37,7 +37,7 @@ message RepeatedBool {
     repeated bool my_field = 1;
 }
 
-message RequiredUint32 {
+message ImplicitUint32 {
     uint32 my_field = 1;
 }
 
@@ -101,7 +101,7 @@ message RepeatedString {
     repeated string my_field = 1;
 }
 
-message RequiredSubmessage {
+message ImplicitSubmessage {
     Sub my_field = 1;
 
     message Sub {
