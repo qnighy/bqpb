@@ -1345,6 +1345,14 @@ Deno.test("parseBytes", async (t) => {
         );
         assertEquals(actual, [null]);
       });
+      await t.step("parses fieldmask", () => {
+        const actual = parseBytes(
+          b`\x0a\x0bfoo_bar.baz\x0a\x0cpork.egg_ham`,
+          "google.protobuf.FieldMask",
+          {},
+        );
+        assertEquals(actual, "fooBar.baz,pork.eggHam");
+      });
     });
   });
 });

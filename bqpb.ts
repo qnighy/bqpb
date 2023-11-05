@@ -743,6 +743,14 @@ function interpretSpecialWire(
       );
       return values;
     }
+    case "FieldMask": {
+      const paths = fields.filter((field) => field.f === 1n).map((field) =>
+        interpretOne(field, TYPE_STRING, "string", typedefs) as string
+      );
+      return paths.map((path) =>
+        path.replace(/_([a-z])/g, (_text, ch) => ch.toUpperCase())
+      ).join(",");
+    }
   }
   return undefined;
 }

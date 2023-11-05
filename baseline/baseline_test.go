@@ -9,6 +9,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/types/known/fieldmaskpb"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/qnighy/bqpb/baseline/example2pb"
@@ -430,6 +431,12 @@ func TestSerialization(t *testing.T) {
 			data:     []byte("\x32\x04\x0a\x02\x08\x00"),
 			datatype: &structpb.Value{},
 			want:     `[null]`,
+		},
+		{
+			name:     "fieldmask",
+			data:     []byte("\x0a\x0bfoo_bar.baz\x0a\x0cpork.egg_ham"),
+			datatype: &fieldmaskpb.FieldMask{},
+			want:     `"fooBar.baz,pork.eggHam"`,
 		},
 	}
 	for _, tc := range testcases {
