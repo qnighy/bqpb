@@ -7,6 +7,9 @@ bqpb is a **self-contained, yet feature-complete** parser for the [Protocol Buff
 - [x] Protobuf input
 - [x] JSON output
 - [x] JSON output conformance -- see [JSON Mapping](https://protobuf.dev/programming-guides/proto3/#json) defined in the spec.
+- Schema support
+  - [x] Rough inspection of the message without a schema
+  - [x] Precise parsing and serialization of the message with a schema
 - Supported types
   - [x] All integer types -- `uint32`, `int32`, `sint32`, `uint64`, `int64`, `sint64`, `fixed32`, `sfixed32`, `fixed64`, `sfixed64`
   - [x] `float` and `double`
@@ -18,6 +21,7 @@ bqpb is a **self-contained, yet feature-complete** parser for the [Protocol Buff
 - Supported field types
   - [x] optional
   - [x] repeated
+    - [x] packed representation
   - [x] oneof (partially supported)
   - [x] group in proto2
 - Supported special JSON serialization rules
