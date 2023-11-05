@@ -1,0 +1,16 @@
+syntax = "proto3";
+package example;
+
+option go_package = "./examplepb";
+
+message RequiredUint32 {
+    uint32 my_field = 1;
+}
+
+message OptionalUint32 {
+    optional uint32 my_field = 1;
+}
+
+message RepeatedUint32 {
+    repeated uint32 my_field = 1;
+}

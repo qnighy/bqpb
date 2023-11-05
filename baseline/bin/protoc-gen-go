@@ -1,0 +1,2 @@
+#!/bin/sh
+exec go run google.golang.org/protobuf/cmd/protoc-gen-go
