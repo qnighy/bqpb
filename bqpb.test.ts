@@ -291,6 +291,7 @@ Deno.test("parseBytes", async (t) => {
               myField: {
                 type: "uint32",
                 id: 1,
+                fieldPresence: "implicit",
               },
             },
           },
@@ -305,6 +306,7 @@ Deno.test("parseBytes", async (t) => {
             myField: {
               type: "uint32",
               id: 1,
+              fieldPresence: "implicit",
             },
           },
         });
@@ -321,6 +323,7 @@ Deno.test("parseBytes", async (t) => {
               myField: {
                 type: "uint32",
                 id: 1,
+                fieldPresence: "implicit",
               },
             },
           },
@@ -338,9 +341,9 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "optional",
                 type: "uint32",
                 id: 1,
+                fieldPresence: "explicit",
               },
             },
           },
@@ -353,9 +356,9 @@ Deno.test("parseBytes", async (t) => {
         const actual = parseBytes(b``, "Main", {
           "message Main": {
             myField: {
-              label: "optional",
               type: "uint32",
               id: 1,
+              fieldPresence: "explicit",
             },
           },
         });
@@ -368,9 +371,9 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "optional",
                 type: "uint32",
                 id: 1,
+                fieldPresence: "explicit",
               },
             },
           },
@@ -471,6 +474,7 @@ Deno.test("parseBytes", async (t) => {
               myField: {
                 type: "MyEnum",
                 id: 1,
+                fieldPresence: "implicit",
               },
             },
             "enum MyEnum": {
@@ -491,9 +495,9 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "optional",
                 type: "MyEnum",
                 id: 1,
+                fieldPresence: "explicit",
               },
             },
             "enum MyEnum": {
@@ -882,6 +886,7 @@ Deno.test("parseBytes", async (t) => {
               myField: {
                 type: "Sub",
                 id: 1,
+                fieldPresence: "implicit",
               },
             },
             "message Sub": {
@@ -904,9 +909,9 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "optional",
                 type: "Sub",
                 id: 1,
+                fieldPresence: "explicit",
               },
             },
             "message Sub": {

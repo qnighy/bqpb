@@ -262,7 +262,7 @@ export type FieldDef = {
   type: string;
   id: number;
   repeated?: boolean;
-  label?: "optional";
+  fieldPresence?: "explicit" | "implicit";
   oneofGroup?: string;
 };
 export type EnumDef = {
@@ -296,6 +296,7 @@ function interpretWire(
       delete fieldsById[fieldDesc.id as unknown as string];
 
       const typeDesc = getType(fieldDesc.type, typedefs);
+      const { fieldPresence = "explicit" } = fieldDesc;
 
       let interpretedValue: JSONValue;
       // let isZero: boolean;
@@ -306,7 +307,9 @@ function interpretWire(
           interpretOne(value, typeDesc, fieldDesc.type, typedefs)
         );
         // isZero = interpretedValue.length === 0;
-      } else if (fieldDesc.label === "optional" || fieldDesc.oneofGroup) {
+      } else if (
+        fieldPresence === "explicit" || fieldDesc.oneofGroup
+      ) {
         interpretedValue = values.length > 0
           ? interpretOne(
             values[values.length - 1],
@@ -328,7 +331,7 @@ function interpretWire(
         // isZero = interpretedValue === ZERO_VALUES[typeDesc];
       }
       if (
-        fieldDesc.label === "optional" && !fieldDesc.oneofGroup &&
+        fieldPresence === "explicit" && !fieldDesc.oneofGroup &&
         (interpretedValue === null ||
           typeDesc === TYPE_ENUM &&
             interpretedValue ===
