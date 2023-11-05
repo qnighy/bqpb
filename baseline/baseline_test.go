@@ -9,8 +9,10 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 	"google.golang.org/protobuf/types/known/structpb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/qnighy/bqpb/baseline/example2pb"
 	"github.com/qnighy/bqpb/baseline/examplepb"
@@ -437,6 +439,18 @@ func TestSerialization(t *testing.T) {
 			data:     []byte("\x0a\x0bfoo_bar.baz\x0a\x0cpork.egg_ham"),
 			datatype: &fieldmaskpb.FieldMask{},
 			want:     `"fooBar.baz,pork.eggHam"`,
+		},
+		{
+			name:     "timestamp",
+			data:     []byte("\x08\xe5\xa7\x9e\xaa\x06\x10\xd1\xa9\xa0\x1d"),
+			datatype: &timestamppb.Timestamp{},
+			want:     `"2023-11-05T13:08:53.061347025Z"`,
+		},
+		{
+			name:     "duration",
+			data:     []byte("\x08\x83\xaa\x0c\x10\xc9\xbb\xf0\xc0\x02"),
+			datatype: &durationpb.Duration{},
+			want:     `"201987.672931273s"`,
 		},
 	}
 	for _, tc := range testcases {

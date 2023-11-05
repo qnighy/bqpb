@@ -1353,6 +1353,22 @@ Deno.test("parseBytes", async (t) => {
         );
         assertEquals(actual, "fooBar.baz,pork.eggHam");
       });
+      await t.step("parses timestamp", () => {
+        const actual = parseBytes(
+          b`\x08\xe5\xa7\x9e\xaa\x06\x10\xd1\xa9\xa0\x1d`,
+          "google.protobuf.Timestamp",
+          {},
+        );
+        assertEquals(actual, "2023-11-05T13:08:53.061347025Z");
+      });
+      await t.step("parses duration", () => {
+        const actual = parseBytes(
+          b`\x08\x83\xaa\x0c\x10\xc9\xbb\xf0\xc0\x02`,
+          "google.protobuf.Duration",
+          {},
+        );
+        assertEquals(actual, "201987.672931273s");
+      });
     });
   });
 });

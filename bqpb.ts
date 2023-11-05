@@ -751,6 +751,30 @@ function interpretSpecialWire(
         path.replace(/_([a-z])/g, (_text, ch) => ch.toUpperCase())
       ).join(",");
     }
+    case "Timestamp":
+    case "Duration": {
+      const secondsValue = fields.findLast((field) => field.f === 1n);
+      const nanosValue = fields.findLast((field) => field.f === 2n);
+      const seconds = secondsValue
+        ? Number(interpretOne(secondsValue, TYPE_INT64, "", typedefs) as string)
+        : 0;
+      const nanos = nanosValue
+        ? interpretOne(nanosValue, TYPE_INT32, "", typedefs) as number
+        : 0;
+      if (shortType === "Timestamp") {
+        const date = new Date(seconds * 1000 + nanos / 1e6);
+        return date.toISOString().replace(
+          /Z$/,
+          `${(nanos % 1e6).toString().padStart(6, "0")}Z`,
+        );
+      } else {
+        if (seconds < 0) {
+          return `-${-seconds}.${(-nanos).toString().padStart(9, "0")}s`;
+        } else {
+          return `${seconds}.${nanos.toString().padStart(9, "0")}s`;
+        }
+      }
+    }
   }
   return undefined;
 }
