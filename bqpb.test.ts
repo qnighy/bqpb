@@ -1369,6 +1369,36 @@ Deno.test("parseBytes", async (t) => {
         );
         assertEquals(actual, "201987.672931273s");
       });
+      await t.step("parses any on plain message", () => {
+        const actual = parseBytes(
+          b`\x0a\x2atype.googleapis.com/example.ImplicitUint32\x12\x02\x08\x2a`,
+          "google.protobuf.Any",
+          {
+            "message example.ImplicitUint32": {
+              myField: {
+                type: "uint32",
+                id: 1,
+                fieldPresence: "implicit",
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          "@type": "type.googleapis.com/example.ImplicitUint32",
+          myField: 42,
+        });
+      });
+      await t.step("parses any on special message", () => {
+        const actual = parseBytes(
+          b`\x0a\x2dtype.googleapis.com/google.protobuf.FieldMask\x12\x1b\x0a\x0bfoo_bar.baz\x0a\x0cpork.egg_ham`,
+          "google.protobuf.Any",
+          {},
+        );
+        assertEquals(actual, {
+          "@type": "type.googleapis.com/google.protobuf.FieldMask",
+          value: "fooBar.baz,pork.eggHam",
+        });
+      });
     });
   });
 });

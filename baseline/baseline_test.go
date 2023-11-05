@@ -9,6 +9,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/types/known/anypb"
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 	"google.golang.org/protobuf/types/known/structpb"
@@ -451,6 +452,18 @@ func TestSerialization(t *testing.T) {
 			data:     []byte("\x08\x83\xaa\x0c\x10\xc9\xbb\xf0\xc0\x02"),
 			datatype: &durationpb.Duration{},
 			want:     `"201987.672931273s"`,
+		},
+		{
+			name:     "any on plain message",
+			data:     []byte("\x0a\x2atype.googleapis.com/example.ImplicitUint32\x12\x02\x08\x2a"),
+			datatype: &anypb.Any{},
+			want:     `{"@type":"type.googleapis.com/example.ImplicitUint32","myField":42}`,
+		},
+		{
+			name:     "any on special message",
+			data:     []byte("\x0a\x2dtype.googleapis.com/google.protobuf.FieldMask\x12\x1b\x0a\x0bfoo_bar.baz\x0a\x0cpork.egg_ham"),
+			datatype: &anypb.Any{},
+			want:     `{"@type":"type.googleapis.com/google.protobuf.FieldMask","value":"fooBar.baz,pork.eggHam"}`,
 		},
 	}
 	for _, tc := range testcases {

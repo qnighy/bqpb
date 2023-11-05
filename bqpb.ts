@@ -299,7 +299,7 @@ function interpretGenericWire(
   fields: WireField[],
   messageType: string,
   typedefs: Typedefs,
-): JSONValue {
+): Record<string, JSONValue> {
   const fieldsById: Record<string, WireField[]> = {};
   for (const field of fields) {
     (fieldsById[field.f as unknown as string] ??= []).push(field);
@@ -694,6 +694,36 @@ function interpretSpecialWire(
       : getZeroValue(baseTypeDesc, baseType, typedefs);
   }
   switch (shortType) {
+    case "Any": {
+      const typeUrlValue = fields.findLast((field) => field.f === 1n);
+      const valueValue = fields.findLast((field) => field.f === 2n);
+      const typeUrl = typeUrlValue
+        ? interpretOne(typeUrlValue, TYPE_STRING, "string", typedefs) as string
+        : "";
+      if (valueValue && valueValue.w !== 2) {
+        throw new Error(
+          `Expected wire type 2, got ${valueValue.w}`,
+        );
+      }
+      const value = valueValue?.v ?? new Uint8Array();
+      if (typeUrl.startsWith("type.googleapis.com/")) {
+        const messageType = typeUrl.slice(20);
+        const anyWireFields = parseWire(value);
+        const result = interpretSpecialWire(
+          anyWireFields,
+          messageType,
+          typedefs,
+        );
+        if (result !== undefined) {
+          return { "@type": typeUrl, value: result };
+        }
+        return {
+          "@type": typeUrl,
+          ...interpretGenericWire(anyWireFields, messageType, typedefs),
+        };
+      }
+      break;
+    }
     case "Value": {
       const field = fields.findLast((field) => 1n <= field.f && field.f <= 7n);
       if (!field) {
