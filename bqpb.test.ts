@@ -1241,12 +1241,6 @@ Deno.test("parseBytes", async (t) => {
     });
 
     await t.step("parsing of well-known datatypes", async (t) => {
-      // {
-      // 	name:     "wrapper: missing",
-      // 	data:     []byte(""),
-      // 	datatype: &examplepb.ImplicitUint32Wrapper{},
-      // 	want:     `{"myField":null}`,
-      // },
       await t.step("parses wrapper (missing case)", () => {
         const actual = parseBytes(
           b``,
@@ -1265,12 +1259,6 @@ Deno.test("parseBytes", async (t) => {
           myField: null,
         });
       });
-      // {
-      // 	name:     "wrapper: empty",
-      // 	data:     []byte("\x0a\x00"),
-      // 	datatype: &examplepb.ImplicitUint32Wrapper{},
-      // 	want:     `{"myField":0}`,
-      // },
       await t.step("parses wrapper (empty case)", () => {
         const actual = parseBytes(
           b`\x0a\x00`,
@@ -1289,12 +1277,6 @@ Deno.test("parseBytes", async (t) => {
           myField: 0,
         });
       });
-      // {
-      // 	name:     "wrapper: inhabited",
-      // 	data:     []byte("\x0a\x02\x08\x2a"),
-      // 	datatype: &examplepb.ImplicitUint32Wrapper{},
-      // 	want:     `{"myField":42}`,
-      // },
       await t.step("parses wrapper (inhabitaed case)", () => {
         const actual = parseBytes(
           b`\x0a\x02\x08\x2a`,
@@ -1312,6 +1294,56 @@ Deno.test("parseBytes", async (t) => {
         assertEquals(actual, {
           myField: 42,
         });
+      });
+      await t.step("parses JSON (null case)", () => {
+        const actual = parseBytes(
+          b`\x08\x00`,
+          "google.protobuf.Value",
+          {},
+        );
+        assertEquals(actual, null);
+      });
+      await t.step("parses JSON (number case)", () => {
+        const actual = parseBytes(
+          b`\x11\x00\x00\x00\x00\x00\x00\xf0\x3f`,
+          "google.protobuf.Value",
+          {},
+        );
+        assertEquals(actual, 1);
+      });
+      await t.step("parses JSON (string case)", () => {
+        const actual = parseBytes(
+          b`\x1a\x05Hello`,
+          "google.protobuf.Value",
+          {},
+        );
+        assertEquals(actual, "Hello");
+      });
+      await t.step("parses JSON (bool case)", () => {
+        const actual = parseBytes(
+          b`\x20\x01`,
+          "google.protobuf.Value",
+          {},
+        );
+        assertEquals(actual, true);
+      });
+      await t.step("parses JSON (object case)", () => {
+        const actual = parseBytes(
+          b`\x2a\x09\x0a\x07\x0a\x01a\x12\x02\x08\x00`,
+          "google.protobuf.Value",
+          {},
+        );
+        assertEquals(actual, {
+          a: null,
+        });
+      });
+      await t.step("parses JSON (list case)", () => {
+        const actual = parseBytes(
+          b`\x32\x04\x0a\x02\x08\x00`,
+          "google.protobuf.Value",
+          {},
+        );
+        assertEquals(actual, [null]);
       });
     });
   });

@@ -693,5 +693,56 @@ function interpretSpecialWire(
       ? interpretOne(field, baseTypeDesc, baseType, typedefs)
       : getZeroValue(baseTypeDesc, baseType, typedefs);
   }
+  switch (shortType) {
+    case "Value": {
+      const field = fields.findLast((field) => 1n <= field.f && field.f <= 7n);
+      if (!field) {
+        throw new Error("Invalid JSON Value");
+      }
+      switch (field.f) {
+        case 1n:
+          interpretOne(field, TYPE_UINT32, "uint32", typedefs);
+          return null;
+        case 2n:
+          return interpretOne(field, TYPE_DOUBLE, "bool", typedefs);
+        case 3n:
+          return interpretOne(field, TYPE_STRING, "string", typedefs);
+        case 4n:
+          return interpretOne(field, TYPE_BOOL, "bool", typedefs);
+        case 5n:
+          return interpretOne(
+            field,
+            TYPE_MESSAGE,
+            "google.protobuf.Struct",
+            typedefs,
+          );
+        case 6n:
+          return interpretOne(
+            field,
+            TYPE_MESSAGE,
+            "google.protobuf.ListValue",
+            typedefs,
+          );
+      }
+      break;
+    }
+    case "Struct": {
+      const pairs = fields.filter((field) => field.f === 1n).map((field) =>
+        interpretOne(
+          field,
+          TYPE_MAP,
+          "map<string,google.protobuf.Value>",
+          typedefs,
+        ) as [number | string, JSONValue]
+      );
+      return Object.fromEntries(pairs);
+    }
+    case "ListValue": {
+      const values = fields.filter((field) => field.f === 1n).map((field) =>
+        interpretOne(field, TYPE_MESSAGE, "google.protobuf.Value", typedefs)
+      );
+      return values;
+    }
+  }
   return undefined;
 }

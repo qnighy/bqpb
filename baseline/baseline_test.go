@@ -9,6 +9,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/qnighy/bqpb/baseline/example2pb"
 	"github.com/qnighy/bqpb/baseline/examplepb"
@@ -393,6 +394,42 @@ func TestSerialization(t *testing.T) {
 			data:     []byte("\x0a\x02\x08\x2a"),
 			datatype: &examplepb.ImplicitUint32Wrapper{},
 			want:     `{"myField":42}`,
+		},
+		{
+			name:     "JSON: null",
+			data:     []byte("\x08\x00"),
+			datatype: &structpb.Value{},
+			want:     `null`,
+		},
+		{
+			name:     "JSON: number",
+			data:     []byte("\x11\x00\x00\x00\x00\x00\x00\xf0\x3f"),
+			datatype: &structpb.Value{},
+			want:     `1`,
+		},
+		{
+			name:     "JSON: string",
+			data:     []byte("\x1a\x05Hello"),
+			datatype: &structpb.Value{},
+			want:     `"Hello"`,
+		},
+		{
+			name:     "JSON: bool",
+			data:     []byte("\x20\x01"),
+			datatype: &structpb.Value{},
+			want:     `true`,
+		},
+		{
+			name:     "JSON: object",
+			data:     []byte("\x2a\x09\x0a\x07\x0a\x01a\x12\x02\x08\x00"),
+			datatype: &structpb.Value{},
+			want:     `{"a":null}`,
+		},
+		{
+			name:     "JSON: list",
+			data:     []byte("\x32\x04\x0a\x02\x08\x00"),
+			datatype: &structpb.Value{},
+			want:     `[null]`,
 		},
 	}
 	for _, tc := range testcases {
