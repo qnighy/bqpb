@@ -39,21 +39,21 @@ func TestSerialization(t *testing.T) {
 			want:     `{"myField":2}`,
 		},
 		{
-			name:     "Parse optional simple field",
+			name:     "Parse field with explicit presence of size 1",
 			data:     []byte("\x08\x01"),
-			datatype: &examplepb.OptionalUint32{},
+			datatype: &examplepb.ExplicitUint32{},
 			want:     `{"myField":1}`,
 		},
 		{
-			name:     "Parse optional field with null",
+			name:     "Parse field with explicit presence of size 2",
 			data:     []byte(""),
-			datatype: &examplepb.OptionalUint32{},
+			datatype: &examplepb.ExplicitUint32{},
 			want:     `{}`,
 		},
 		{
-			name:     "Pick the last one on duplicate in optional field",
+			name:     "Pick the last one on duplicate in field with explicit presence",
 			data:     []byte("\x08\x01\x08\x02"),
-			datatype: &examplepb.OptionalUint32{},
+			datatype: &examplepb.ExplicitUint32{},
 			want:     `{"myField":2}`,
 		},
 		{
@@ -87,9 +87,9 @@ func TestSerialization(t *testing.T) {
 			want:     `{"myField":"MY_ENUM_UNSPECIFIED"}`,
 		},
 		{
-			name:     "optional enum with default value",
+			name:     "enum with explicit presence with default value",
 			data:     []byte(""),
-			datatype: &examplepb.OptionalEnum{},
+			datatype: &examplepb.ExplicitEnum{},
 			want:     `{}`,
 		},
 		{
@@ -273,9 +273,9 @@ func TestSerialization(t *testing.T) {
 			want:     `{"myField":null}`,
 		},
 		{
-			name:     "optional submessage with default value",
+			name:     "submessage with explicit presence with default value",
 			data:     []byte(""),
-			datatype: &examplepb.OptionalSubmessage{},
+			datatype: &examplepb.ExplicitSubmessage{},
 			want:     `{}`,
 		},
 	}

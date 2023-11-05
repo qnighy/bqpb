@@ -13,7 +13,7 @@ message ImplicitEnum {
     }
 }
 
-message OptionalEnum {
+message ExplicitEnum {
     optional MyEnum my_field = 1;
 
     enum MyEnum {
@@ -41,7 +41,7 @@ message ImplicitUint32 {
     uint32 my_field = 1;
 }
 
-message OptionalUint32 {
+message ExplicitUint32 {
     optional uint32 my_field = 1;
 }
 
@@ -109,7 +109,7 @@ message ImplicitSubmessage {
     }
 }
 
-message OptionalSubmessage {
+message ExplicitSubmessage {
     optional Sub my_field = 1;
 
     message Sub {
