@@ -1003,6 +1003,190 @@ Deno.test("parseBytes", async (t) => {
           assertEquals(actual, {});
         },
       );
+      await t.step("parses map base case", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x04\x08\x2a\x10\x64`,
+            ...b`\x0a\x04\x08\x2b\x10\x65`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<uint32,uint32>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            42: 100,
+            43: 101,
+          },
+        });
+      });
+      await t.step("parses map with I32 value", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x07\x08\x2a\x15\x64\x00\x00\x00`,
+            ...b`\x0a\x07\x08\x2b\x15\x65\x00\x00\x00`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<uint32,fixed32>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            42: 100,
+            43: 101,
+          },
+        });
+      });
+      await t.step("parses map with I64 value", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x0b\x08\x2a\x11\x64\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x0a\x0b\x08\x2b\x11\x65\x00\x00\x00\x00\x00\x00\x00`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<uint32,fixed64>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            42: "100",
+            43: "101",
+          },
+        });
+      });
+      await t.step("parses map with LEN value", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x07\x08\x2a\x12\x03\xe3\x81\x82`,
+            ...b`\x0a\x07\x08\x2b\x12\x03\xe3\x81\x84`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<uint32,string>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            42: "あ",
+            43: "い",
+          },
+        });
+      });
+      await t.step("parses map with I32 key", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x07\x0d\x2a\x00\x00\x00\x10\x64`,
+            ...b`\x0a\x07\x0d\x2b\x00\x00\x00\x10\x65`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<fixed32,uint32>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            42: 100,
+            43: 101,
+          },
+        });
+      });
+      await t.step("parses map with I64 key", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x0b\x09\x2a\x00\x00\x00\x00\x00\x00\x00\x10\x64`,
+            ...b`\x0a\x0b\x09\x2b\x00\x00\x00\x00\x00\x00\x00\x10\x65`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<fixed64,uint32>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            42: 100,
+            43: 101,
+          },
+        });
+      });
+      await t.step("parses map with bool key", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x04\x08\x00\x10\x64`,
+            ...b`\x0a\x04\x08\x01\x10\x65`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<bool,uint32>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            false: 100,
+            true: 101,
+          },
+        });
+      });
+      await t.step("parses map with string key", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x07\x0a\x03\xe3\x81\x82\x10\x64`,
+            ...b`\x0a\x07\x0a\x03\xe3\x81\x84\x10\x65`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<string,uint32>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            あ: 100,
+            い: 101,
+          },
+        });
+      });
     });
   });
 });

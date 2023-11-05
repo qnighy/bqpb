@@ -278,6 +278,86 @@ func TestSerialization(t *testing.T) {
 			datatype: &examplepb.ExplicitSubmessage{},
 			want:     `{}`,
 		},
+		{
+			name: "map base case",
+			data: []byte(
+				"" +
+					"\x0a\x04\x08\x2a\x10\x64" +
+					"\x0a\x04\x08\x2b\x10\x65",
+			),
+			datatype: &examplepb.MapUint32Uint32{},
+			want:     `{"myField":{"42":100,"43":101}}`,
+		},
+		{
+			name: "map with I32 value",
+			data: []byte(
+				"" +
+					"\x0a\x07\x08\x2a\x15\x64\x00\x00\x00" +
+					"\x0a\x07\x08\x2b\x15\x65\x00\x00\x00",
+			),
+			datatype: &examplepb.MapUint32Fixed32{},
+			want:     `{"myField":{"42":100,"43":101}}`,
+		},
+		{
+			name: "map with I64 value",
+			data: []byte(
+				"" +
+					"\x0a\x0b\x08\x2a\x11\x64\x00\x00\x00\x00\x00\x00\x00" +
+					"\x0a\x0b\x08\x2b\x11\x65\x00\x00\x00\x00\x00\x00\x00",
+			),
+			datatype: &examplepb.MapUint32Fixed64{},
+			want:     `{"myField":{"42":"100","43":"101"}}`,
+		},
+		{
+			name: "map with LEN value",
+			data: []byte(
+				"" +
+					"\x0a\x07\x08\x2a\x12\x03\xe3\x81\x82" +
+					"\x0a\x07\x08\x2b\x12\x03\xe3\x81\x84",
+			),
+			datatype: &examplepb.MapUint32String{},
+			want:     `{"myField":{"42":"あ","43":"い"}}`,
+		},
+		{
+			name: "map with I32 key",
+			data: []byte(
+				"" +
+					"\x0a\x07\x0d\x2a\x00\x00\x00\x10\x64" +
+					"\x0a\x07\x0d\x2b\x00\x00\x00\x10\x65",
+			),
+			datatype: &examplepb.MapFixed32Uint32{},
+			want:     `{"myField":{"42":100,"43":101}}`,
+		},
+		{
+			name: "map with I64 key",
+			data: []byte(
+				"" +
+					"\x0a\x0b\x09\x2a\x00\x00\x00\x00\x00\x00\x00\x10\x64" +
+					"\x0a\x0b\x09\x2b\x00\x00\x00\x00\x00\x00\x00\x10\x65",
+			),
+			datatype: &examplepb.MapFixed64Uint32{},
+			want:     `{"myField":{"42":100,"43":101}}`,
+		},
+		{
+			name: "map with bool key",
+			data: []byte(
+				"" +
+					"\x0a\x04\x08\x00\x10\x64" +
+					"\x0a\x04\x08\x01\x10\x65",
+			),
+			datatype: &examplepb.MapBoolUint32{},
+			want:     `{"myField":{"false":100,"true":101}}`,
+		},
+		{
+			name: "map with string key",
+			data: []byte(
+				"" +
+					"\x0a\x07\x0a\x03\xe3\x81\x82\x10\x64" +
+					"\x0a\x07\x0a\x03\xe3\x81\x84\x10\x65",
+			),
+			datatype: &examplepb.MapStringUint32{},
+			want:     `{"myField":{"あ":100,"い":101}}`,
+		},
 	}
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {

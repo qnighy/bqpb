@@ -305,7 +305,16 @@ function interpretWire(
 
       let interpretedValue: JSONValue;
       // let isZero: boolean;
-      if (fieldDesc.repeated) {
+      if (typeDesc === TYPE_MAP) {
+        const kv = values.map((value) =>
+          interpretOne(value, typeDesc, fieldDesc.type, typedefs) as [
+            number | string,
+            JSONValue,
+          ]
+        );
+        interpretedValue = Object.fromEntries(kv);
+        // isZero = kv.length === 0;
+      } else if (fieldDesc.repeated) {
         let unpackedValues = values;
         if (typeDesc < THRESHOLD_I64) {
           unpackedValues = [];
@@ -465,6 +474,12 @@ function is64BitType(typeDesc: number): boolean {
   return (typeDesc & 4) === 4;
 }
 
+function isValidMapKey(typeDesc: number): boolean {
+  return (TYPE_BOOL <= typeDesc && typeDesc <= TYPE_SFIXED64 &&
+    typeDesc != TYPE_FLOAT) ||
+    typeDesc === TYPE_STRING;
+}
+
 function getZeroValue(
   typeDesc: number,
   typeName: string,
@@ -516,9 +531,10 @@ const typeMap: Record<string, number> = {
 };
 function getType(typeName: string, typedefs: Typedefs): number {
   if (typeName in typeMap) return typeMap[typeName];
+  if (typeName.startsWith("map<")) return TYPE_MAP;
   if (`message ${typeName}` in typedefs) return TYPE_MESSAGE;
   if (`enum ${typeName}` in typedefs) return TYPE_ENUM;
-  throw new Error("TODO: map or group");
+  throw new Error("TODO: group");
 }
 function interpretOne(
   fieldData: WireField,
@@ -576,7 +592,34 @@ function interpretOne(
     } else if (typeDesc === TYPE_STRING) {
       return decodeUTF8(fieldData.v);
     } else if (typeDesc === TYPE_MAP) {
-      throw new Error("TODO: map");
+      // NOTE: this is actually a map entry, not a map
+
+      const comma = typeName.indexOf(",");
+      const gt = typeName.lastIndexOf(">");
+      // known to start with "map<"
+      const keyType = typeName.slice(4, comma).trim();
+      const valueType = typeName.slice(comma + 1, gt).trim();
+      const keyTypeDesc = getType(keyType, typedefs);
+      const valueTypeDesc = getType(valueType, typedefs);
+      if (!isValidMapKey(keyTypeDesc) || valueTypeDesc === TYPE_MAP) {
+        throw new Error("Invalid map type");
+      }
+
+      const wire = parseWire(fieldData.v);
+      const keyField = wire.findLast((field) => field.f === 1n);
+      const valueField = wire.findLast((field) => field.f === 2n);
+      if (!keyField || !valueField) {
+        // Tell the caller to skip this field
+        return null;
+      }
+      const key = interpretOne(keyField, keyTypeDesc, keyType, typedefs);
+      const value = interpretOne(
+        valueField,
+        valueTypeDesc,
+        valueType,
+        typedefs,
+      );
+      return [key, value];
     } else {
       return parseBytes(fieldData.v, typeName, typedefs);
     }

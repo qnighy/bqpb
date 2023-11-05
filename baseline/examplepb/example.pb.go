@@ -1248,6 +1248,382 @@ func (x *RepeatedSubmessage) GetMyField() []*RepeatedSubmessage_Sub {
 	return nil
 }
 
+type MapUint32Uint32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField map[uint32]uint32 `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+}
+
+func (x *MapUint32Uint32) Reset() {
+	*x = MapUint32Uint32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MapUint32Uint32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MapUint32Uint32) ProtoMessage() {}
+
+func (x *MapUint32Uint32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MapUint32Uint32.ProtoReflect.Descriptor instead.
+func (*MapUint32Uint32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *MapUint32Uint32) GetMyField() map[uint32]uint32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type MapUint32Fixed32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField map[uint32]uint32 `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"fixed32,2,opt,name=value,proto3"`
+}
+
+func (x *MapUint32Fixed32) Reset() {
+	*x = MapUint32Fixed32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MapUint32Fixed32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MapUint32Fixed32) ProtoMessage() {}
+
+func (x *MapUint32Fixed32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MapUint32Fixed32.ProtoReflect.Descriptor instead.
+func (*MapUint32Fixed32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *MapUint32Fixed32) GetMyField() map[uint32]uint32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type MapUint32Fixed64 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField map[uint32]uint64 `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"fixed64,2,opt,name=value,proto3"`
+}
+
+func (x *MapUint32Fixed64) Reset() {
+	*x = MapUint32Fixed64{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MapUint32Fixed64) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MapUint32Fixed64) ProtoMessage() {}
+
+func (x *MapUint32Fixed64) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MapUint32Fixed64.ProtoReflect.Descriptor instead.
+func (*MapUint32Fixed64) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *MapUint32Fixed64) GetMyField() map[uint32]uint64 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type MapUint32String struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField map[uint32]string `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (x *MapUint32String) Reset() {
+	*x = MapUint32String{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MapUint32String) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MapUint32String) ProtoMessage() {}
+
+func (x *MapUint32String) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[26]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MapUint32String.ProtoReflect.Descriptor instead.
+func (*MapUint32String) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *MapUint32String) GetMyField() map[uint32]string {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type MapFixed32Uint32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField map[uint32]uint32 `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty" protobuf_key:"fixed32,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+}
+
+func (x *MapFixed32Uint32) Reset() {
+	*x = MapFixed32Uint32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MapFixed32Uint32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MapFixed32Uint32) ProtoMessage() {}
+
+func (x *MapFixed32Uint32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[27]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MapFixed32Uint32.ProtoReflect.Descriptor instead.
+func (*MapFixed32Uint32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *MapFixed32Uint32) GetMyField() map[uint32]uint32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type MapFixed64Uint32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField map[uint64]uint32 `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty" protobuf_key:"fixed64,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+}
+
+func (x *MapFixed64Uint32) Reset() {
+	*x = MapFixed64Uint32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[28]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MapFixed64Uint32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MapFixed64Uint32) ProtoMessage() {}
+
+func (x *MapFixed64Uint32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[28]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MapFixed64Uint32.ProtoReflect.Descriptor instead.
+func (*MapFixed64Uint32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *MapFixed64Uint32) GetMyField() map[uint64]uint32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type MapBoolUint32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField map[bool]uint32 `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+}
+
+func (x *MapBoolUint32) Reset() {
+	*x = MapBoolUint32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MapBoolUint32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MapBoolUint32) ProtoMessage() {}
+
+func (x *MapBoolUint32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[29]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MapBoolUint32.ProtoReflect.Descriptor instead.
+func (*MapBoolUint32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *MapBoolUint32) GetMyField() map[bool]uint32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type MapStringUint32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField map[string]uint32 `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+}
+
+func (x *MapStringUint32) Reset() {
+	*x = MapStringUint32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MapStringUint32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MapStringUint32) ProtoMessage() {}
+
+func (x *MapStringUint32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[30]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MapStringUint32.ProtoReflect.Descriptor instead.
+func (*MapStringUint32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *MapStringUint32) GetMyField() map[string]uint32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
 type ImplicitSubmessage_Sub struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1259,7 +1635,7 @@ type ImplicitSubmessage_Sub struct {
 func (x *ImplicitSubmessage_Sub) Reset() {
 	*x = ImplicitSubmessage_Sub{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_example_proto_msgTypes[23]
+		mi := &file_example_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1272,7 +1648,7 @@ func (x *ImplicitSubmessage_Sub) String() string {
 func (*ImplicitSubmessage_Sub) ProtoMessage() {}
 
 func (x *ImplicitSubmessage_Sub) ProtoReflect() protoreflect.Message {
-	mi := &file_example_proto_msgTypes[23]
+	mi := &file_example_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1306,7 +1682,7 @@ type ExplicitSubmessage_Sub struct {
 func (x *ExplicitSubmessage_Sub) Reset() {
 	*x = ExplicitSubmessage_Sub{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_example_proto_msgTypes[24]
+		mi := &file_example_proto_msgTypes[32]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1319,7 +1695,7 @@ func (x *ExplicitSubmessage_Sub) String() string {
 func (*ExplicitSubmessage_Sub) ProtoMessage() {}
 
 func (x *ExplicitSubmessage_Sub) ProtoReflect() protoreflect.Message {
-	mi := &file_example_proto_msgTypes[24]
+	mi := &file_example_proto_msgTypes[32]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1353,7 +1729,7 @@ type RepeatedSubmessage_Sub struct {
 func (x *RepeatedSubmessage_Sub) Reset() {
 	*x = RepeatedSubmessage_Sub{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_example_proto_msgTypes[25]
+		mi := &file_example_proto_msgTypes[33]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1366,7 +1742,7 @@ func (x *RepeatedSubmessage_Sub) String() string {
 func (*RepeatedSubmessage_Sub) ProtoMessage() {}
 
 func (x *RepeatedSubmessage_Sub) ProtoReflect() protoreflect.Message {
-	mi := &file_example_proto_msgTypes[25]
+	mi := &file_example_proto_msgTypes[33]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1497,9 +1873,82 @@ var file_example_proto_rawDesc = []byte{
 	0x2e, 0x53, 0x75, 0x62, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a, 0x30, 0x0a,
 	0x03, 0x53, 0x75, 0x62, 0x12, 0x29, 0x0a, 0x10, 0x73, 0x75, 0x62, 0x6d, 0x65, 0x73, 0x73, 0x61,
 	0x67, 0x65, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0d, 0x52, 0x0f,
-	0x73, 0x75, 0x62, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x42,
-	0x0d, 0x5a, 0x0b, 0x2e, 0x2f, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x70, 0x62, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x75, 0x62, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22,
+	0x8f, 0x01, 0x0a, 0x0f, 0x4d, 0x61, 0x70, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x55, 0x69, 0x6e,
+	0x74, 0x33, 0x32, 0x12, 0x40, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e,
+	0x4d, 0x61, 0x70, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x2e,
+	0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x6d, 0x79,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a, 0x3a, 0x0a, 0x0c, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64,
+	0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0d, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
+	0x01, 0x22, 0x91, 0x01, 0x0a, 0x10, 0x4d, 0x61, 0x70, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x46,
+	0x69, 0x78, 0x65, 0x64, 0x33, 0x32, 0x12, 0x41, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65,
+	0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70,
+	0x6c, 0x65, 0x2e, 0x4d, 0x61, 0x70, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x46, 0x69, 0x78, 0x65,
+	0x64, 0x33, 0x32, 0x2e, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79,
+	0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a, 0x3a, 0x0a, 0x0c, 0x4d, 0x79, 0x46,
+	0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x07, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x91, 0x01, 0x0a, 0x10, 0x4d, 0x61, 0x70, 0x55, 0x69, 0x6e,
+	0x74, 0x33, 0x32, 0x46, 0x69, 0x78, 0x65, 0x64, 0x36, 0x34, 0x12, 0x41, 0x0a, 0x08, 0x6d, 0x79,
+	0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x65,
+	0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x4d, 0x61, 0x70, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32,
+	0x46, 0x69, 0x78, 0x65, 0x64, 0x36, 0x34, 0x2e, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45,
+	0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a, 0x3a, 0x0a,
+	0x0c, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a,
+	0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12,
+	0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x06, 0x52, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x8f, 0x01, 0x0a, 0x0f, 0x4d, 0x61,
+	0x70, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x12, 0x40, 0x0a,
+	0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x25, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x4d, 0x61, 0x70, 0x55, 0x69, 0x6e,
+	0x74, 0x33, 0x32, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x2e, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c,
+	0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a,
+	0x3a, 0x0a, 0x0c, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12,
+	0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6b, 0x65,
+	0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x91, 0x01, 0x0a, 0x10,
+	0x4d, 0x61, 0x70, 0x46, 0x69, 0x78, 0x65, 0x64, 0x33, 0x32, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32,
+	0x12, 0x41, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x26, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x4d, 0x61, 0x70,
+	0x46, 0x69, 0x78, 0x65, 0x64, 0x33, 0x32, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x2e, 0x4d, 0x79,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69,
+	0x65, 0x6c, 0x64, 0x1a, 0x3a, 0x0a, 0x0c, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e,
+	0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x07,
+	0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22,
+	0x91, 0x01, 0x0a, 0x10, 0x4d, 0x61, 0x70, 0x46, 0x69, 0x78, 0x65, 0x64, 0x36, 0x34, 0x55, 0x69,
+	0x6e, 0x74, 0x33, 0x32, 0x12, 0x41, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65,
+	0x2e, 0x4d, 0x61, 0x70, 0x46, 0x69, 0x78, 0x65, 0x64, 0x36, 0x34, 0x55, 0x69, 0x6e, 0x74, 0x33,
+	0x32, 0x2e, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07,
+	0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a, 0x3a, 0x0a, 0x0c, 0x4d, 0x79, 0x46, 0x69, 0x65,
+	0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x06, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a,
+	0x02, 0x38, 0x01, 0x22, 0x8b, 0x01, 0x0a, 0x0d, 0x4d, 0x61, 0x70, 0x42, 0x6f, 0x6f, 0x6c, 0x55,
+	0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x3e, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c,
+	0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c,
+	0x65, 0x2e, 0x4d, 0x61, 0x70, 0x42, 0x6f, 0x6f, 0x6c, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x2e,
+	0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x6d, 0x79,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a, 0x3a, 0x0a, 0x0c, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64,
+	0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
+	0x01, 0x22, 0x8f, 0x01, 0x0a, 0x0f, 0x4d, 0x61, 0x70, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x55,
+	0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x40, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c,
+	0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c,
+	0x65, 0x2e, 0x4d, 0x61, 0x70, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x55, 0x69, 0x6e, 0x74, 0x33,
+	0x32, 0x2e, 0x4d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07,
+	0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a, 0x3a, 0x0a, 0x0c, 0x4d, 0x79, 0x46, 0x69, 0x65,
+	0x6c, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a,
+	0x02, 0x38, 0x01, 0x42, 0x0d, 0x5a, 0x0b, 0x2e, 0x2f, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65,
+	0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1515,7 +1964,7 @@ func file_example_proto_rawDescGZIP() []byte {
 }
 
 var file_example_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_example_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_example_proto_msgTypes = make([]protoimpl.MessageInfo, 42)
 var file_example_proto_goTypes = []interface{}{
 	(ImplicitEnum_MyEnum)(0),       // 0: example.ImplicitEnum.MyEnum
 	(ExplicitEnum_MyEnum)(0),       // 1: example.ExplicitEnum.MyEnum
@@ -1543,22 +1992,46 @@ var file_example_proto_goTypes = []interface{}{
 	(*ImplicitSubmessage)(nil),     // 23: example.ImplicitSubmessage
 	(*ExplicitSubmessage)(nil),     // 24: example.ExplicitSubmessage
 	(*RepeatedSubmessage)(nil),     // 25: example.RepeatedSubmessage
-	(*ImplicitSubmessage_Sub)(nil), // 26: example.ImplicitSubmessage.Sub
-	(*ExplicitSubmessage_Sub)(nil), // 27: example.ExplicitSubmessage.Sub
-	(*RepeatedSubmessage_Sub)(nil), // 28: example.RepeatedSubmessage.Sub
+	(*MapUint32Uint32)(nil),        // 26: example.MapUint32Uint32
+	(*MapUint32Fixed32)(nil),       // 27: example.MapUint32Fixed32
+	(*MapUint32Fixed64)(nil),       // 28: example.MapUint32Fixed64
+	(*MapUint32String)(nil),        // 29: example.MapUint32String
+	(*MapFixed32Uint32)(nil),       // 30: example.MapFixed32Uint32
+	(*MapFixed64Uint32)(nil),       // 31: example.MapFixed64Uint32
+	(*MapBoolUint32)(nil),          // 32: example.MapBoolUint32
+	(*MapStringUint32)(nil),        // 33: example.MapStringUint32
+	(*ImplicitSubmessage_Sub)(nil), // 34: example.ImplicitSubmessage.Sub
+	(*ExplicitSubmessage_Sub)(nil), // 35: example.ExplicitSubmessage.Sub
+	(*RepeatedSubmessage_Sub)(nil), // 36: example.RepeatedSubmessage.Sub
+	nil,                            // 37: example.MapUint32Uint32.MyFieldEntry
+	nil,                            // 38: example.MapUint32Fixed32.MyFieldEntry
+	nil,                            // 39: example.MapUint32Fixed64.MyFieldEntry
+	nil,                            // 40: example.MapUint32String.MyFieldEntry
+	nil,                            // 41: example.MapFixed32Uint32.MyFieldEntry
+	nil,                            // 42: example.MapFixed64Uint32.MyFieldEntry
+	nil,                            // 43: example.MapBoolUint32.MyFieldEntry
+	nil,                            // 44: example.MapStringUint32.MyFieldEntry
 }
 var file_example_proto_depIdxs = []int32{
 	0,  // 0: example.ImplicitEnum.my_field:type_name -> example.ImplicitEnum.MyEnum
 	1,  // 1: example.ExplicitEnum.my_field:type_name -> example.ExplicitEnum.MyEnum
 	2,  // 2: example.RepeatedEnum.my_field:type_name -> example.RepeatedEnum.MyEnum
-	26, // 3: example.ImplicitSubmessage.my_field:type_name -> example.ImplicitSubmessage.Sub
-	27, // 4: example.ExplicitSubmessage.my_field:type_name -> example.ExplicitSubmessage.Sub
-	28, // 5: example.RepeatedSubmessage.my_field:type_name -> example.RepeatedSubmessage.Sub
-	6,  // [6:6] is the sub-list for method output_type
-	6,  // [6:6] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	34, // 3: example.ImplicitSubmessage.my_field:type_name -> example.ImplicitSubmessage.Sub
+	35, // 4: example.ExplicitSubmessage.my_field:type_name -> example.ExplicitSubmessage.Sub
+	36, // 5: example.RepeatedSubmessage.my_field:type_name -> example.RepeatedSubmessage.Sub
+	37, // 6: example.MapUint32Uint32.my_field:type_name -> example.MapUint32Uint32.MyFieldEntry
+	38, // 7: example.MapUint32Fixed32.my_field:type_name -> example.MapUint32Fixed32.MyFieldEntry
+	39, // 8: example.MapUint32Fixed64.my_field:type_name -> example.MapUint32Fixed64.MyFieldEntry
+	40, // 9: example.MapUint32String.my_field:type_name -> example.MapUint32String.MyFieldEntry
+	41, // 10: example.MapFixed32Uint32.my_field:type_name -> example.MapFixed32Uint32.MyFieldEntry
+	42, // 11: example.MapFixed64Uint32.my_field:type_name -> example.MapFixed64Uint32.MyFieldEntry
+	43, // 12: example.MapBoolUint32.my_field:type_name -> example.MapBoolUint32.MyFieldEntry
+	44, // 13: example.MapStringUint32.my_field:type_name -> example.MapStringUint32.MyFieldEntry
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_example_proto_init() }
@@ -1844,7 +2317,7 @@ func file_example_proto_init() {
 			}
 		}
 		file_example_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ImplicitSubmessage_Sub); i {
+			switch v := v.(*MapUint32Uint32); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1856,7 +2329,7 @@ func file_example_proto_init() {
 			}
 		}
 		file_example_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ExplicitSubmessage_Sub); i {
+			switch v := v.(*MapUint32Fixed32); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1868,6 +2341,102 @@ func file_example_proto_init() {
 			}
 		}
 		file_example_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MapUint32Fixed64); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MapUint32String); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MapFixed32Uint32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MapFixed64Uint32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MapBoolUint32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MapStringUint32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ImplicitSubmessage_Sub); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ExplicitSubmessage_Sub); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RepeatedSubmessage_Sub); i {
 			case 0:
 				return &v.state
@@ -1889,7 +2458,7 @@ func file_example_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_example_proto_rawDesc,
 			NumEnums:      3,
-			NumMessages:   26,
+			NumMessages:   42,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

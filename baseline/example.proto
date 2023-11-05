@@ -124,3 +124,35 @@ message RepeatedSubmessage {
         repeated uint32 submessage_field = 1;
     }
 }
+
+message MapUint32Uint32 {
+    map<uint32, uint32> my_field = 1;
+}
+
+message MapUint32Fixed32 {
+    map<uint32, fixed32> my_field = 1;
+}
+
+message MapUint32Fixed64 {
+    map<uint32, fixed64> my_field = 1;
+}
+
+message MapUint32String {
+    map<uint32, string> my_field = 1;
+}
+
+message MapFixed32Uint32 {
+    map<fixed32, uint32> my_field = 1;
+}
+
+message MapFixed64Uint32 {
+    map<fixed64, uint32> my_field = 1;
+}
+
+message MapBoolUint32 {
+    map<bool, uint32> my_field = 1;
+}
+
+message MapStringUint32 {
+    map<string, uint32> my_field = 1;
+}
