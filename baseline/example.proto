@@ -3,6 +3,10 @@ package example;
 
 option go_package = "./examplepb";
 
+message RepeatedBool {
+    repeated bool my_field = 1;
+}
+
 message RequiredUint32 {
     uint32 my_field = 1;
 }
@@ -13,4 +17,64 @@ message OptionalUint32 {
 
 message RepeatedUint32 {
     repeated uint32 my_field = 1;
+}
+
+message RepeatedInt32 {
+    repeated int32 my_field = 1;
+}
+
+message RepeatedSint32 {
+    repeated sint32 my_field = 1;
+}
+
+message RepeatedUint64 {
+    repeated uint64 my_field = 1;
+}
+
+message RepeatedInt64 {
+    repeated int64 my_field = 1;
+}
+
+message RepeatedSint64 {
+    repeated sint64 my_field = 1;
+}
+
+message RepeatedFixed32 {
+    repeated fixed32 my_field = 1;
+}
+
+message RepeatedSfixed32 {
+    repeated sfixed32 my_field = 1;
+}
+
+message RepeatedFloat {
+    repeated float my_field = 1;
+}
+
+message RepeatedFixed64 {
+    repeated fixed64 my_field = 1;
+}
+
+message RepeatedSfixed64 {
+    repeated sfixed64 my_field = 1;
+}
+
+message RepeatedDouble {
+    repeated double my_field = 1;
+}
+
+message RepeatedBytes {
+    repeated bytes my_field = 1;
+}
+
+message RepeatedString {
+    repeated string my_field = 1;
+}
+
+message RepeatedSubmessage {
+    repeated Sub my_field = 1;
+
+    message Sub {
+        repeated uint32 submessage_field = 1;
+    }
 }

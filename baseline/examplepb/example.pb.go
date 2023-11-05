@@ -20,6 +20,53 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type RepeatedBool struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []bool `protobuf:"varint,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedBool) Reset() {
+	*x = RepeatedBool{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedBool) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedBool) ProtoMessage() {}
+
+func (x *RepeatedBool) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedBool.ProtoReflect.Descriptor instead.
+func (*RepeatedBool) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *RepeatedBool) GetMyField() []bool {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
 type RequiredUint32 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -31,7 +78,7 @@ type RequiredUint32 struct {
 func (x *RequiredUint32) Reset() {
 	*x = RequiredUint32{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_example_proto_msgTypes[0]
+		mi := &file_example_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -44,7 +91,7 @@ func (x *RequiredUint32) String() string {
 func (*RequiredUint32) ProtoMessage() {}
 
 func (x *RequiredUint32) ProtoReflect() protoreflect.Message {
-	mi := &file_example_proto_msgTypes[0]
+	mi := &file_example_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +104,7 @@ func (x *RequiredUint32) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RequiredUint32.ProtoReflect.Descriptor instead.
 func (*RequiredUint32) Descriptor() ([]byte, []int) {
-	return file_example_proto_rawDescGZIP(), []int{0}
+	return file_example_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *RequiredUint32) GetMyField() uint32 {
@@ -78,7 +125,7 @@ type OptionalUint32 struct {
 func (x *OptionalUint32) Reset() {
 	*x = OptionalUint32{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_example_proto_msgTypes[1]
+		mi := &file_example_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -91,7 +138,7 @@ func (x *OptionalUint32) String() string {
 func (*OptionalUint32) ProtoMessage() {}
 
 func (x *OptionalUint32) ProtoReflect() protoreflect.Message {
-	mi := &file_example_proto_msgTypes[1]
+	mi := &file_example_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +151,7 @@ func (x *OptionalUint32) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OptionalUint32.ProtoReflect.Descriptor instead.
 func (*OptionalUint32) Descriptor() ([]byte, []int) {
-	return file_example_proto_rawDescGZIP(), []int{1}
+	return file_example_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *OptionalUint32) GetMyField() uint32 {
@@ -125,7 +172,7 @@ type RepeatedUint32 struct {
 func (x *RepeatedUint32) Reset() {
 	*x = RepeatedUint32{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_example_proto_msgTypes[2]
+		mi := &file_example_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -138,7 +185,7 @@ func (x *RepeatedUint32) String() string {
 func (*RepeatedUint32) ProtoMessage() {}
 
 func (x *RepeatedUint32) ProtoReflect() protoreflect.Message {
-	mi := &file_example_proto_msgTypes[2]
+	mi := &file_example_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +198,7 @@ func (x *RepeatedUint32) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RepeatedUint32.ProtoReflect.Descriptor instead.
 func (*RepeatedUint32) Descriptor() ([]byte, []int) {
-	return file_example_proto_rawDescGZIP(), []int{2}
+	return file_example_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RepeatedUint32) GetMyField() []uint32 {
@@ -161,22 +208,775 @@ func (x *RepeatedUint32) GetMyField() []uint32 {
 	return nil
 }
 
+type RepeatedInt32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []int32 `protobuf:"varint,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedInt32) Reset() {
+	*x = RepeatedInt32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedInt32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedInt32) ProtoMessage() {}
+
+func (x *RepeatedInt32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedInt32.ProtoReflect.Descriptor instead.
+func (*RepeatedInt32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RepeatedInt32) GetMyField() []int32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedSint32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []int32 `protobuf:"zigzag32,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedSint32) Reset() {
+	*x = RepeatedSint32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedSint32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedSint32) ProtoMessage() {}
+
+func (x *RepeatedSint32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedSint32.ProtoReflect.Descriptor instead.
+func (*RepeatedSint32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *RepeatedSint32) GetMyField() []int32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedUint64 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []uint64 `protobuf:"varint,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedUint64) Reset() {
+	*x = RepeatedUint64{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedUint64) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedUint64) ProtoMessage() {}
+
+func (x *RepeatedUint64) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedUint64.ProtoReflect.Descriptor instead.
+func (*RepeatedUint64) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *RepeatedUint64) GetMyField() []uint64 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedInt64 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []int64 `protobuf:"varint,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedInt64) Reset() {
+	*x = RepeatedInt64{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedInt64) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedInt64) ProtoMessage() {}
+
+func (x *RepeatedInt64) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedInt64.ProtoReflect.Descriptor instead.
+func (*RepeatedInt64) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *RepeatedInt64) GetMyField() []int64 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedSint64 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []int64 `protobuf:"zigzag64,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedSint64) Reset() {
+	*x = RepeatedSint64{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedSint64) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedSint64) ProtoMessage() {}
+
+func (x *RepeatedSint64) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedSint64.ProtoReflect.Descriptor instead.
+func (*RepeatedSint64) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *RepeatedSint64) GetMyField() []int64 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedFixed32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []uint32 `protobuf:"fixed32,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedFixed32) Reset() {
+	*x = RepeatedFixed32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedFixed32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedFixed32) ProtoMessage() {}
+
+func (x *RepeatedFixed32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedFixed32.ProtoReflect.Descriptor instead.
+func (*RepeatedFixed32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *RepeatedFixed32) GetMyField() []uint32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedSfixed32 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []int32 `protobuf:"fixed32,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedSfixed32) Reset() {
+	*x = RepeatedSfixed32{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedSfixed32) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedSfixed32) ProtoMessage() {}
+
+func (x *RepeatedSfixed32) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedSfixed32.ProtoReflect.Descriptor instead.
+func (*RepeatedSfixed32) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RepeatedSfixed32) GetMyField() []int32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedFloat struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []float32 `protobuf:"fixed32,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedFloat) Reset() {
+	*x = RepeatedFloat{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedFloat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedFloat) ProtoMessage() {}
+
+func (x *RepeatedFloat) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedFloat.ProtoReflect.Descriptor instead.
+func (*RepeatedFloat) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *RepeatedFloat) GetMyField() []float32 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedFixed64 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []uint64 `protobuf:"fixed64,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedFixed64) Reset() {
+	*x = RepeatedFixed64{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedFixed64) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedFixed64) ProtoMessage() {}
+
+func (x *RepeatedFixed64) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedFixed64.ProtoReflect.Descriptor instead.
+func (*RepeatedFixed64) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *RepeatedFixed64) GetMyField() []uint64 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedSfixed64 struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []int64 `protobuf:"fixed64,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedSfixed64) Reset() {
+	*x = RepeatedSfixed64{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedSfixed64) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedSfixed64) ProtoMessage() {}
+
+func (x *RepeatedSfixed64) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedSfixed64.ProtoReflect.Descriptor instead.
+func (*RepeatedSfixed64) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *RepeatedSfixed64) GetMyField() []int64 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedDouble struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []float64 `protobuf:"fixed64,1,rep,packed,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedDouble) Reset() {
+	*x = RepeatedDouble{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedDouble) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedDouble) ProtoMessage() {}
+
+func (x *RepeatedDouble) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedDouble.ProtoReflect.Descriptor instead.
+func (*RepeatedDouble) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *RepeatedDouble) GetMyField() []float64 {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedBytes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField [][]byte `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedBytes) Reset() {
+	*x = RepeatedBytes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedBytes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedBytes) ProtoMessage() {}
+
+func (x *RepeatedBytes) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedBytes.ProtoReflect.Descriptor instead.
+func (*RepeatedBytes) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *RepeatedBytes) GetMyField() [][]byte {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedString struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []string `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedString) Reset() {
+	*x = RepeatedString{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedString) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedString) ProtoMessage() {}
+
+func (x *RepeatedString) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedString.ProtoReflect.Descriptor instead.
+func (*RepeatedString) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *RepeatedString) GetMyField() []string {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedSubmessage struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MyField []*RepeatedSubmessage_Sub `protobuf:"bytes,1,rep,name=my_field,json=myField,proto3" json:"my_field,omitempty"`
+}
+
+func (x *RepeatedSubmessage) Reset() {
+	*x = RepeatedSubmessage{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedSubmessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedSubmessage) ProtoMessage() {}
+
+func (x *RepeatedSubmessage) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedSubmessage.ProtoReflect.Descriptor instead.
+func (*RepeatedSubmessage) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *RepeatedSubmessage) GetMyField() []*RepeatedSubmessage_Sub {
+	if x != nil {
+		return x.MyField
+	}
+	return nil
+}
+
+type RepeatedSubmessage_Sub struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SubmessageField []uint32 `protobuf:"varint,1,rep,packed,name=submessage_field,json=submessageField,proto3" json:"submessage_field,omitempty"`
+}
+
+func (x *RepeatedSubmessage_Sub) Reset() {
+	*x = RepeatedSubmessage_Sub{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_example_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RepeatedSubmessage_Sub) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RepeatedSubmessage_Sub) ProtoMessage() {}
+
+func (x *RepeatedSubmessage_Sub) ProtoReflect() protoreflect.Message {
+	mi := &file_example_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RepeatedSubmessage_Sub.ProtoReflect.Descriptor instead.
+func (*RepeatedSubmessage_Sub) Descriptor() ([]byte, []int) {
+	return file_example_proto_rawDescGZIP(), []int{17, 0}
+}
+
+func (x *RepeatedSubmessage_Sub) GetSubmessageField() []uint32 {
+	if x != nil {
+		return x.SubmessageField
+	}
+	return nil
+}
+
 var File_example_proto protoreflect.FileDescriptor
 
 var file_example_proto_rawDesc = []byte{
 	0x0a, 0x0d, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
-	0x07, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65, 0x71, 0x75,
-	0x69, 0x72, 0x65, 0x64, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79,
-	0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x07, 0x6d, 0x79,
-	0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x3d, 0x0a, 0x0e, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x61,
-	0x6c, 0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x1e, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69,
-	0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x00, 0x52, 0x07, 0x6d, 0x79, 0x46,
-	0x69, 0x65, 0x6c, 0x64, 0x88, 0x01, 0x01, 0x42, 0x0b, 0x0a, 0x09, 0x5f, 0x6d, 0x79, 0x5f, 0x66,
-	0x69, 0x65, 0x6c, 0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64,
-	0x55, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65,
-	0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0d, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c,
-	0x64, 0x42, 0x0d, 0x5a, 0x0b, 0x2e, 0x2f, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x70, 0x62,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x07, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x22, 0x29, 0x0a, 0x0c, 0x52, 0x65, 0x70, 0x65,
+	0x61, 0x74, 0x65, 0x64, 0x42, 0x6f, 0x6f, 0x6c, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66,
+	0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x08, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69,
+	0x65, 0x6c, 0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x64, 0x55,
+	0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64,
+	0x22, 0x3d, 0x0a, 0x0e, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x55, 0x69, 0x6e, 0x74,
+	0x33, 0x32, 0x12, 0x1e, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0d, 0x48, 0x00, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x88,
+	0x01, 0x01, 0x42, 0x0b, 0x0a, 0x09, 0x5f, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x22,
+	0x2b, 0x0a, 0x0e, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x55, 0x69, 0x6e, 0x74, 0x33,
+	0x32, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0d, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2a, 0x0a, 0x0d,
+	0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x49, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x19, 0x0a,
+	0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x05, 0x52,
+	0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65, 0x70, 0x65,
+	0x61, 0x74, 0x65, 0x64, 0x53, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79,
+	0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x11, 0x52, 0x07, 0x6d, 0x79,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65,
+	0x64, 0x55, 0x69, 0x6e, 0x74, 0x36, 0x34, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69,
+	0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x04, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65,
+	0x6c, 0x64, 0x22, 0x2a, 0x0a, 0x0d, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x49, 0x6e,
+	0x74, 0x36, 0x34, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x03, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2b,
+	0x0a, 0x0e, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x53, 0x69, 0x6e, 0x74, 0x36, 0x34,
+	0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x12, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2c, 0x0a, 0x0f, 0x52,
+	0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x46, 0x69, 0x78, 0x65, 0x64, 0x33, 0x32, 0x12, 0x19,
+	0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x07,
+	0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2d, 0x0a, 0x10, 0x52, 0x65, 0x70,
+	0x65, 0x61, 0x74, 0x65, 0x64, 0x53, 0x66, 0x69, 0x78, 0x65, 0x64, 0x33, 0x32, 0x12, 0x19, 0x0a,
+	0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0f, 0x52,
+	0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2a, 0x0a, 0x0d, 0x52, 0x65, 0x70, 0x65,
+	0x61, 0x74, 0x65, 0x64, 0x46, 0x6c, 0x6f, 0x61, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f,
+	0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x02, 0x52, 0x07, 0x6d, 0x79, 0x46,
+	0x69, 0x65, 0x6c, 0x64, 0x22, 0x2c, 0x0a, 0x0f, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64,
+	0x46, 0x69, 0x78, 0x65, 0x64, 0x36, 0x34, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69,
+	0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x06, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65,
+	0x6c, 0x64, 0x22, 0x2d, 0x0a, 0x10, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x53, 0x66,
+	0x69, 0x78, 0x65, 0x64, 0x36, 0x34, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65,
+	0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x10, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c,
+	0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x44, 0x6f, 0x75,
+	0x62, 0x6c, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x01, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2a,
+	0x0a, 0x0d, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x74, 0x65, 0x73, 0x12,
+	0x19, 0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0c, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x2b, 0x0a, 0x0e, 0x52, 0x65,
+	0x70, 0x65, 0x61, 0x74, 0x65, 0x64, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x12, 0x19, 0x0a, 0x08,
+	0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x07,
+	0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x22, 0x82, 0x01, 0x0a, 0x12, 0x52, 0x65, 0x70, 0x65,
+	0x61, 0x74, 0x65, 0x64, 0x53, 0x75, 0x62, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x3a,
+	0x0a, 0x08, 0x6d, 0x79, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x1f, 0x2e, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x52, 0x65, 0x70, 0x65, 0x61,
+	0x74, 0x65, 0x64, 0x53, 0x75, 0x62, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x53, 0x75,
+	0x62, 0x52, 0x07, 0x6d, 0x79, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x1a, 0x30, 0x0a, 0x03, 0x53, 0x75,
+	0x62, 0x12, 0x29, 0x0a, 0x10, 0x73, 0x75, 0x62, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x5f,
+	0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0d, 0x52, 0x0f, 0x73, 0x75, 0x62,
+	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x42, 0x0d, 0x5a, 0x0b,
+	0x2e, 0x2f, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -191,18 +991,35 @@ func file_example_proto_rawDescGZIP() []byte {
 	return file_example_proto_rawDescData
 }
 
-var file_example_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_example_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_example_proto_goTypes = []interface{}{
-	(*RequiredUint32)(nil), // 0: example.RequiredUint32
-	(*OptionalUint32)(nil), // 1: example.OptionalUint32
-	(*RepeatedUint32)(nil), // 2: example.RepeatedUint32
+	(*RepeatedBool)(nil),           // 0: example.RepeatedBool
+	(*RequiredUint32)(nil),         // 1: example.RequiredUint32
+	(*OptionalUint32)(nil),         // 2: example.OptionalUint32
+	(*RepeatedUint32)(nil),         // 3: example.RepeatedUint32
+	(*RepeatedInt32)(nil),          // 4: example.RepeatedInt32
+	(*RepeatedSint32)(nil),         // 5: example.RepeatedSint32
+	(*RepeatedUint64)(nil),         // 6: example.RepeatedUint64
+	(*RepeatedInt64)(nil),          // 7: example.RepeatedInt64
+	(*RepeatedSint64)(nil),         // 8: example.RepeatedSint64
+	(*RepeatedFixed32)(nil),        // 9: example.RepeatedFixed32
+	(*RepeatedSfixed32)(nil),       // 10: example.RepeatedSfixed32
+	(*RepeatedFloat)(nil),          // 11: example.RepeatedFloat
+	(*RepeatedFixed64)(nil),        // 12: example.RepeatedFixed64
+	(*RepeatedSfixed64)(nil),       // 13: example.RepeatedSfixed64
+	(*RepeatedDouble)(nil),         // 14: example.RepeatedDouble
+	(*RepeatedBytes)(nil),          // 15: example.RepeatedBytes
+	(*RepeatedString)(nil),         // 16: example.RepeatedString
+	(*RepeatedSubmessage)(nil),     // 17: example.RepeatedSubmessage
+	(*RepeatedSubmessage_Sub)(nil), // 18: example.RepeatedSubmessage.Sub
 }
 var file_example_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	18, // 0: example.RepeatedSubmessage.my_field:type_name -> example.RepeatedSubmessage.Sub
+	1,  // [1:1] is the sub-list for method output_type
+	1,  // [1:1] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_example_proto_init() }
@@ -212,7 +1029,7 @@ func file_example_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_example_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RequiredUint32); i {
+			switch v := v.(*RepeatedBool); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -224,7 +1041,7 @@ func file_example_proto_init() {
 			}
 		}
 		file_example_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*OptionalUint32); i {
+			switch v := v.(*RequiredUint32); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -236,6 +1053,18 @@ func file_example_proto_init() {
 			}
 		}
 		file_example_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*OptionalUint32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RepeatedUint32); i {
 			case 0:
 				return &v.state
@@ -247,15 +1076,195 @@ func file_example_proto_init() {
 				return nil
 			}
 		}
+		file_example_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedInt32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedSint32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedUint64); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedInt64); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedSint64); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedFixed32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedSfixed32); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedFloat); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedFixed64); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedSfixed64); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedDouble); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedBytes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedString); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedSubmessage); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_example_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RepeatedSubmessage_Sub); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
-	file_example_proto_msgTypes[1].OneofWrappers = []interface{}{}
+	file_example_proto_msgTypes[2].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_example_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

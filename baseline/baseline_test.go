@@ -2,6 +2,7 @@
 package baseline_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -67,13 +68,156 @@ func TestSerialization(t *testing.T) {
 			datatype: &examplepb.RepeatedUint32{},
 			want:     `{"myField":[]}`,
 		},
-		// For unknown reason, it sometimes emits whitespace and sometimes not.
-		// {
-		// 	name:     "Parse non-repeated fiel of size 2",
-		// 	data:     []byte("\x08\x01\x08\x02"),
-		// 	datatype: &examplepb.RepeatedUint32{},
-		// 	want:     `{"myField":[1, 2]}`,
-		// },
+		{
+			name:     "Parse non-repeated fiel of size 2",
+			data:     []byte("\x08\x01\x08\x02"),
+			datatype: &examplepb.RepeatedUint32{},
+			want:     `{"myField":[1,2]}`,
+		},
+		{
+			name:     "bool",
+			data:     []byte("\x08\x00\x08\x01"),
+			datatype: &examplepb.RepeatedBool{},
+			want:     `{"myField":[false,true]}`,
+		},
+		{
+			name:     "uint32",
+			data:     []byte("\x08\x00\x08\x01\x08\x02\x08\xff\xff\xff\xff\x0f"),
+			datatype: &examplepb.RepeatedUint32{},
+			want:     `{"myField":[0,1,2,4294967295]}`,
+		},
+		{
+			name:     "int32",
+			data:     []byte("\x08\x00\x08\x01\x08\x02\x08\xff\xff\xff\xff\x0f"),
+			datatype: &examplepb.RepeatedInt32{},
+			want:     `{"myField":[0,1,2,-1]}`,
+		},
+		{
+			name:     "sint32",
+			data:     []byte("\x08\x00\x08\x01\x08\x02\x08\x03\x08\x04"),
+			datatype: &examplepb.RepeatedSint32{},
+			want:     `{"myField":[0,-1,1,-2,2]}`,
+		},
+		{
+			name:     "uint64",
+			data:     []byte("\x08\x00\x08\x01\x08\x02\x08\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01"),
+			datatype: &examplepb.RepeatedUint64{},
+			want:     `{"myField":["0","1","2","18446744073709551615"]}`,
+		},
+		{
+			name:     "int64",
+			data:     []byte("\x08\x00\x08\x01\x08\x02\x08\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01"),
+			datatype: &examplepb.RepeatedInt64{},
+			want:     `{"myField":["0","1","2","-1"]}`,
+		},
+		{
+			name:     "sint64",
+			data:     []byte("\x08\x00\x08\x01\x08\x02\x08\x03\x08\x04"),
+			datatype: &examplepb.RepeatedSint64{},
+			want:     `{"myField":["0","-1","1","-2","2"]}`,
+		},
+		{
+			name: "fixed32",
+			data: []byte(
+				"" +
+					"\x0d\x00\x00\x00\x00" +
+					"\x0d\x01\x00\x00\x00" +
+					"\x0d\x02\x00\x00\x00" +
+					"\x0d\xff\xff\xff\xff",
+			),
+			datatype: &examplepb.RepeatedFixed32{},
+			want:     `{"myField":[0,1,2,4294967295]}`,
+		},
+		{
+			name: "sfixed32",
+			data: []byte(
+				"" +
+					"\x0d\x00\x00\x00\x00" +
+					"\x0d\x01\x00\x00\x00" +
+					"\x0d\x02\x00\x00\x00" +
+					"\x0d\xff\xff\xff\xff",
+			),
+			datatype: &examplepb.RepeatedSfixed32{},
+			want:     `{"myField":[0,1,2,-1]}`,
+		},
+		{
+			name: "float",
+			data: []byte(
+				"" +
+					"\x0d\x00\x00\x00\x00" +
+					"\x0d\x00\x00\x00\x80" +
+					"\x0d\x00\x00\x80\x3f" +
+					"\x0d\x00\x00\x80\xbf" +
+					"\x0d\x00\x00\xc0\x3f" +
+					"\x0d\x00\x00\xc0\xbf" +
+					"\x0d\x00\x00\x80\x7f" +
+					"\x0d\x00\x00\x80\xff" +
+					"\x0d\x00\x00\xc0\x7f" +
+					"\x0d\x00\x00\xc0\xff",
+			),
+			datatype: &examplepb.RepeatedFloat{},
+			want:     `{"myField":[0,-0,1,-1,1.5,-1.5,"Infinity","-Infinity","NaN","NaN"]}`,
+		},
+		{
+			name: "fixed64",
+			data: []byte(
+				"" +
+					"\x09\x00\x00\x00\x00\x00\x00\x00\x00" +
+					"\x09\x01\x00\x00\x00\x00\x00\x00\x00" +
+					"\x09\x02\x00\x00\x00\x00\x00\x00\x00" +
+					"\x09\xff\xff\xff\xff\xff\xff\xff\xff",
+			),
+			datatype: &examplepb.RepeatedFixed64{},
+			want:     `{"myField":["0","1","2","18446744073709551615"]}`,
+		},
+		{
+			name: "sfixed64",
+			data: []byte(
+				"" +
+					"\x09\x00\x00\x00\x00\x00\x00\x00\x00" +
+					"\x09\x01\x00\x00\x00\x00\x00\x00\x00" +
+					"\x09\x02\x00\x00\x00\x00\x00\x00\x00" +
+					"\x09\xff\xff\xff\xff\xff\xff\xff\xff",
+			),
+			datatype: &examplepb.RepeatedSfixed64{},
+			want:     `{"myField":["0","1","2","-1"]}`,
+		},
+		{
+			name: "double",
+			data: []byte(
+				"" +
+					"\x09\x00\x00\x00\x00\x00\x00\x00\x00" +
+					"\x09\x00\x00\x00\x00\x00\x00\x00\x80" +
+					"\x09\x00\x00\x00\x00\x00\x00\xf0\x3f" +
+					"\x09\x00\x00\x00\x00\x00\x00\xf0\xbf" +
+					"\x09\x00\x00\x00\x00\x00\x00\xf8\x3f" +
+					"\x09\x00\x00\x00\x00\x00\x00\xf8\xbf" +
+					"\x09\x00\x00\x00\x00\x00\x00\xf0\x7f" +
+					"\x09\x00\x00\x00\x00\x00\x00\xf0\xff" +
+					"\x09\x00\x00\x00\x00\x00\x00\xf8\x7f" +
+					"\x09\x00\x00\x00\x00\x00\x00\xf8\xff",
+			),
+			datatype: &examplepb.RepeatedDouble{},
+			want:     `{"myField":[0,-0,1,-1,1.5,-1.5,"Infinity","-Infinity","NaN","NaN"]}`,
+		},
+		{
+			name:     "bytes",
+			data:     []byte("\x0a\x00\x0a\x06\x00\x01\x02\x80\x81\x82"),
+			datatype: &examplepb.RepeatedBytes{},
+			want:     `{"myField":["","AAECgIGC"]}`,
+		},
+		{
+			name:     "string",
+			data:     []byte("\x0a\x00\x0a\x06\x61\x62\x63\xe3\x81\x82"),
+			datatype: &examplepb.RepeatedString{},
+			want:     `{"myField":["","abcあ"]}`,
+		},
+		{
+			name:     "submessage",
+			data:     []byte("\x0a\x02\x08\x2a"),
+			datatype: &examplepb.RepeatedSubmessage{},
+			want:     `{"myField":[{"submessageField":[42]}]}`,
+		},
 	}
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -85,6 +229,9 @@ func TestSerialization(t *testing.T) {
 			got := protojson.MarshalOptions{
 				EmitUnpopulated: true,
 			}.Format(msg)
+			// protojson seems to have some random behavior on whitespace.
+			// Let's just ignore it for now.
+			got = strings.ReplaceAll(got, " ", "")
 			if diff := cmp.Diff(tc.want, got); diff != "" {
 				t.Errorf("protojson.Format() mismatch (-want +got):\n%s", diff)
 			}
