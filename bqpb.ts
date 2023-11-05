@@ -102,6 +102,15 @@ function readVarint(state: WireState): bigint {
   return result;
 }
 
+function readLE(state: WireState, bytelen: number): bigint {
+  let value = 0n;
+  for (let i = 0; i < bytelen; i++) {
+    const byte = readByte(state);
+    value |= BigInt(byte) << BigInt(i * 8);
+  }
+  return value;
+}
+
 export type WireField = IntegralWireField | BytesWireField | GroupWireField;
 export type IntegralWireField = {
   /** field number */
@@ -154,11 +163,7 @@ function readField(state: WireState, endGroup?: bigint): WireField | null {
     case 1:
     case 5: {
       const len = wireType === 1 ? 8 : 4;
-      let value = 0n;
-      for (let i = 0; i < len; i++) {
-        const byte = readByte(state);
-        value |= BigInt(byte) << BigInt(i * 8);
-      }
+      const value = readLE(state, len);
       return { f: fieldNumber, w: wireType, v: value };
     }
     // LEN
@@ -292,8 +297,8 @@ function interpretWire(
   const msgDesc = typedefs[`message ${messageType}`];
   if (msgDesc) {
     for (const [fieldName, fieldDesc] of Object.entries(msgDesc)) {
-      const values = fieldsById[fieldDesc.id as unknown as string] ?? [];
-      delete fieldsById[fieldDesc.id as unknown as string];
+      const values = fieldsById[fieldDesc.id] ?? [];
+      delete fieldsById[fieldDesc.id];
 
       const typeDesc = getType(fieldDesc.type, typedefs);
       const { fieldPresence = "explicit" } = fieldDesc;
@@ -301,9 +306,34 @@ function interpretWire(
       let interpretedValue: JSONValue;
       // let isZero: boolean;
       if (fieldDesc.repeated) {
-        // TODO: packed
+        let unpackedValues = values;
+        if (typeDesc < THRESHOLD_I64) {
+          unpackedValues = [];
+          for (const packedValue of values) {
+            if (packedValue.w !== 2) {
+              unpackedValues.push(packedValue);
+              continue;
+            }
+            const state: WireState = { b: packedValue.v, p: 0 };
+            while (state.p < packedValue.v.length) {
+              if (typeDesc < THRESHOLD_VARINT) {
+                unpackedValues.push({
+                  f: BigInt(fieldDesc.id),
+                  w: 0,
+                  v: readVarint(state),
+                });
+              } else {
+                unpackedValues.push({
+                  f: BigInt(fieldDesc.id),
+                  w: typeDesc < THRESHOLD_I32 ? 5 : 1,
+                  v: readLE(state, typeDesc < THRESHOLD_I32 ? 4 : 8),
+                });
+              }
+            }
+          }
+        }
 
-        interpretedValue = values.map((value) =>
+        interpretedValue = unpackedValues.map((value) =>
           interpretOne(value, typeDesc, fieldDesc.type, typedefs)
         );
         // isZero = interpretedValue.length === 0;

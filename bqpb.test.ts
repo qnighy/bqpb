@@ -635,6 +635,24 @@ Deno.test("parseBytes", async (t) => {
           myField: ["0", "-1", "1", "-2", "2"],
         });
       });
+      await t.step("parses packed varint", () => {
+        const actual = parseBytes(
+          b`\x0a\x08\x00\x01\x02\xff\xff\xff\xff\x0f`,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                repeated: true,
+                type: "uint32",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: [0, 1, 2, 4294967295],
+        });
+      });
     });
     await t.step("parsing of I32 datatypes", async (t) => {
       await t.step("parses fixed32", () => {
@@ -723,6 +741,30 @@ Deno.test("parseBytes", async (t) => {
           ],
         });
       });
+      await t.step("parses packed I32", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x10`,
+            ...b`\x00\x00\x00\x00`,
+            ...b`\x01\x00\x00\x00`,
+            ...b`\x02\x00\x00\x00`,
+            ...b`\xff\xff\xff\xff`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                repeated: true,
+                type: "fixed32",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: [0, 1, 2, 4294967295],
+        });
+      });
     });
     await t.step("parsing of I64 datatypes", async (t) => {
       await t.step("parses fixed64", () => {
@@ -809,6 +851,30 @@ Deno.test("parseBytes", async (t) => {
             "NaN",
             "NaN",
           ],
+        });
+      });
+      await t.step("parses packed I64", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x20`,
+            ...b`\x00\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x01\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x02\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\xff\xff\xff\xff\xff\xff\xff\xff`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                repeated: true,
+                type: "fixed64",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: ["0", "1", "2", "18446744073709551615"],
         });
       });
     });

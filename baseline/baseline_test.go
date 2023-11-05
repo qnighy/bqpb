@@ -135,6 +135,12 @@ func TestSerialization(t *testing.T) {
 			want:     `{"myField":["0","-1","1","-2","2"]}`,
 		},
 		{
+			name:     "packed varint",
+			data:     []byte("\x0a\x08\x00\x01\x02\xff\xff\xff\xff\x0f"),
+			datatype: &examplepb.RepeatedUint32{},
+			want:     `{"myField":[0,1,2,4294967295]}`,
+		},
+		{
 			name: "fixed32",
 			data: []byte(
 				"" +
@@ -177,6 +183,18 @@ func TestSerialization(t *testing.T) {
 			want:     `{"myField":[0,-0,1,-1,1.5,-1.5,"Infinity","-Infinity","NaN","NaN"]}`,
 		},
 		{
+			name: "packed I32",
+			data: []byte(
+				"\x0a\x10" +
+					"\x00\x00\x00\x00" +
+					"\x01\x00\x00\x00" +
+					"\x02\x00\x00\x00" +
+					"\xff\xff\xff\xff",
+			),
+			datatype: &examplepb.RepeatedFixed32{},
+			want:     `{"myField":[0,1,2,4294967295]}`,
+		},
+		{
 			name: "fixed64",
 			data: []byte(
 				"" +
@@ -217,6 +235,18 @@ func TestSerialization(t *testing.T) {
 			),
 			datatype: &examplepb.RepeatedDouble{},
 			want:     `{"myField":[0,-0,1,-1,1.5,-1.5,"Infinity","-Infinity","NaN","NaN"]}`,
+		},
+		{
+			name: "packed I64",
+			data: []byte(
+				"\x0a\x20" +
+					"\x00\x00\x00\x00\x00\x00\x00\x00" +
+					"\x01\x00\x00\x00\x00\x00\x00\x00" +
+					"\x02\x00\x00\x00\x00\x00\x00\x00" +
+					"\xff\xff\xff\xff\xff\xff\xff\xff",
+			),
+			datatype: &examplepb.RepeatedFixed64{},
+			want:     `{"myField":["0","1","2","18446744073709551615"]}`,
 		},
 		{
 			name:     "bytes",
