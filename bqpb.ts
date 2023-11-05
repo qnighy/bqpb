@@ -290,7 +290,7 @@ function interpretWire(
       const values = fieldsById[fieldDesc.id as unknown as string] ?? [];
       delete fieldsById[fieldDesc.id as unknown as string];
 
-      const typeDesc = getType(fieldDesc.type);
+      const typeDesc = getType(fieldDesc.type, typedefs);
 
       let interpretedValue: JSONValue;
       // let isZero: boolean;
@@ -453,15 +453,16 @@ const typeMap: Record<string, number> = {
   bytes: TYPE_BYTES,
   string: TYPE_STRING,
 };
-function getType(typeName: string): number {
+function getType(typeName: string, typedefs: Typedefs): number {
   if (typeName in typeMap) return typeMap[typeName];
-  throw new Error("TODO: enum, message, map, or group");
+  if (`message ${typeName}` in typedefs) return TYPE_MESSAGE;
+  throw new Error("TODO: enum, map, or group");
 }
 function interpretOne(
   fieldData: WireField,
   typeDesc: number,
   typeName: string,
-  typedefs: JSONValue,
+  typedefs: Typedefs,
 ): JSONValue {
   if (typeDesc < THRESHOLD_I64) {
     const expectedWireType = typeDesc < THRESHOLD_VARINT
@@ -506,8 +507,10 @@ function interpretOne(
       return encodeBase64(fieldData.v);
     } else if (typeDesc === TYPE_STRING) {
       return decodeUTF8(fieldData.v);
+    } else if (typeDesc === TYPE_MAP) {
+      throw new Error("TODO: map");
     } else {
-      throw new Error("TODO: map, msg");
+      return parseBytes(fieldData.v, typeName, typedefs);
     }
   } else {
     throw new Error("TODO: wire type 3");

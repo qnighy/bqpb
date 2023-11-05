@@ -1265,6 +1265,38 @@ Deno.test("parseBytes", async (t) => {
           myField: ["", "abcあ"],
         });
       });
+      await t.step("parses submessage", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            10,
+            2,
+            8,
+            42,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                label: "repeated",
+                type: "Sub",
+                id: 1,
+              },
+            },
+            "message Sub": {
+              submessageField: {
+                label: "repeated",
+                type: "uint32",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: [{
+            submessageField: [42],
+          }],
+        });
+      });
     });
   });
 });
