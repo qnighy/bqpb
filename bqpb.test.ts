@@ -281,7 +281,7 @@ Deno.test("parseBytes", async (t) => {
     });
   });
   await t.step("when schema is provided", async (t) => {
-    await t.step("when the field is regular (non-optional)", async (t) => {
+    await t.step("when the field has implicit presence", async (t) => {
       await t.step("parses simple field", () => {
         const actual = parseBytes(
           b`\x08\x01`,

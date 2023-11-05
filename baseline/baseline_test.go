@@ -21,19 +21,19 @@ func TestSerialization(t *testing.T) {
 		want     string
 	}{
 		{
-			name:     "Parse non-optional simple field",
+			name:     "Parse field with implicit presence of size 1",
 			data:     []byte("\x08\x01"),
 			datatype: &examplepb.ImplicitUint32{},
 			want:     `{"myField":1}`,
 		},
 		{
-			name:     "Parse non-optional field with default value",
+			name:     "Parse field with implicit presence of size 0",
 			data:     []byte(""),
 			datatype: &examplepb.ImplicitUint32{},
 			want:     `{"myField":0}`,
 		},
 		{
-			name:     "Pick the last one on duplicate in non-optional field",
+			name:     "Pick the last one on duplicate in field with implicit presence",
 			data:     []byte("\x08\x01\x08\x02"),
 			datatype: &examplepb.ImplicitUint32{},
 			want:     `{"myField":2}`,
