@@ -306,7 +306,12 @@ function interpretWire(
         typedefs,
         fieldDesc.messageEncoding,
       );
-      const { fieldPresence = "explicit" } = fieldDesc;
+      // NOTE: this is currently the only place where oneofGroup is used.
+      // It could also be used to pick only the last value within the group,
+      // But to do that we cannot rely on fieldsById.
+      const fieldPresence = fieldDesc.oneofGroup != null
+        ? "explicit"
+        : fieldDesc.fieldPresence ?? "explicit";
 
       let interpretedValue: JSONValue;
       // let isZero: boolean;
@@ -351,9 +356,7 @@ function interpretWire(
           interpretOne(value, typeDesc, fieldDesc.type, typedefs)
         );
         // isZero = interpretedValue.length === 0;
-      } else if (
-        fieldPresence === "explicit" || fieldDesc.oneofGroup
-      ) {
+      } else if (fieldPresence === "explicit") {
         interpretedValue = values.length > 0
           ? interpretOne(
             values[values.length - 1],
@@ -375,7 +378,7 @@ function interpretWire(
         // isZero = interpretedValue === ZERO_VALUES[typeDesc];
       }
       if (
-        fieldPresence === "explicit" && !fieldDesc.oneofGroup &&
+        fieldPresence === "explicit" &&
         (interpretedValue === null ||
           typeDesc === TYPE_ENUM &&
             interpretedValue ===

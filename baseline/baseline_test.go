@@ -368,6 +368,14 @@ func TestSerialization(t *testing.T) {
 			datatype: &example2pb.RepeatedGroup{},
 			want:     `{"myField":[{"submessageField":[42]}]}`,
 		},
+		{
+			name: "oneof",
+			data: []byte(
+				"\x12\x03\xe3\x81\x82",
+			),
+			datatype: &examplepb.Oneof{},
+			want:     `{"stringField":"あ"}`,
+		},
 	}
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {
