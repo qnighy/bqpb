@@ -326,7 +326,7 @@ function interpretGenericWire(
         : fieldDesc.fieldPresence ?? "explicit";
 
       let interpretedValue: JSONValue;
-      // let isZero: boolean;
+      let isPresent: boolean;
       if (typeDesc === TYPE_MAP) {
         const kv = values.map((value) =>
           interpretOne(value, typeDesc, fieldDesc.type, typedefs) as [
@@ -335,7 +335,8 @@ function interpretGenericWire(
           ]
         );
         interpretedValue = Object.fromEntries(kv);
-        // isZero = kv.length === 0;
+        isPresent = true;
+        // isPresent = kv.length > 0; // When EmitUnpopulated is off
       } else if (fieldDesc.repeated) {
         let unpackedValues = values;
         if (typeDesc < THRESHOLD_I64) {
@@ -367,7 +368,8 @@ function interpretGenericWire(
         interpretedValue = unpackedValues.map((value) =>
           interpretOne(value, typeDesc, fieldDesc.type, typedefs)
         );
-        // isZero = interpretedValue.length === 0;
+        isPresent = true;
+        // isPresent = interpretedValue.length > 0; // When EmitUnpopulated is off
       } else if (fieldPresence === "explicit") {
         interpretedValue = values.length > 0
           ? interpretOne(
@@ -377,7 +379,7 @@ function interpretGenericWire(
             typedefs,
           )
           : null;
-        // isZero = interpretedValue != null;
+        isPresent = values.length > 0;
       } else {
         interpretedValue = values.length > 0
           ? interpretOne(
@@ -387,18 +389,12 @@ function interpretGenericWire(
             typedefs,
           )
           : getZeroValue(typeDesc, fieldDesc.type, typedefs);
-        // isZero = interpretedValue === ZERO_VALUES[typeDesc];
+        isPresent = true;
+        // isPresent = interpretedValue !== ZERO_VALUES[typeDesc]; // When EmitUnpopulated is off
       }
-      if (
-        fieldPresence === "explicit" &&
-        (interpretedValue === null ||
-          typeDesc === TYPE_ENUM &&
-            interpretedValue ===
-              getZeroValue(typeDesc, fieldDesc.type, typedefs))
-      ) {
-        continue;
+      if (isPresent) {
+        result[fieldName] = interpretedValue;
       }
-      result[fieldName] = interpretedValue;
     }
   }
 
