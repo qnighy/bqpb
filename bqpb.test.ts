@@ -1239,5 +1239,80 @@ Deno.test("parseBytes", async (t) => {
         });
       });
     });
+
+    await t.step("parsing of well-known datatypes", async (t) => {
+      // {
+      // 	name:     "wrapper: missing",
+      // 	data:     []byte(""),
+      // 	datatype: &examplepb.ImplicitUint32Wrapper{},
+      // 	want:     `{"myField":null}`,
+      // },
+      await t.step("parses wrapper (missing case)", () => {
+        const actual = parseBytes(
+          b``,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "google.protobuf.UInt32Value",
+                id: 1,
+                fieldPresence: "implicit",
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: null,
+        });
+      });
+      // {
+      // 	name:     "wrapper: empty",
+      // 	data:     []byte("\x0a\x00"),
+      // 	datatype: &examplepb.ImplicitUint32Wrapper{},
+      // 	want:     `{"myField":0}`,
+      // },
+      await t.step("parses wrapper (empty case)", () => {
+        const actual = parseBytes(
+          b`\x0a\x00`,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "google.protobuf.UInt32Value",
+                id: 1,
+                fieldPresence: "implicit",
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: 0,
+        });
+      });
+      // {
+      // 	name:     "wrapper: inhabited",
+      // 	data:     []byte("\x0a\x02\x08\x2a"),
+      // 	datatype: &examplepb.ImplicitUint32Wrapper{},
+      // 	want:     `{"myField":42}`,
+      // },
+      await t.step("parses wrapper (inhabitaed case)", () => {
+        const actual = parseBytes(
+          b`\x0a\x02\x08\x2a`,
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "google.protobuf.UInt32Value",
+                id: 1,
+                fieldPresence: "implicit",
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: 42,
+        });
+      });
+    });
   });
 });

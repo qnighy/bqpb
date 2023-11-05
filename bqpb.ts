@@ -288,6 +288,18 @@ function interpretWire(
   messageType: string,
   typedefs: Typedefs,
 ): JSONValue {
+  const result = interpretSpecialWire(fields, messageType, typedefs);
+  if (result !== undefined) {
+    return result;
+  }
+  return interpretGenericWire(fields, messageType, typedefs);
+}
+
+function interpretGenericWire(
+  fields: WireField[],
+  messageType: string,
+  typedefs: Typedefs,
+): JSONValue {
   const fieldsById: Record<string, WireField[]> = {};
   for (const field of fields) {
     (fieldsById[field.f as unknown as string] ??= []).push(field);
@@ -544,11 +556,8 @@ function getType(
 ): number {
   if (typeName in typeMap) return typeMap[typeName];
   if (typeName.startsWith("map<")) return TYPE_MAP;
-  if (`message ${typeName}` in typedefs) {
-    return messageEncoding === "delimited" ? TYPE_GROUP : TYPE_MESSAGE;
-  }
   if (`enum ${typeName}` in typedefs) return TYPE_ENUM;
-  throw new Error(`Unknown type ${typeName}`);
+  return messageEncoding === "delimited" ? TYPE_GROUP : TYPE_MESSAGE;
 }
 function interpretOne(
   fieldData: WireField,
@@ -670,4 +679,23 @@ export function parse(
   typedefs: JSONValue,
 ): JSONValue {
   return parseBytes(decodeBase64(input), messageType, typedefs as Typedefs);
+}
+function interpretSpecialWire(
+  fields: WireField[],
+  messageType: string,
+  typedefs: Typedefs,
+): JSONValue | undefined {
+  if (!messageType.startsWith("google.protobuf.")) {
+    return undefined;
+  }
+  const shortType = messageType.slice(16);
+  if (/^(U?Int(32|64)|Double|Float|Bool|String|Bytes)Value$/.test(shortType)) {
+    const baseType = shortType.slice(0, -5).toLowerCase();
+    const baseTypeDesc = getType(baseType, typedefs);
+    const field = fields.findLast((field) => field.f === 1n);
+    return field
+      ? interpretOne(field, baseTypeDesc, baseType, typedefs)
+      : getZeroValue(baseTypeDesc, baseType, typedefs);
+  }
+  return undefined;
 }

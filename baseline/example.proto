@@ -3,6 +3,8 @@ package example;
 
 option go_package = "./examplepb";
 
+import "google/protobuf/wrappers.proto";
+
 message ImplicitEnum {
     MyEnum my_field = 1;
 
@@ -162,4 +164,8 @@ message Oneof {
         uint32 uint32_field = 1;
         string string_field = 2;
     }
+}
+
+message ImplicitUint32Wrapper {
+    google.protobuf.UInt32Value my_field = 1;
 }

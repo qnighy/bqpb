@@ -376,6 +376,24 @@ func TestSerialization(t *testing.T) {
 			datatype: &examplepb.Oneof{},
 			want:     `{"stringField":"あ"}`,
 		},
+		{
+			name:     "wrapper: missing",
+			data:     []byte(""),
+			datatype: &examplepb.ImplicitUint32Wrapper{},
+			want:     `{"myField":null}`,
+		},
+		{
+			name:     "wrapper: empty",
+			data:     []byte("\x0a\x00"),
+			datatype: &examplepb.ImplicitUint32Wrapper{},
+			want:     `{"myField":0}`,
+		},
+		{
+			name:     "wrapper: inhabited",
+			data:     []byte("\x0a\x02\x08\x2a"),
+			datatype: &examplepb.ImplicitUint32Wrapper{},
+			want:     `{"myField":42}`,
+		},
 	}
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {
