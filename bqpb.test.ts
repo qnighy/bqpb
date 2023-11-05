@@ -1,79 +1,70 @@
 import { assertEquals } from "https://deno.land/std@0.204.0/assert/mod.ts";
 import { decodeBase64, encodeBase64, parseBytes, parseWire } from "./bqpb.ts";
+import { b } from "./utils/b.ts";
 
 Deno.test("decodeBase64", async (t) => {
-  const table: [string, number[]][] = [
-    ["", []],
-    ["QQ==", [65]],
-    ["QUJDREVGRw==", [65, 66, 67, 68, 69, 70, 71]],
+  const table: [string, Uint8Array][] = [
+    ["", b``],
+    ["QQ==", b`A`],
+    ["QUJDREVGRw==", b`ABCDEFG`],
     [
       "Dal74UOj7Gj/iyPbDLcVfGmro1s=",
-      // deno-fmt-ignore
-      [13, 169, 123, 225, 67, 163, 236, 104, 255, 139, 35, 219, 12, 183, 21, 124, 105, 171, 163, 91],
+      b`\x0d\xa9\x7b\xe1\x43\xa3\xec\x68\xff\x8b\x23\xdb\x0c\xb7\x15\x7c\x69\xab\xa3\x5b`,
     ],
     [
       "97droGaOgNphfcLuxP3VbG5x+eE=",
-      // deno-fmt-ignore
-      [247, 183, 107, 160, 102, 142, 128, 218, 97, 125, 194, 238, 196, 253, 213, 108, 110, 113, 249, 225],
+      b`\xf7\xb7\x6b\xa0\x66\x8e\x80\xda\x61\x7d\xc2\xee\xc4\xfd\xd5\x6c\x6e\x71\xf9\xe1`,
     ],
     [
       "dy02wdI0Nhy5L1h4m7dS6E7+WoNa",
-      // deno-fmt-ignore
-      [119, 45, 54, 193, 210, 52, 54, 28, 185, 47, 88, 120, 155, 183, 82, 232, 78, 254, 90, 131, 90],
+      b`\x77\x2d\x36\xc1\xd2\x34\x36\x1c\xb9\x2f\x58\x78\x9b\xb7\x52\xe8\x4e\xfe\x5a\x83\x5a`,
     ],
     [
       "2DA5Tl26oXOrZNZwLwKB+6JWv3xssQ==",
-      // deno-fmt-ignore
-      [216, 48, 57, 78, 93, 186, 161, 115, 171, 100, 214, 112, 47, 2, 129, 251, 162, 86, 191, 124, 108, 177],
+      b`\xd8\x30\x39\x4e\x5d\xba\xa1\x73\xab\x64\xd6\x70\x2f\x02\x81\xfb\xa2\x56\xbf\x7c\x6c\xb1`,
     ],
     [
       "zHJIpshLXB9ye+e1I4AZlgEsH70lNyg=",
-      // deno-fmt-ignore
-      [204, 114, 72, 166, 200, 75, 92, 31, 114, 123, 231, 181, 35, 128, 25, 150, 1, 44, 31, 189, 37, 55, 40],
+      b`\xcc\x72\x48\xa6\xc8\x4b\x5c\x1f\x72\x7b\xe7\xb5\x23\x80\x19\x96\x01\x2c\x1f\xbd\x25\x37\x28`,
     ],
   ];
   for (const [input, expected] of table) {
     await t.step(`Decodes ${input} as [${expected}]`, () => {
       const actual = decodeBase64(input);
-      assertEquals(actual, Uint8Array.from(expected));
+      assertEquals(actual, expected);
     });
   }
 });
 
 Deno.test("encodeBase64", async (t) => {
-  const table: [string, number[]][] = [
-    ["", []],
-    ["QQ==", [65]],
-    ["QUJDREVGRw==", [65, 66, 67, 68, 69, 70, 71]],
+  const table: [string, Uint8Array][] = [
+    ["", b``],
+    ["QQ==", b`A`],
+    ["QUJDREVGRw==", b`ABCDEFG`],
     [
       "Dal74UOj7Gj/iyPbDLcVfGmro1s=",
-      // deno-fmt-ignore
-      [13, 169, 123, 225, 67, 163, 236, 104, 255, 139, 35, 219, 12, 183, 21, 124, 105, 171, 163, 91],
+      b`\x0d\xa9\x7b\xe1\x43\xa3\xec\x68\xff\x8b\x23\xdb\x0c\xb7\x15\x7c\x69\xab\xa3\x5b`,
     ],
     [
       "97droGaOgNphfcLuxP3VbG5x+eE=",
-      // deno-fmt-ignore
-      [247, 183, 107, 160, 102, 142, 128, 218, 97, 125, 194, 238, 196, 253, 213, 108, 110, 113, 249, 225],
+      b`\xf7\xb7\x6b\xa0\x66\x8e\x80\xda\x61\x7d\xc2\xee\xc4\xfd\xd5\x6c\x6e\x71\xf9\xe1`,
     ],
     [
       "dy02wdI0Nhy5L1h4m7dS6E7+WoNa",
-      // deno-fmt-ignore
-      [119, 45, 54, 193, 210, 52, 54, 28, 185, 47, 88, 120, 155, 183, 82, 232, 78, 254, 90, 131, 90],
+      b`\x77\x2d\x36\xc1\xd2\x34\x36\x1c\xb9\x2f\x58\x78\x9b\xb7\x52\xe8\x4e\xfe\x5a\x83\x5a`,
     ],
     [
       "2DA5Tl26oXOrZNZwLwKB+6JWv3xssQ==",
-      // deno-fmt-ignore
-      [216, 48, 57, 78, 93, 186, 161, 115, 171, 100, 214, 112, 47, 2, 129, 251, 162, 86, 191, 124, 108, 177],
+      b`\xd8\x30\x39\x4e\x5d\xba\xa1\x73\xab\x64\xd6\x70\x2f\x02\x81\xfb\xa2\x56\xbf\x7c\x6c\xb1`,
     ],
     [
       "zHJIpshLXB9ye+e1I4AZlgEsH70lNyg=",
-      // deno-fmt-ignore
-      [204, 114, 72, 166, 200, 75, 92, 31, 114, 123, 231, 181, 35, 128, 25, 150, 1, 44, 31, 189, 37, 55, 40],
+      b`\xcc\x72\x48\xa6\xc8\x4b\x5c\x1f\x72\x7b\xe7\xb5\x23\x80\x19\x96\x01\x2c\x1f\xbd\x25\x37\x28`,
     ],
   ];
   for (const [expected, input] of table) {
     await t.step(`Encodes [${input}] as ${expected}`, () => {
-      const actual = encodeBase64(Uint8Array.from(input));
+      const actual = encodeBase64(input);
       assertEquals(actual, expected);
     });
   }
@@ -81,11 +72,11 @@ Deno.test("encodeBase64", async (t) => {
 
 Deno.test("parseWire", async (t) => {
   await t.step("parses empty bytes", () => {
-    const actual = parseWire(Uint8Array.from([]));
+    const actual = parseWire(b``);
     assertEquals(actual, []);
   });
   await t.step("parses multiple fields", () => {
-    const actual = parseWire(Uint8Array.from([112, 50, 88, 54]));
+    const actual = parseWire(b`\x70\x32\x58\x36`);
     assertEquals(actual, [
       {
         f: 14n,
@@ -100,7 +91,7 @@ Deno.test("parseWire", async (t) => {
     ]);
   });
   await t.step("parses VARINT", () => {
-    const actual = parseWire(Uint8Array.from([240, 35, 221, 144, 7]));
+    const actual = parseWire(b`\xf0\x23\xdd\x90\x07`);
     assertEquals(actual, [
       {
         f: 574n,
@@ -111,7 +102,7 @@ Deno.test("parseWire", async (t) => {
   });
   await t.step("parses I64", () => {
     const actual = parseWire(
-      Uint8Array.from([49, 17, 18, 19, 20, 21, 22, 23, 24]),
+      b`\x31\x11\x12\x13\x14\x15\x16\x17\x18`,
     );
     assertEquals(actual, [
       {
@@ -122,7 +113,7 @@ Deno.test("parseWire", async (t) => {
     ]);
   });
   await t.step("parses I32", () => {
-    const actual = parseWire(Uint8Array.from([53, 17, 18, 19, 20]));
+    const actual = parseWire(b`\x35\x11\x12\x13\x14`);
     assertEquals(actual, [
       {
         f: 6n,
@@ -132,7 +123,7 @@ Deno.test("parseWire", async (t) => {
     ]);
   });
   await t.step("parses LEN", () => {
-    const actual = parseWire(Uint8Array.from([66, 5, 1, 2, 3, 4, 5]));
+    const actual = parseWire(b`\x42\x05\x01\x02\x03\x04\x05`);
     assertEquals(actual, [
       {
         f: 8n,
@@ -142,7 +133,7 @@ Deno.test("parseWire", async (t) => {
     ]);
   });
   await t.step("parses GROUP", () => {
-    const actual = parseWire(Uint8Array.from([75, 112, 50, 88, 54, 76]));
+    const actual = parseWire(b`\x4b\x70\x32\x58\x36\x4c`);
     assertEquals(actual, [
       {
         f: 9n,
@@ -167,34 +158,30 @@ Deno.test("parseWire", async (t) => {
 Deno.test("parseBytes", async (t) => {
   await t.step("when no schema is provided", async (t) => {
     await t.step("parses empty bytes", () => {
-      const actual = parseBytes(Uint8Array.from([]), "Main", {});
+      const actual = parseBytes(b``, "Main", {});
       assertEquals(actual, {});
     });
     await t.step("parses varint", () => {
-      const actual = parseBytes(Uint8Array.from([8, 55]), "Main", {});
+      const actual = parseBytes(b`\x08\x37`, "Main", {});
       assertEquals(actual, {
         "#1": "unknown:uint64:55",
       });
     });
     await t.step("parses multiple values", () => {
-      const actual = parseBytes(Uint8Array.from([8, 55, 8, 60]), "Main", {});
+      const actual = parseBytes(b`\x08\x37\x08\x3c`, "Main", {});
       assertEquals(actual, {
         "#1": ["unknown:uint64:55", "unknown:uint64:60"],
       });
     });
     await t.step("infers int32", () => {
-      const actual = parseBytes(
-        Uint8Array.from([8, 255, 255, 255, 255, 15]),
-        "Main",
-        {},
-      );
+      const actual = parseBytes(b`\x08\xff\xff\xff\xff\x0f`, "Main", {});
       assertEquals(actual, {
         "#1": "unknown:int32:-1",
       });
     });
     await t.step("infers int64", () => {
       const actual = parseBytes(
-        Uint8Array.from([8, 255, 255, 255, 255, 255, 255, 255, 255, 255, 1]),
+        b`\x08\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01`,
         "Main",
         {},
       );
@@ -205,87 +192,15 @@ Deno.test("parseBytes", async (t) => {
     await t.step("infers double", () => {
       const actual = parseBytes(
         Uint8Array.from([
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          128,
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          240,
-          63,
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          240,
-          191,
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          248,
-          63,
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          248,
-          191,
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          240,
-          127,
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          240,
-          255,
-          9,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          248,
-          127,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\x00\x00`,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\x00\x80`,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\xf0\x3f`,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\xf0\xbf`,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\xf8\x3f`,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\xf8\xbf`,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\xf0\x7f`,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\xf0\xff`,
+          ...b`\x09\x00\x00\x00\x00\x00\x00\xf8\x7f`,
         ]),
         "Main",
         {},
@@ -307,51 +222,15 @@ Deno.test("parseBytes", async (t) => {
     await t.step("infers float", () => {
       const actual = parseBytes(
         Uint8Array.from([
-          13,
-          0,
-          0,
-          0,
-          0,
-          13,
-          0,
-          0,
-          0,
-          128,
-          13,
-          0,
-          0,
-          128,
-          63,
-          13,
-          0,
-          0,
-          128,
-          191,
-          13,
-          0,
-          0,
-          192,
-          63,
-          13,
-          0,
-          0,
-          192,
-          191,
-          13,
-          0,
-          0,
-          128,
-          127,
-          13,
-          0,
-          0,
-          128,
-          255,
-          13,
-          0,
-          0,
-          192,
-          127,
+          ...b`\x0d\x00\x00\x00\x00`,
+          ...b`\x0d\x00\x00\x00\x80`,
+          ...b`\x0d\x00\x00\x80\x3f`,
+          ...b`\x0d\x00\x00\x80\xbf`,
+          ...b`\x0d\x00\x00\xc0\x3f`,
+          ...b`\x0d\x00\x00\xc0\xbf`,
+          ...b`\x0d\x00\x00\x80\x7f`,
+          ...b`\x0d\x00\x00\x80\xff`,
+          ...b`\x0d\x00\x00\xc0\x7f`,
         ]),
         "Main",
         {},
@@ -372,17 +251,7 @@ Deno.test("parseBytes", async (t) => {
     });
     await t.step("infers sfixed64", () => {
       const actual = parseBytes(
-        Uint8Array.from([
-          9,
-          246,
-          255,
-          255,
-          255,
-          255,
-          255,
-          255,
-          255,
-        ]),
+        b`\x09\xf6\xff\xff\xff\xff\xff\xff\xff`,
         "Main",
         {},
       );
@@ -392,13 +261,7 @@ Deno.test("parseBytes", async (t) => {
     });
     await t.step("infers sfixed32", () => {
       const actual = parseBytes(
-        Uint8Array.from([
-          13,
-          246,
-          255,
-          255,
-          255,
-        ]),
+        b`\x0d\xf6\xff\xff\xff`,
         "Main",
         {},
       );
@@ -408,7 +271,7 @@ Deno.test("parseBytes", async (t) => {
     });
     await t.step("parses length-delimited", () => {
       const actual = parseBytes(
-        Uint8Array.from([10, 3, 10, 11, 12]),
+        b`\x0a\x03\x0a\x0b\x0c`,
         "Main",
         {},
       );
@@ -421,10 +284,7 @@ Deno.test("parseBytes", async (t) => {
     await t.step("when the field is regular (non-optional)", async (t) => {
       await t.step("parses simple field", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            1,
-          ]),
+          b`\x08\x01`,
           "Main",
           {
             "message Main": {
@@ -440,7 +300,7 @@ Deno.test("parseBytes", async (t) => {
         });
       });
       await t.step("uses zero value", () => {
-        const actual = parseBytes(Uint8Array.from([]), "Main", {
+        const actual = parseBytes(b``, "Main", {
           "message Main": {
             myField: {
               type: "uint32",
@@ -454,12 +314,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("picks the last one on duplicate", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            1,
-            8,
-            2,
-          ]),
+          b`\x08\x01\x08\x02`,
           "Main",
           {
             "message Main": {
@@ -478,10 +333,7 @@ Deno.test("parseBytes", async (t) => {
     await t.step("when the field is optional", async (t) => {
       await t.step("parses simple field", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            1,
-          ]),
+          b`\x08\x01`,
           "Main",
           {
             "message Main": {
@@ -498,7 +350,7 @@ Deno.test("parseBytes", async (t) => {
         });
       });
       await t.step("returns null on missing field", () => {
-        const actual = parseBytes(Uint8Array.from([]), "Main", {
+        const actual = parseBytes(b``, "Main", {
           "message Main": {
             myField: {
               label: "optional",
@@ -513,12 +365,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("picks the last one on duplicate", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            1,
-            8,
-            2,
-          ]),
+          b`\x08\x01\x08\x02`,
           "Main",
           {
             "message Main": {
@@ -538,10 +385,7 @@ Deno.test("parseBytes", async (t) => {
     await t.step("when the field is repeated", async (t) => {
       await t.step("parses field of length 1", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            1,
-          ]),
+          b`\x08\x01`,
           "Main",
           {
             "message Main": {
@@ -558,7 +402,7 @@ Deno.test("parseBytes", async (t) => {
         });
       });
       await t.step("returns empty array on missing field", () => {
-        const actual = parseBytes(Uint8Array.from([]), "Main", {
+        const actual = parseBytes(b``, "Main", {
           "message Main": {
             myField: {
               label: "repeated",
@@ -573,12 +417,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses field of length 2", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            1,
-            8,
-            2,
-          ]),
+          b`\x08\x01\x08\x02`,
           "Main",
           {
             "message Main": {
@@ -599,12 +438,7 @@ Deno.test("parseBytes", async (t) => {
     await t.step("parsing of VARINT datatypes", async (t) => {
       await t.step("parses bool", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            0,
-            8,
-            1,
-          ]),
+          b`\x08\x00\x08\x01`,
           "Main",
           {
             "message Main": {
@@ -622,20 +456,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses uint32", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            0,
-            8,
-            1,
-            8,
-            2,
-            8,
-            255,
-            255,
-            255,
-            255,
-            15,
-          ]),
+          b`\x08\x00\x08\x01\x08\x02\x08\xff\xff\xff\xff\x0f`,
           "Main",
           {
             "message Main": {
@@ -653,20 +474,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses int32", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            0,
-            8,
-            1,
-            8,
-            2,
-            8,
-            255,
-            255,
-            255,
-            255,
-            15,
-          ]),
+          b`\x08\x00\x08\x01\x08\x02\x08\xff\xff\xff\xff\x0f`,
           "Main",
           {
             "message Main": {
@@ -684,18 +492,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses sint32", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            0,
-            8,
-            1,
-            8,
-            2,
-            8,
-            3,
-            8,
-            4,
-          ]),
+          b`\x08\x00\x08\x01\x08\x02\x08\x03\x08\x04`,
           "Main",
           {
             "message Main": {
@@ -713,25 +510,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses uint64", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            0,
-            8,
-            1,
-            8,
-            2,
-            8,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            1,
-          ]),
+          b`\x08\x00\x08\x01\x08\x02\x08\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01`,
           "Main",
           {
             "message Main": {
@@ -749,25 +528,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses int64", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            0,
-            8,
-            1,
-            8,
-            2,
-            8,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            1,
-          ]),
+          b`\x08\x00\x08\x01\x08\x02\x08\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01`,
           "Main",
           {
             "message Main": {
@@ -785,18 +546,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses sint64", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            8,
-            0,
-            8,
-            1,
-            8,
-            2,
-            8,
-            3,
-            8,
-            4,
-          ]),
+          b`\x08\x00\x08\x01\x08\x02\x08\x03\x08\x04`,
           "Main",
           {
             "message Main": {
@@ -817,26 +567,10 @@ Deno.test("parseBytes", async (t) => {
       await t.step("parses fixed32", () => {
         const actual = parseBytes(
           Uint8Array.from([
-            13,
-            0,
-            0,
-            0,
-            0,
-            13,
-            1,
-            0,
-            0,
-            0,
-            13,
-            2,
-            0,
-            0,
-            0,
-            13,
-            255,
-            255,
-            255,
-            255,
+            ...b`\x0d\x00\x00\x00\x00`,
+            ...b`\x0d\x01\x00\x00\x00`,
+            ...b`\x0d\x02\x00\x00\x00`,
+            ...b`\x0d\xff\xff\xff\xff`,
           ]),
           "Main",
           {
@@ -856,26 +590,10 @@ Deno.test("parseBytes", async (t) => {
       await t.step("parses sfixed32", () => {
         const actual = parseBytes(
           Uint8Array.from([
-            13,
-            0,
-            0,
-            0,
-            0,
-            13,
-            1,
-            0,
-            0,
-            0,
-            13,
-            2,
-            0,
-            0,
-            0,
-            13,
-            255,
-            255,
-            255,
-            255,
+            ...b`\x0d\x00\x00\x00\x00`,
+            ...b`\x0d\x01\x00\x00\x00`,
+            ...b`\x0d\x02\x00\x00\x00`,
+            ...b`\x0d\xff\xff\xff\xff`,
           ]),
           "Main",
           {
@@ -895,56 +613,16 @@ Deno.test("parseBytes", async (t) => {
       await t.step("parses float", () => {
         const actual = parseBytes(
           Uint8Array.from([
-            13,
-            0,
-            0,
-            0,
-            0,
-            13,
-            0,
-            0,
-            0,
-            128,
-            13,
-            0,
-            0,
-            128,
-            63,
-            13,
-            0,
-            0,
-            128,
-            191,
-            13,
-            0,
-            0,
-            192,
-            63,
-            13,
-            0,
-            0,
-            192,
-            191,
-            13,
-            0,
-            0,
-            128,
-            127,
-            13,
-            0,
-            0,
-            128,
-            255,
-            13,
-            0,
-            0,
-            192,
-            127,
-            13,
-            0,
-            0,
-            192,
-            255,
+            ...b`\x0d\x00\x00\x00\x00`,
+            ...b`\x0d\x00\x00\x00\x80`,
+            ...b`\x0d\x00\x00\x80\x3f`,
+            ...b`\x0d\x00\x00\x80\xbf`,
+            ...b`\x0d\x00\x00\xc0\x3f`,
+            ...b`\x0d\x00\x00\xc0\xbf`,
+            ...b`\x0d\x00\x00\x80\x7f`,
+            ...b`\x0d\x00\x00\x80\xff`,
+            ...b`\x0d\x00\x00\xc0\x7f`,
+            ...b`\x0d\x00\x00\xc0\xff`,
           ]),
           "Main",
           {
@@ -977,42 +655,10 @@ Deno.test("parseBytes", async (t) => {
       await t.step("parses fixed64", () => {
         const actual = parseBytes(
           Uint8Array.from([
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            9,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            9,
-            2,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            9,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x09\x01\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x09\x02\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x09\xff\xff\xff\xff\xff\xff\xff\xff`,
           ]),
           "Main",
           {
@@ -1032,42 +678,10 @@ Deno.test("parseBytes", async (t) => {
       await t.step("parses sfixed64", () => {
         const actual = parseBytes(
           Uint8Array.from([
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            9,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            9,
-            2,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            9,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
-            255,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x09\x01\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x09\x02\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x09\xff\xff\xff\xff\xff\xff\xff\xff`,
           ]),
           "Main",
           {
@@ -1087,96 +701,16 @@ Deno.test("parseBytes", async (t) => {
       await t.step("parses double", () => {
         const actual = parseBytes(
           Uint8Array.from([
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            128,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            240,
-            63,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            240,
-            191,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            248,
-            63,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            248,
-            191,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            240,
-            127,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            240,
-            255,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            248,
-            127,
-            9,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            248,
-            255,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\x00\x00`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\x00\x80`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\xf0\x3f`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\xf0\xbf`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\xf8\x3f`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\xf8\xbf`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\xf0\x7f`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\xf0\xff`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\xf8\x7f`,
+            ...b`\x09\x00\x00\x00\x00\x00\x00\xf8\xff`,
           ]),
           "Main",
           {
@@ -1209,18 +743,7 @@ Deno.test("parseBytes", async (t) => {
     await t.step("parsing of LEN datatypes", async (t) => {
       await t.step("parses bytes", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            10,
-            0,
-            10,
-            6,
-            0,
-            1,
-            2,
-            128,
-            129,
-            130,
-          ]),
+          b`\x0a\x00\x0a\x06\x00\x01\x02\x80\x81\x82`,
           "Main",
           {
             "message Main": {
@@ -1238,18 +761,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses string", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            10,
-            0,
-            10,
-            6,
-            97,
-            98,
-            99,
-            227,
-            129,
-            130,
-          ]),
+          b`\x0a\x00\x0a\x06\x61\x62\x63\xe3\x81\x82`,
           "Main",
           {
             "message Main": {
@@ -1267,12 +779,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses submessage", () => {
         const actual = parseBytes(
-          Uint8Array.from([
-            10,
-            2,
-            8,
-            42,
-          ]),
+          b`\x0a\x02\x08\x2a`,
           "Main",
           {
             "message Main": {
