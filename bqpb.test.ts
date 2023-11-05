@@ -388,7 +388,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "uint32",
                 id: 1,
               },
@@ -403,7 +403,7 @@ Deno.test("parseBytes", async (t) => {
         const actual = parseBytes(b``, "Main", {
           "message Main": {
             myField: {
-              label: "repeated",
+              repeated: true,
               type: "uint32",
               id: 1,
             },
@@ -420,7 +420,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "uint32",
                 id: 1,
               },
@@ -441,7 +441,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "MyEnum",
                 id: 1,
               },
@@ -512,7 +512,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "bool",
                 id: 1,
               },
@@ -530,7 +530,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "uint32",
                 id: 1,
               },
@@ -548,7 +548,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "int32",
                 id: 1,
               },
@@ -566,7 +566,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "sint32",
                 id: 1,
               },
@@ -584,7 +584,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "uint64",
                 id: 1,
               },
@@ -602,7 +602,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "int64",
                 id: 1,
               },
@@ -620,7 +620,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "sint64",
                 id: 1,
               },
@@ -645,7 +645,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "fixed32",
                 id: 1,
               },
@@ -668,7 +668,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "sfixed32",
                 id: 1,
               },
@@ -697,7 +697,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "float",
                 id: 1,
               },
@@ -733,7 +733,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "fixed64",
                 id: 1,
               },
@@ -756,7 +756,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "sfixed64",
                 id: 1,
               },
@@ -785,7 +785,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "double",
                 id: 1,
               },
@@ -817,7 +817,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "bytes",
                 id: 1,
               },
@@ -835,7 +835,7 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "string",
                 id: 1,
               },
@@ -853,14 +853,14 @@ Deno.test("parseBytes", async (t) => {
           {
             "message Main": {
               myField: {
-                label: "repeated",
+                repeated: true,
                 type: "Sub",
                 id: 1,
               },
             },
             "message Sub": {
               submessageField: {
-                label: "repeated",
+                repeated: true,
                 type: "uint32",
                 id: 1,
               },
@@ -886,7 +886,7 @@ Deno.test("parseBytes", async (t) => {
             },
             "message Sub": {
               submessageField: {
-                label: "repeated",
+                repeated: true,
                 type: "uint32",
                 id: 1,
               },
@@ -911,7 +911,7 @@ Deno.test("parseBytes", async (t) => {
             },
             "message Sub": {
               submessageField: {
-                label: "repeated",
+                repeated: true,
                 type: "uint32",
                 id: 1,
               },

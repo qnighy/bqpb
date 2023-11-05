@@ -261,7 +261,8 @@ export type MessageDef = Record<string, FieldDef>;
 export type FieldDef = {
   type: string;
   id: number;
-  label?: "optional" | "repeated";
+  repeated?: boolean;
+  label?: "optional";
   oneofGroup?: string;
 };
 export type EnumDef = {
@@ -298,7 +299,7 @@ function interpretWire(
 
       let interpretedValue: JSONValue;
       // let isZero: boolean;
-      if (fieldDesc.label === "repeated") {
+      if (fieldDesc.repeated) {
         // TODO: packed
 
         interpretedValue = values.map((value) =>
