@@ -153,3 +153,7 @@ SELECT parseProtobuf(b'\x08\x01', 'Main', JSON"""{
   }
 }""")
 ```
+
+### API Reference
+
+See [parse-protobuf.md](docs/parse-protobuf.md).
