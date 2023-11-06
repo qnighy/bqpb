@@ -38,6 +38,8 @@ CREATE TEMP FUNCTION parseProtobuf(input BYTES, messageType STRING, typedefs JSO
 RETURNS JSON DETERMINISTIC
 LANGUAGE js
 AS r"""
+// bqpb v0.1.0
+// (c) 2023, Masaki Hara. Licensed under the MIT License.
 "use strict";function n(n){
 const t=(n+"=").indexOf("="),e=new Uint8Array(.75*t|0);for(let r=0;t>r;r++){
 const t=n.charCodeAt(r),o=.75*r+.75|0,i=t-(96>t?64>t?48>t?47>t?-19:-16:-4:65:71)<<2+r%4*2

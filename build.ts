@@ -7,6 +7,7 @@ import { minify } from "npm:terser@5";
 
 type Babel = typeof babel;
 
+const version = (await Deno.readTextFile("version.txt")).trim();
 const origSource = await Deno.readTextFile("bqpb.ts");
 
 const babelResult = await babel.transformAsync(origSource, {
@@ -55,6 +56,8 @@ CREATE TEMP FUNCTION parseProtobuf(input BYTES, messageType STRING, typedefs JSO
 RETURNS JSON DETERMINISTIC
 LANGUAGE js
 AS r"""
+// bqpb v${version}
+// (c) 2023, Masaki Hara. Licensed under the MIT License.
 ${minifyResult.code}
 """;
 `,
