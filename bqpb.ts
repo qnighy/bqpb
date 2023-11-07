@@ -194,62 +194,6 @@ export function parseWire(input: Uint8Array): WireField[] {
   return readFields(state);
 }
 
-function inferScalarType(field: IntegralWireField): string {
-  const { w: wireType, v: value } = field;
-
-  // Infer floating point numbers
-  if (wireType === 1) {
-    const fabs = value & 0x7FFFFFFFFFFFFFFFn;
-    if (
-      // zero
-      fabs === 0n ||
-      // reasonable range of normalized numbers
-      0x3000000000000000n <= fabs && fabs < 0x5000000000000000n ||
-      // infinity
-      fabs === 0x7FF0000000000000n ||
-      // popular NaN representation
-      fabs === 0x7FF8000000000000n
-    ) {
-      return "double";
-    }
-  }
-  if (wireType === 5) {
-    const fabs = value & 0x7FFFFFFFn;
-    if (
-      // zero
-      fabs === 0n ||
-      // reasonable range of normalized numbers
-      0x30000000n <= fabs && fabs < 0x50000000n ||
-      // infinity
-      fabs === 0x7F800000n ||
-      // popular NaN representation
-      fabs === 0x7FC00000n
-    ) {
-      return "float";
-    }
-  }
-
-  // Infer signed integers
-  if (0xE0000000n <= value && value < 0x100000000n) {
-    if (wireType === 0) return "int32";
-    if (wireType === 5) return "sfixed32";
-  }
-  if (0xE000000000000000n <= value && value < 0x10000000000000000n) {
-    if (wireType === 0) return "int64";
-    if (wireType === 1) return "sfixed64";
-  }
-
-  // Fall back to unsigned integers
-  if (wireType === 1) return "fixed64";
-  if (wireType === 5) return "fixed32";
-  return "uint64";
-
-  // Not inferred:
-  // - bool
-  // - enum
-  // - signed-succinct variants (sint32, sint64)
-}
-
 export type JSONValue =
   | null
   | boolean
@@ -402,39 +346,41 @@ function interpretGenericWire(
   for (const wireValues of Object.values(fieldsById)) {
     const f = wireValues[0].f;
     const repr = wireValues.map((field) => {
-      let repr: JSONValue;
       if (field.w === 2) {
-        repr = `unknown:bytes:${encodeBase64(field.v)}`;
-      } else if (field.w === 3) {
-        repr = interpretWire(field.v, messageType, typedefs);
-      } else {
-        const scalarType = inferScalarType(field);
-        switch (scalarType) {
-          case "double":
-            repr = `unknown:double:${printNumber(reinterpretDouble(field.v))}`;
-            break;
-          case "float":
-            repr = `unknown:float:${printNumber(reinterpretFloat(field.v))}`;
-            break;
-          case "int32":
-          case "sfixed32":
-            repr = `unknown:${scalarType}:${
-              (field.v & 0xFFFFFFFFn) - ((field.v >> 31n) & 1n) * 0x100000000n
-            }`;
-            break;
-          case "int64":
-          case "sfixed64":
-            repr = `unknown:${scalarType}:${
-              (field.v & 0xFFFFFFFFFFFFFFFFn) -
-              ((field.v >> 63n) & 1n) * 0x10000000000000000n
-            }`;
-            break;
-          default:
-            repr = `unknown:uint64:${field.v}`;
-            break;
+        try {
+          const stringValue = decodeUTF8(field.v);
+          // deno-lint-ignore no-control-regex
+          if (!/[\0-\x08\x0b-\x1F\x7F]/.test(stringValue)) {
+            return `unknown:string:${stringValue}`;
+          }
+        } catch (_e) {
+          // not a UTF-8 string; try other inference
         }
+        try {
+          return parseBytes(field.v, "", typedefs);
+        } catch (_e) {
+          // not a submessage
+        }
+        return `unknown:bytes:${encodeBase64(field.v)}`;
+      } else if (field.w === 3) {
+        return interpretWire(field.v, "", typedefs);
+      } else {
+        const scalarType = field.w === 1
+          ? "double"
+          : field.w === 5
+          ? "float"
+          : field.v < 0x100000000n
+          ? "int32"
+          : "int64";
+        return `unknown:${scalarType}:${
+          interpretOne(
+            field,
+            getType(scalarType, typedefs),
+            scalarType,
+            typedefs,
+          )
+        }`;
       }
-      return repr;
     });
     result[`#${f}`] = repr.length === 1 ? repr[0] : repr;
   }
@@ -664,9 +610,6 @@ function reinterpretDouble(value: bigint): number {
 }
 function reinterpretFloat(value: bigint): number {
   return new Float32Array(Uint32Array.of(Number(value)).buffer)[0];
-}
-function printNumber(value: number): string {
-  return value === 0 && 1 / value < 0 ? "-0" : `${value}`;
 }
 
 export function parse(

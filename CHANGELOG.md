@@ -2,6 +2,12 @@
 
 ## [unreleased]
 
+### Changed
+
+- Reworked schema inference.
+  - fixed-length integers are no longer inferred, as they are usually represented as varints.
+  - it also tries to decode strings and submessages.
+
 ## [0.1.0] - 2023-11-06
 
 ### Added

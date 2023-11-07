@@ -164,13 +164,13 @@ Deno.test("parseBytes", async (t) => {
     await t.step("parses varint", () => {
       const actual = parseBytes(b`\x08\x37`, "Main", {});
       assertEquals(actual, {
-        "#1": "unknown:uint64:55",
+        "#1": "unknown:int32:55",
       });
     });
     await t.step("parses multiple values", () => {
       const actual = parseBytes(b`\x08\x37\x08\x3c`, "Main", {});
       assertEquals(actual, {
-        "#1": ["unknown:uint64:55", "unknown:uint64:60"],
+        "#1": ["unknown:int32:55", "unknown:int32:60"],
       });
     });
     await t.step("infers int32", () => {
@@ -208,7 +208,7 @@ Deno.test("parseBytes", async (t) => {
       assertEquals(actual, {
         "#1": [
           "unknown:double:0",
-          "unknown:double:-0",
+          "unknown:double:0",
           "unknown:double:1",
           "unknown:double:-1",
           "unknown:double:1.5",
@@ -238,7 +238,7 @@ Deno.test("parseBytes", async (t) => {
       assertEquals(actual, {
         "#1": [
           "unknown:float:0",
-          "unknown:float:-0",
+          "unknown:float:0",
           "unknown:float:1",
           "unknown:float:-1",
           "unknown:float:1.5",
@@ -249,27 +249,29 @@ Deno.test("parseBytes", async (t) => {
         ],
       });
     });
-    await t.step("infers sfixed64", () => {
+    await t.step("parses length-delimited as string", () => {
       const actual = parseBytes(
-        b`\x09\xf6\xff\xff\xff\xff\xff\xff\xff`,
+        b`\x0a\x06\x61\x62\x63\xe3\x81\x82`,
         "Main",
         {},
       );
       assertEquals(actual, {
-        "#1": "unknown:sfixed64:-10",
+        "#1": "unknown:string:abcあ",
       });
     });
-    await t.step("infers sfixed32", () => {
+    await t.step("parses length-delimited as submessage", () => {
       const actual = parseBytes(
-        b`\x0d\xf6\xff\xff\xff`,
+        b`\x0a\x02\x08\x2a`,
         "Main",
         {},
       );
       assertEquals(actual, {
-        "#1": "unknown:sfixed32:-10",
+        "#1": {
+          "#1": "unknown:int32:42",
+        },
       });
     });
-    await t.step("parses length-delimited", () => {
+    await t.step("parses length-delimited as bytes", () => {
       const actual = parseBytes(
         b`\x0a\x03\x0a\x0b\x0c`,
         "Main",
