@@ -19,3 +19,11 @@
 
 [unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/qnighy/bqpb/releases/tag/v0.1.0
+
+## Early history
+
+The idea of this project dates back to 2019, when I wrote the following code snippet for my work:
+
+https://gist.github.com/qnighy/79d5eedbd4cf26a573c2cbd09a4b3956
+
+It was a rather specialized function that only works for a specific protobuf schema, and it also lacked support for a certain construct, like groups.
