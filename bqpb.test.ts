@@ -1189,6 +1189,29 @@ Deno.test("parseBytes", async (t) => {
           },
         });
       });
+      await t.step("parses map with missing value", () => {
+        const actual = parseBytes(
+          Uint8Array.from([
+            ...b`\x0a\x05\x0a\x03\xe3\x81\x82`,
+            ...b`\x0a\x05\x0a\x03\xe3\x81\x84`,
+          ]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                type: "map<string,uint32>",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: {
+            あ: null,
+            い: null,
+          },
+        });
+      });
       await t.step("parses group", () => {
         const actual = parseBytes(
           b`\x0b\x08\x2a\x0c`,

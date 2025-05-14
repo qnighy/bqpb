@@ -276,8 +276,8 @@ function interpretGenericWire(
           interpretOne(value, typeDesc, fieldDesc.type, typedefs) as [
             number | string,
             JSONValue,
-          ]
-        );
+          ] | null
+        ).filter((value) => value != null);
         interpretedValue = Object.fromEntries(kv);
         isPresent = true;
         // isPresent = kv.length > 0; // When EmitUnpopulated is off
@@ -573,11 +573,15 @@ function interpretOne(
       const wire = parseWire(fieldData.v);
       const keyField = wire.findLast((field) => field.f === 1n);
       const valueField = wire.findLast((field) => field.f === 2n);
-      if (!keyField || !valueField) {
+
+      if (!keyField) {
         // Tell the caller to skip this field
         return null;
       }
       const key = interpretOne(keyField, keyTypeDesc, keyType, typedefs);
+      if (!valueField) {
+        return [key, null];
+      }
       const value = interpretOne(
         valueField,
         valueTypeDesc,
