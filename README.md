@@ -84,8 +84,8 @@ const n=1===t.w?"double":5===t.w?"float":0x100000000n>t.v?"int32":"int64"
 ;return`unknown:${n}:${G(t,z(n,u),n,u)}`}}));s[`#${r}`]=1===o.length?o[0]:o}
 return s}
 const p=0,w=1,g=8,d=9,b=11,h=12,v=13,m=15,y=16,F=17,x=19,$=20,E=21,S=23,I=24,O=25,L=26,U=27,A=28,j=16,k=20,B=24,N=28
-;function V(t){return 3==(3&t)}function C(t){return 1==(1&t)}function T(t){
-return 4==(4&t)}function D(t){return t>=w&&E>=t&&t!=x||t===U}function W(t,n,e){
+;function V(t){return!(3&~t)}function C(t){return!(1&~t)}function T(t){
+return!(4&~t)}function D(t){return t>=w&&E>=t&&t!=x||t===U}function W(t,n,e){
 if(t===p){const t=e[`enum ${n}`];return Object.entries(t)[0][0]??0}return Z[t]}
 const Z={[w]:!1,[g]:0,[d]:0,[b]:0,[h]:"0",[v]:"0",[m]:"0",[y]:0,[F]:0,[x]:0,
 [$]:"0",[E]:"0",[S]:0,[I]:null,[L]:"",[U]:""},q={bool:w,uint32:g,int32:d,
