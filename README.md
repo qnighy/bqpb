@@ -68,7 +68,7 @@ p:0})}function c(t,n,e){return a(s(t),n,e)}function a(t,n,e){const r=_(t,n,e)
 ;for(const n of t)(f[n.f]??=[]).push(n);const s={},l=u[`message ${r}`]
 ;if(l)for(const[t,n]of Object.entries(l)){const e=f[n.id]??[];delete f[n.id]
 ;const r=z(n.type,u,n.messageEncoding),c=null!=n.oneofGroup?"explicit":n.fieldPresence??"explicit"
-;let a,l;if(r===O){const t=e.map((t=>G(t,r,n.type,u)))
+;let a,l;if(r===O){const t=e.map((t=>G(t,r,n.type,u))).filter((t=>null!=t))
 ;a=Object.fromEntries(t),l=!0}else if(n.repeated){let t=e;if(B>r){t=[]
 ;for(const u of e){if(2!==u.w){t.push(u);continue}const e={b:u.v,p:0}
 ;for(;e.p<u.v.length;)j>r?t.push({f:BigInt(n.id),w:0,v:o(e)}):t.push({
@@ -104,7 +104,8 @@ if(2!==t.w)throw new Error(`Expected wire type 2, got ${t.w}`)
 const n=o.indexOf(","),e=o.lastIndexOf(">"),r=o.slice(4,n).trim(),u=o.slice(n+1,e).trim(),f=z(r,i),c=z(u,i)
 ;if(!D(f)||c===O)throw new Error("Invalid map type")
 ;const a=s(t.v),l=a.findLast((t=>1n===t.f)),p=a.findLast((t=>2n===t.f))
-;if(!l||!p)return null;return[G(l,f,r,i),G(p,c,u,i)]}return c(t.v,o,i)}
+;if(!l)return null;const w=G(l,f,r,i);if(!p){return[w,W(c,u,i)]}
+return[w,G(p,c,u,i)]}return c(t.v,o,i)}
 if(3!==t.w)throw new Error(`Expected wire type 3, got ${t.w}`)
 ;return a(t.v,o,i)}function J(t){return 1/t==0||t!=t?`${t}`:t}function M(t){
 return new Float64Array(BigUint64Array.of(t).buffer)[0]}function P(t){
