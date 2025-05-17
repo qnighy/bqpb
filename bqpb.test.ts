@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.204.0/assert/mod.ts";
+import { assertEquals } from "@std/assert";
 import { decodeBase64, encodeBase64, parseBytes, parseWire } from "./bqpb.ts";
 import { b } from "./utils/b.ts";
 

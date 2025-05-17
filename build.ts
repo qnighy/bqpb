@@ -1,9 +1,9 @@
-// @deno-types="npm:@types/babel__traverse@^7"
-import { Visitor } from "npm:@babel/traverse@7";
-// @deno-types="npm:@types/babel__core@^7"
-import babel, { PluginObj } from "npm:@babel/core@7";
-import babelPluginTypeScript from "npm:@babel/plugin-transform-typescript@7";
-import { minify } from "npm:terser@5";
+// @deno-types="@types/babel__traverse"
+import { Visitor } from "@babel/traverse";
+// @deno-types="@types/babel__core"
+import babel, { PluginObj } from "@babel/core";
+import babelPluginTypeScript from "@babel/plugin-transform-typescript";
+import { minify } from "terser";
 
 type Babel = typeof babel;
 

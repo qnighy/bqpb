@@ -1,1 +1,11 @@
-{}
+{
+  "imports": {
+    "@babel/core": "npm:@babel/core@^7.23.2",
+    "@babel/plugin-transform-typescript": "npm:@babel/plugin-transform-typescript@^7.22.15",
+    "@babel/traverse": "npm:@babel/traverse@^7.23.2",
+    "@std/assert": "jsr:@std/assert@^0.204.0",
+    "@types/babel__core": "npm:@types/babel__core@^7.20.3",
+    "@types/babel__traverse": "npm:@types/babel__traverse@^7.20.3",
+    "terser": "npm:terser@^5.24.0"
+  }
+}
