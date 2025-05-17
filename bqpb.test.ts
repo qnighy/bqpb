@@ -908,7 +908,7 @@ Deno.test("parseBytes", async (t) => {
       });
       await t.step("parses string", () => {
         const actual = parseBytes(
-          b`\x0a\x00\x0a\x06\x61\x62\x63\xe3\x81\x82`,
+          b`\x0a\x00\x0a\x07\x61\x62\x63\xe3\x81\x82\x0a`,
           "Main",
           {
             "message Main": {
@@ -921,7 +921,7 @@ Deno.test("parseBytes", async (t) => {
           },
         );
         assertEquals(actual, {
-          myField: ["", "abcあ"],
+          myField: ["", "abcあ\n"],
         });
       });
       await t.step("parses submessage", () => {
