@@ -1,4 +1,7 @@
 {
+  "tasks": {
+    "build": "deno run --allow-env --allow-read --allow-write=bqpb.sql build.ts"
+  },
   "imports": {
     "@babel/core": "npm:@babel/core@^7.23.2",
     "@babel/plugin-transform-typescript": "npm:@babel/plugin-transform-typescript@^7.22.15",

@@ -10,7 +10,9 @@
     "npm:@babel/traverse@7": "7.23.2",
     "npm:@babel/traverse@^7.23.2": "7.23.2",
     "npm:@types/babel__core@7": "7.20.3",
+    "npm:@types/babel__core@^7.20.3": "7.20.3",
     "npm:@types/babel__traverse@7": "7.20.3",
+    "npm:@types/babel__traverse@^7.20.3": "7.20.3",
     "npm:terser@5": "5.24.0",
     "npm:terser@^5.24.0": "5.24.0"
   },
