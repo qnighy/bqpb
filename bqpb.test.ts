@@ -1207,8 +1207,8 @@ Deno.test("parseBytes", async (t) => {
         );
         assertEquals(actual, {
           myField: {
-            あ: null,
-            い: null,
+            あ: 0,
+            い: 0,
           },
         });
       });

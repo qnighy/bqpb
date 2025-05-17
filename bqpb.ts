@@ -579,9 +579,12 @@ function interpretOne(
         return null;
       }
       const key = interpretOne(keyField, keyTypeDesc, keyType, typedefs);
+
       if (!valueField) {
-        return [key, null];
+        const value = getZeroValue(valueTypeDesc, valueType, typedefs)
+        return [key, value];
       }
+
       const value = interpretOne(
         valueField,
         valueTypeDesc,

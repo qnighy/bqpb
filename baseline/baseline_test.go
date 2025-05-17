@@ -365,6 +365,16 @@ func TestSerialization(t *testing.T) {
 			want:     `{"myField":{"あ":100,"い":101}}`,
 		},
 		{
+			name: "map with missing value",
+			data: []byte(
+				"" +
+					"\x0a\x05\x0a\x03\xe3\x81\x82" +
+					"\x0a\x05\x0a\x03\xe3\x81\x84",
+			),
+			datatype: &examplepb.MapStringUint32{},
+			want:     `{"myField":{"あ":0,"い":0}}`,
+		},
+		{
 			name: "group",
 			data: []byte(
 				"" +
