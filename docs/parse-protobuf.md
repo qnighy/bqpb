@@ -10,7 +10,8 @@ Parses a Protobuf message and converts it to a `JSON` value.
 
 Arguments:
 
-- `protobuf_expr`: A `BYTES` value containing a serialized Protobuf message. For example:
+- `protobuf_expr`: A `BYTES` value containing a serialized Protobuf message. For
+  example:
   ```sql
   b'\x08\x01'
   ```
@@ -22,7 +23,9 @@ Arguments:
   ```sql
   'Main'
   ```
-  The name you specify here is used to look up the message type in the `typedefs` argument. As long as it matches the name in the `typedefs` argument, it can be anything you want.
+  The name you specify here is used to look up the message type in the
+  `typedefs` argument. As long as it matches the name in the `typedefs`
+  argument, it can be anything you want.
 - `typedefs`: A `JSON` object containing type definitions. For example:
   ```sql
   JSON """
@@ -33,7 +36,8 @@ Arguments:
   }
   """
   ```
-  If type definition is not found for the requested message name, it falls back to schemaless mode and infers the type from the message itself.
+  If type definition is not found for the requested message name, it falls back
+  to schemaless mode and infers the type from the message itself.
 
   Do not supply untrusted input to this parameter.
 
@@ -42,7 +46,7 @@ Arguments:
 `JSON`
 
 ### Examples
-  
+
 ```sql
 SELECT parseProtobuf(b'\x08\x01', 'Main', JSON""" {
   "message Main": {
@@ -60,18 +64,25 @@ SELECT parseProtobuf(b'\x08\x01', 'Main', JSON""" {
 
 ## Schema format
 
-bqpb's `parseProtobuf` uses a dedicated format for the schema. This is for the following reasons:
+bqpb's `parseProtobuf` uses a dedicated format for the schema. This is for the
+following reasons:
 
-- To provide a convenient way for users to specify only the necessary part of the schema.
-- To minimize the implementation, making it affordable to copy-paste the code as a temporary UDF.
+- To provide a convenient way for users to specify only the necessary part of
+  the schema.
+- To minimize the implementation, making it affordable to copy-paste the code as
+  a temporary UDF.
 
 ### Message definition
 
-A message is defined as a top-level key in the form of `"message <message_name>"`.
+A message is defined as a top-level key in the form of
+`"message <message_name>"`.
 
-The message name can be an arbitrary text as long as it matches the other parts of the definitions, but it is recommended to use the fully qualified name or the last segment of it.
+The message name can be an arbitrary text as long as it matches the other parts
+of the definitions, but it is recommended to use the fully qualified name or the
+last segment of it.
 
-If the message can be wrapped in the `google.protobuf.Any` type, the name should be exactly the fully qualified name of the message.
+If the message can be wrapped in the `google.protobuf.Any` type, the name should
+be exactly the fully qualified name of the message.
 
 #### proto
 
@@ -96,18 +107,25 @@ A field is a key-value pair in the message definition.
 
 The `type` key accepts any of the types in the proto:
 
-- The scalar types: `uint32`, `int32`, `sint32`, `uint64`, `int64`, `sint64`, `fixed32`, `sfixed32`, `fixed64`, `sfixed64`, `float`, `double`, `bool`, `bytes`, and `string`
+- The scalar types: `uint32`, `int32`, `sint32`, `uint64`, `int64`, `sint64`,
+  `fixed32`, `sfixed32`, `fixed64`, `sfixed64`, `float`, `double`, `bool`,
+  `bytes`, and `string`
 - Message types, such as `google.protobuf.Timestamp`
-- Enum types, such as `google.protobuf.Field.Kind`. The type name is considered an enum if it is defined as an enum in the `typedefs` argument.
+- Enum types, such as `google.protobuf.Field.Kind`. The type name is considered
+  an enum if it is defined as an enum in the `typedefs` argument.
 - Map types, such as `map<string, uint32>`.
 
 #### Note on field names
 
-Field names are simply used as keys in the JSON representation verbatim. Therefore, any names will do regardless how it was defined in the original `.proto` file. Nonetheless, the recommended rules are:
+Field names are simply used as keys in the JSON representation verbatim.
+Therefore, any names will do regardless how it was defined in the original
+`.proto` file. Nonetheless, the recommended rules are:
 
 1. If there is `[json_name="<name>"]` annotation, use it.
-2. Otherwise, convert the original field name (usually in snake_case) to camelCase.
-3. Optionally you can use the original snake_case name if you prefer. This is defined to be an allowed option in the JSON serialization spec.
+2. Otherwise, convert the original field name (usually in snake_case) to
+   camelCase.
+3. Optionally you can use the original snake_case name if you prefer. This is
+   defined to be an allowed option in the JSON serialization spec.
 
 #### proto (edition 2023)
 
@@ -151,7 +169,8 @@ message Foo {
 
 ### Field with explicit presence (optional field)
 
-In bqpb, explicit presence is the default and is equivalent to `"fieldPresence": "explicit"`.
+In bqpb, explicit presence is the default and is equivalent to
+`"fieldPresence": "explicit"`.
 
 #### proto2 / proto3
 
@@ -170,7 +189,7 @@ message Foo {
 ```
 
 #### bqpb
-  
+
 ```json
 {
   "message Foo": {
@@ -237,7 +256,8 @@ message Foo {
 
 #### bqpb
 
-Not supported yet. If your message is well-formed, this is equivalent to both IMPLICIT and EXPLICIT modes.
+Not supported yet. If your message is well-formed, this is equivalent to both
+IMPLICIT and EXPLICIT modes.
 
 ### Oneof
 
@@ -263,11 +283,13 @@ message Foo {
 }
 ```
 
-Note that the behavior is currently equivalent to specifying `"fieldPresence": "explicit"` in all fields in the oneof group.
+Note that the behavior is currently equivalent to specifying
+`"fieldPresence": "explicit"` in all fields in the oneof group.
 
 ### Map
 
-The whole type syntax, including the generics parameters, can be placed in the `type` field, and it is parsed on-demand.
+The whole type syntax, including the generics parameters, can be placed in the
+`type` field, and it is parsed on-demand.
 
 #### proto
 
@@ -289,7 +311,9 @@ message Foo {
 
 ### proto2 group
 
-proto2 group is represented as a submessage with `"messageEncoding": "delimited"` option. By default, it is `"messageEncoding": "lengthPrefixed"`.
+proto2 group is represented as a submessage with
+`"messageEncoding": "delimited"` option. By default, it is
+`"messageEncoding": "lengthPrefixed"`.
 
 #### proto2
 
@@ -355,19 +379,25 @@ enum MyEnum {
 
 ## Output format
 
-The `parseProtobuf` function returns `JSON`. The output is basically equivalent to what the following algorithm would produce in a spec-compliant implementation:
+The `parseProtobuf` function returns `JSON`. The output is basically equivalent
+to what the following algorithm would produce in a spec-compliant
+implementation:
 
 ```js
 const value = MessageType.unmarshalProto(protobuf_expr);
 return MessageType.marshalJSON(value);
 ```
 
-Specifically, the implementation is tested against the official implementation in Go.
+Specifically, the implementation is tested against the official implementation
+in Go.
 
 However, there are some known differences too:
 
-- bqpb emits fields with default values by default (equivalent to `EmitUnpopulated` in protobuf-go). This format is considered more convenient for analysis.
-- If it encounters an unknown field ID, it emits a special field named like `#12345` with inferred deserialization. Example output:
+- bqpb emits fields with default values by default (equivalent to
+  `EmitUnpopulated` in protobuf-go). This format is considered more convenient
+  for analysis.
+- If it encounters an unknown field ID, it emits a special field named like
+  `#12345` with inferred deserialization. Example output:
   ```json
   {
     "#1": "unknown:uint32:42",

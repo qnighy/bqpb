@@ -71,7 +71,9 @@ export function decodeUTF8(bytes: Uint8Array): string {
   try {
     // Caveat: this function silently substitutes stray surrogates with U+FFFD.
     return decodeURIComponent(
-      Array.from(bytes).map((b) => `%${b.toString(16).padStart(2, "0")}`).join("")
+      Array.from(bytes).map((b) => `%${b.toString(16).padStart(2, "0")}`).join(
+        "",
+      ),
     );
   } catch (_e) {
     throw new Error("Invalid UTF-8 sequence");
@@ -581,7 +583,7 @@ function interpretOne(
       const key = interpretOne(keyField, keyTypeDesc, keyType, typedefs);
 
       if (!valueField) {
-        const value = getZeroValue(valueTypeDesc, valueType, typedefs)
+        const value = getZeroValue(valueTypeDesc, valueType, typedefs);
         return [key, value];
       }
 
