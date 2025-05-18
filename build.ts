@@ -49,9 +49,7 @@ const minifyResult = await minify(babelResult.code, {
   },
 });
 
-await Deno.writeTextFile(
-  "bqpb.sql",
-  `\
+const sql = `\
 CREATE TEMP FUNCTION parseProtobuf(input BYTES, messageType STRING, typedefs JSON)
 RETURNS JSON DETERMINISTIC
 LANGUAGE js
@@ -60,8 +58,10 @@ AS r"""
 // (c) 2023, Masaki Hara. Licensed under the MIT License.
 ${minifyResult.code}
 """;
-`,
-);
+`;
+await Deno.writeTextFile("./dist/bqpb.sql", sql);
+const readme = await Deno.readTextFile("README.md");
+await Deno.writeTextFile("README.md", updateEmbeddedSQL(readme, sql));
 
 type FunctionalizeOptions = {
   exportName: string;
@@ -177,4 +177,24 @@ function getExportName(
   node: babel.types.Identifier | babel.types.StringLiteral,
 ): string {
   return node.type === "StringLiteral" ? node.value : node.name;
+}
+
+function updateEmbeddedSQL(inputText: string, newSQL: string): string {
+  let outputText = "";
+  let inEmbeddedSQL = false;
+  for (const line of inputText.split(/^/m)) {
+    if (!inEmbeddedSQL) {
+      if (line.startsWith("CREATE TEMP FUNCTION parseProtobuf")) {
+        inEmbeddedSQL = true;
+        outputText += newSQL;
+      } else {
+        outputText += line;
+      }
+    } else {
+      if (line.startsWith('"""')) {
+        inEmbeddedSQL = false;
+      }
+    }
+  }
+  return outputText;
 }

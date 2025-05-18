@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "build": "deno run --allow-env --allow-read --allow-write=bqpb.sql build.ts"
+    "build": "deno run --allow-env --allow-read --allow-write=dist/bqpb.sql,README.md build.ts"
   },
   "imports": {
     "@babel/core": "npm:@babel/core@^7.27.1",
