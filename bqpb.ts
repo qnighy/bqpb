@@ -64,7 +64,7 @@ export function encodeBase64(arr: Uint8Array): string {
   for (let i = bLength; i < cps.length; i++) {
     cps[i] = 61; // "="
   }
-  return String.fromCharCode(...cps);
+  return cps.map((c) => String.fromCharCode(c)).join("");
 }
 
 export function decodeUTF8(bytes: Uint8Array): string {

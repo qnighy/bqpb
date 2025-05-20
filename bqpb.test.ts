@@ -906,6 +906,25 @@ Deno.test("parseBytes", async (t) => {
           myField: ["", "AAECgIGC"],
         });
       });
+      await t.step("parses lots of bytes", () => {
+        const byteCount=1024*1024;
+        const actual = parseBytes(
+          new Uint8Array([...b`\x0a\x80\x80\x40`, ... new Uint8Array(byteCount).fill(0)]),
+          "Main",
+          {
+            "message Main": {
+              myField: {
+                repeated: false,
+                type: "bytes",
+                id: 1,
+              },
+            },
+          },
+        );
+        assertEquals(actual, {
+          myField: "A".repeat(Math.ceil(4 * (byteCount) / 3)) + "==",
+        });
+      });
       await t.step("parses string", () => {
         const actual = parseBytes(
           b`\x0a\x00\x0a\x07\x61\x62\x63\xe3\x81\x82\x0a`,
